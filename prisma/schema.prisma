@@ -15,5 +15,18 @@ model Users {
   name String 
   email String @unique
   password String
+
+  clones Clones[]
+  @@map("users")
 }
 
+model Clones {
+  id String @id @default(uuid())
+  name String 
+  created_at     DateTime     @default(now())
+  id_user_create String 
+  userCreate Users @relation(fields: [id_user_create], references: [id])
+  total_clones Int
+
+  @@map("clones")
+}

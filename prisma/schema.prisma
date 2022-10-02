@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Users {
-  id String @id @default(uuid())
+  id Int  @id @default(autoincrement())
   name String 
   email String @unique
   password String
@@ -21,10 +21,10 @@ model Users {
 }
 
 model Clones {
-  id String @id @default(uuid())
+  id  Int  @id @default(autoincrement())
   name String 
   created_at     DateTime     @default(now())
-  id_user_create String 
+  id_user_create Int 
   userCreate Users @relation(fields: [id_user_create], references: [id])
   total_clones Int
 

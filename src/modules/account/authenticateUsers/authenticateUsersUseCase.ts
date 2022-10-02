@@ -7,7 +7,7 @@ interface IAuthenticateUser {
   password: string;
 }
 
-export class AuthenticateClientUseCase {
+export class AuthenticateUserUseCase {
   async execute({ email, password }: IAuthenticateUser) {
     const user = await prisma.users.findFirst({
       where: {
@@ -30,6 +30,6 @@ export class AuthenticateClientUseCase {
       expiresIn: '1d',
     });
 
-    return token;
+    return {token, success: true};
   }
 }

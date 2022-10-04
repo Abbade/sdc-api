@@ -13,7 +13,7 @@ export class CreateUserUseCase {
       where: {
         email: {
           equals: email,
-          mode: 'insensitive',
+          //mode: 'insensitive'
         },
       },
     });

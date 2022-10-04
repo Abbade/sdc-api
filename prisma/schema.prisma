@@ -8,24 +8,49 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  //provider = "sqlite"
+  //url      = "file:./dev.db"
 }
 
 model Users {
-  id Int  @id @default(autoincrement())
-  name String 
-  email String @unique
+  id       Int    @id @default(autoincrement())
+  name     String
+  email    String @unique
   password String
 
   clones Clones[]
+
   @@map("users")
 }
 
+model Profiles {
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String
+
+  Genetics Genetics[]
+}
+
+model Genetics {
+  id   Int    @id @default(autoincrement())
+  name String
+  nick String
+  description String
+
+  id_profile       Int
+  genetics_profile Profiles @relation(fields: [id_profile], references: [id])
+}
+
 model Clones {
-  id  Int  @id @default(autoincrement())
-  name String 
-  created_at     DateTime     @default(now())
-  id_user_create Int 
-  userCreate Users @relation(fields: [id_user_create], references: [id])
+  id Int @id @default(autoincrement())
+
+  name String
+
+  created_at DateTime @default(now())
+
+  id_user_create Int
+  userCreate     Users @relation(fields: [id_user_create], references: [id])
+
   total_clones Int
 
   @@map("clones")

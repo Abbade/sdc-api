@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "lotes" ALTER COLUMN "qtProp" DROP DEFAULT,
+ALTER COLUMN "qtTotal" DROP DEFAULT;

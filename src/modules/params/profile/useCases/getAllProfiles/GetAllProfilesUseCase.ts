@@ -10,7 +10,9 @@ interface IProfileFilter {
 export class GetAllProfilesUseCase {
   
   async execute({ name,description }: IProfileFilter) {
-    const profiles = await prisma.profiles.findMany();
+    const profiles = await prisma.profiles.findMany({
+      include: {genetics: true}
+    });
 
     if (!profiles) {
       throw new Error('Sem Profiles Existentes.');

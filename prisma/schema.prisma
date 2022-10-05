@@ -23,12 +23,19 @@ model Users {
   @@map("users")
 }
 
+
+
+
+
+// PARAMS
 model Profiles {
   id          Int    @id @default(autoincrement())
   name        String
   description String
 
-  Genetics Genetics[]
+  genetics Genetics[]
+
+  @@map("profiles")
 }
 
 model Genetics {
@@ -37,9 +44,142 @@ model Genetics {
   nick String
   description String
 
+  created_at DateTime @default(now())
+
+
   id_profile       Int
-  genetics_profile Profiles @relation(fields: [id_profile], references: [id])
+  profile Profiles @relation(fields: [id_profile], references: [id])
+
+  lotes Lotes[]
+
+  @@map("genetics")
 }
+
+model Sections {
+
+  id   Int    @id @default(autoincrement())
+  name String
+  description String
+
+  
+  locations Locations[]
+
+
+  created_at DateTime @default(now())
+
+  @@map("section")
+
+
+}
+
+model Locations {
+
+  id   Int    @id @default(autoincrement())
+  name String
+  description String
+
+
+  id_section       Int
+  section Sections @relation(fields: [id_section], references: [id])
+
+
+  created_at DateTime @default(now())
+
+  lotes Lotes[]
+
+
+  @@map("location")
+
+}
+
+model PropagationType {
+  id Int @id @default(autoincrement())
+
+  created_at DateTime @default(now())
+
+  name String @unique
+  description String
+
+  lotes Lotes[]
+  
+@@map("propagationType")
+  
+}
+
+model TrashReasons {
+  id Int @id @default(autoincrement())
+
+    created_at DateTime @default(now())
+
+  name String @unique
+  description String
+
+  trashedLotes TrashedLotes[]
+  
+@@map("trashReason")
+  
+}
+
+
+
+model Lotes {
+  id Int @id @default(autoincrement())
+
+  name String @unique
+
+  obs String
+
+  propDate DateTime
+
+  created_at DateTime @default(now())
+
+  id_propagationType Int
+  propagationType     PropagationType @relation(fields: [id_propagationType], references: [id])
+ 
+
+  id_genetic Int
+  genetic     Genetics @relation(fields: [id_genetic], references: [id])
+
+  id_location_init Int
+  location     Locations @relation(fields: [id_location_init], references: [id])
+
+  qtTotal Int
+  qtProp Int 
+  qtPropTrashed Int @default(0)
+  qtPlant Int @default(0)
+
+  descartes TrashedLotes[]
+
+  @@map("lotes")
+}
+
+
+
+model TrashedLotes {
+
+  id Int @id @default(autoincrement())
+  created_at DateTime @default(now())
+  
+  obs String
+
+  id_lote Int
+  lote     Lotes @relation(fields: [id_lote], references: [id])
+
+  id_trashReason Int
+  trashReason     TrashReasons @relation(fields: [id_trashReason], references: [id])
+
+  trashDate DateTime
+
+  qtPropTrashed Int
+  massTrashed Float @default(0)
+
+
+  @@map("trashedLotes")
+
+}
+
+
+
 
 model Clones {
   id Int @id @default(autoincrement())

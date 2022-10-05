@@ -19,6 +19,16 @@ model Users {
   password String
 
   clones Clones[]
+  profiles Profiles[]
+  fasesCultivo FasesCultivo[]
+  recipientes Recipientes[]
+  genetics Genetics[]
+  sections Sections[]
+  locations Locations[]
+  propagationType PropagationType[]
+  trashReasons TrashReasons[]
+  lotes Lotes[]
+  trashedLotes TrashedLotes[]
 
   @@map("users")
 }
@@ -26,6 +36,11 @@ model Users {
 // PARAMS
 model Profiles {
   id          Int    @id @default(autoincrement())
+  created_at DateTime @default(now())
+
+    id_user_create Int
+  userCreate     Users @relation(fields: [id_user_create], references: [id])
+
   name        String
   description String
 
@@ -36,9 +51,14 @@ model Profiles {
 
 model FasesCultivo {
   id          Int    @id @default(autoincrement())
+  created_at DateTime @default(now())
+   id_user_create Int
+  userCreate     Users @relation(fields: [id_user_create], references: [id])
+
   name        String
   description String
   ordem Int?
+
 
   //plantas Plantas[]
 
@@ -47,19 +67,29 @@ model FasesCultivo {
 
 model Recipientes {
   id          Int    @id @default(autoincrement())
+  created_at DateTime @default(now())
+   id_user_create Int
+  userCreate     Users @relation(fields: [id_user_create], references: [id])
+
+
   name        String
   description String
+
+  
 
   @@map("recipientes")
 }
 
 model Genetics {
   id          Int    @id @default(autoincrement())
+  created_at DateTime @default(now())
+     id_user_create Int
+  userCreate     Users @relation(fields: [id_user_create], references: [id])
+
   name        String
   nick        String
   description String
 
-  created_at DateTime @default(now())
 
   id_profile Int
   profile    Profiles @relation(fields: [id_profile], references: [id])
@@ -71,25 +101,31 @@ model Genetics {
 
 model Sections {
   id          Int    @id @default(autoincrement())
+  created_at DateTime @default(now())
+     id_user_create Int
+  userCreate     Users @relation(fields: [id_user_create], references: [id])
+
   name        String
   description String
 
   locations Locations[]
 
-  created_at DateTime @default(now())
 
   @@map("section")
 }
 
 model Locations {
   id          Int    @id @default(autoincrement())
+  created_at DateTime @default(now())
+     id_user_create Int
+  userCreate     Users @relation(fields: [id_user_create], references: [id])
+  
   name        String
   description String
 
   id_section Int
   section    Sections @relation(fields: [id_section], references: [id])
 
-  created_at DateTime @default(now())
 
   lotes Lotes[]
 
@@ -98,9 +134,10 @@ model Locations {
 
 model PropagationType {
   id Int @id @default(autoincrement())
-
   created_at DateTime @default(now())
-
+     id_user_create Int
+  userCreate     Users @relation(fields: [id_user_create], references: [id])
+  
   name        String @unique
   description String
 
@@ -111,8 +148,10 @@ model PropagationType {
 
 model TrashReasons {
   id Int @id @default(autoincrement())
-
   created_at DateTime @default(now())
+       id_user_create Int
+  userCreate     Users @relation(fields: [id_user_create], references: [id])
+  
 
   name        String @unique
   description String
@@ -124,14 +163,16 @@ model TrashReasons {
 
 model Lotes {
   id Int @id @default(autoincrement())
-
+     id_user_create Int
+  userCreate     Users @relation(fields: [id_user_create], references: [id])
+  created_at DateTime @default(now())
+  
   name String @unique
 
   obs String
 
   propDate DateTime
 
-  created_at DateTime @default(now())
 
   id_propagationType Int
   propagationType    PropagationType @relation(fields: [id_propagationType], references: [id])
@@ -154,6 +195,8 @@ model Lotes {
 
 model TrashedLotes {
   id         Int      @id @default(autoincrement())
+     id_user_create Int
+  userCreate     Users @relation(fields: [id_user_create], references: [id])
   created_at DateTime @default(now())
 
   obs String?
@@ -174,13 +217,13 @@ model TrashedLotes {
 
 model Clones {
   id Int @id @default(autoincrement())
-
+   id_user_create Int
+  userCreate     Users @relation(fields: [id_user_create], references: [id])
+  created_at DateTime @default(now())
   name String
 
-  created_at DateTime @default(now())
 
-  id_user_create Int
-  userCreate     Users @relation(fields: [id_user_create], references: [id])
+ 
 
   total_clones Int
 

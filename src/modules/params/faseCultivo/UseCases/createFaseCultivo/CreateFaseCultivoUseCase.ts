@@ -4,13 +4,14 @@ import { prisma } from '../../../../../database/prismaClient';
 interface ICreateFaseCultivo {
   name: string;
   description: string;
-  ordem: number
+  ordem: number;
+  id_user_create: number;
 }
 
 export class CreateFaseCultivoUseCase {
   
   
-  async execute({ name,description, ordem }: ICreateFaseCultivo) {
+  async execute({ name,description, ordem, id_user_create }: ICreateFaseCultivo) {
     const clientExists = await prisma.fasesCultivo.findFirst({
       where: {
         name: {
@@ -28,7 +29,8 @@ export class CreateFaseCultivoUseCase {
       data: {
         name,
         description,
-        ordem
+        ordem,
+        id_user_create
       },
     });
 

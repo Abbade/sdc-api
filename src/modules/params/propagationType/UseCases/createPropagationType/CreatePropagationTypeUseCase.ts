@@ -4,12 +4,14 @@ import { prisma } from '../../../../../database/prismaClient';
 interface ICreatePropagationType {
   name: string;
   description: string;
+  id_user_create: number;
+
 }
 
 export class CreatePropagationTypeUseCase {
   
   
-  async execute({ name,description }: ICreatePropagationType) {
+  async execute({ name,description,id_user_create }: ICreatePropagationType) {
     const clientExists = await prisma.propagationType.findFirst({
       where: {
         name: {
@@ -27,6 +29,7 @@ export class CreatePropagationTypeUseCase {
       data: {
         name,
         description,
+        id_user_create
       },
     });
 

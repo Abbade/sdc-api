@@ -4,12 +4,13 @@ import { prisma } from '../../../../../database/prismaClient';
 interface ICreateRecipiente {
   name: string;
   description: string;
+  id_user_create: number;
 }
 
 export class CreateRecipienteUseCase {
   
   
-  async execute({ name,description }: ICreateRecipiente) {
+  async execute({ name,description,id_user_create }: ICreateRecipiente) {
     const clientExists = await prisma.recipientes.findFirst({
       where: {
         name: {
@@ -27,6 +28,7 @@ export class CreateRecipienteUseCase {
       data: {
         name,
         description,
+        id_user_create
       },
     });
 

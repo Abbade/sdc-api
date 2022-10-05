@@ -4,6 +4,7 @@ import { TrashLoteUseCase } from './TrashLoteUseCase';
 export class TrashLoteController {
   async handle(request: Request, response: Response) {
     const { idLote, qtTrash, trashDate, id_trashReason, obs} = request.body;
+    const id_user_create = request.id_user
 
     const trashLoteUseCase = new TrashLoteUseCase();
     const result = await trashLoteUseCase.execute({
@@ -11,7 +12,8 @@ export class TrashLoteController {
       id_trashReason,
       qtTrash,
       trashDate,
-      obs
+      obs,
+      id_user_create
     });
 
     return response.json(result);

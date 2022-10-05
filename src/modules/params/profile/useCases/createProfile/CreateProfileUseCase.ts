@@ -4,13 +4,14 @@ import { prisma } from '../../../../../database/prismaClient';
 interface ICreateProfile {
   name: string;
   description: string;
+  id_user_create: number;
 
 }
 
 export class CreateProfileUseCase {
   
   
-  async execute({ name, description }: ICreateProfile) {
+  async execute({ name, description,id_user_create }: ICreateProfile) {
     const clientExists = await prisma.profiles.findFirst({
       where: {
         name: {
@@ -27,7 +28,8 @@ export class CreateProfileUseCase {
     const client = await prisma.profiles.create({
       data: {
         name,
-        description
+        description,
+        id_user_create
       },
     });
 

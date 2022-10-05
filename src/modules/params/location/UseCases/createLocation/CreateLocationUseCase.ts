@@ -5,12 +5,26 @@ interface ICreateGenetic {
   name: string;
   description: string;
   id_section: number;
+  id_user_create: number;
+
 }
 
 export class CreateLocationUseCase {
   
   
-  async execute({ name,description,id_section }: ICreateGenetic) {
+async execute({ name,description,id_section,id_user_create}: ICreateGenetic) {
+
+  const selectedSection = await prisma.sections.findFirst({
+    where: {
+      id: id_section
+    }
+  })
+  
+  if (!selectedSection) {
+    throw new Error('Perfil de genética não existente: ' + id_section);
+  }
+
+
     const clientExists = await prisma.locations.findFirst({
       where: {
         name: {
@@ -28,7 +42,8 @@ export class CreateLocationUseCase {
       data: {
         name,
         description,
-        id_section
+        id_section,
+        id_user_create
       },
     });
 

@@ -31,12 +31,18 @@ import { CreateFaseCultivoController } from './modules/params/faseCultivo/UseCas
 import { GetAllFasesCultivoController } from './modules/params/faseCultivo/UseCases/getAllFasesCultivo/getAllFasesCultivoController';
 import { GetAllRecipientesController } from './modules/params/recipiente/UseCases/getAllRecipientes/getAllRecipientesController';
 import { CreateRecipienteController } from './modules/params/recipiente/UseCases/createRecipiente/CreateRecipienteController';
+import { CreateOrganizationController } from './modules/organization/useCases/createOrganization/CreateOrganizationController';
+import { GetAllOrganizationsController } from './modules/organization/useCases/getAllOrganizations/GetAllOrganizationsController';
 
 const routes = Router();
 
 const createUserController = new CreateUserController();
 const authenticateUserController = new AuthenticateUserController();
 const geAllUsersController = new GeAllUsersController();
+
+const createOrganizationController = new CreateOrganizationController();
+const getAllOrganizationsController = new GetAllOrganizationsController();
+
 
 const meController = new MeController();
 
@@ -79,6 +85,11 @@ routes.get('/me', ensureAuthenticate, meController.handle);
 //users
 routes.post('/user', createUserController.handle);
 routes.get('/user', ensureAuthenticate , geAllUsersController.handle);
+
+//organization
+routes.post('/organization', ensureAuthenticate,createOrganizationController.handle);
+routes.get('/organization', ensureAuthenticate , getAllOrganizationsController.handle);
+
 
 //params
 

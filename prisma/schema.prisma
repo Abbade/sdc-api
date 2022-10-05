@@ -13,32 +13,56 @@ datasource db {
 }
 
 model Users {
-  id       Int    @id @default(autoincrement())
+  id Int @id @default(autoincrement())
+
+  created_at DateTime @default(now())
+
+  id_organization Int?
+  organization    Organizations? @relation(name: "user-organization", fields: [id_organization], references: [id])
+
   name     String
   email    String @unique
   password String
 
-  clones Clones[]
-  profiles Profiles[]
-  fasesCultivo FasesCultivo[]
-  recipientes Recipientes[]
-  genetics Genetics[]
-  sections Sections[]
-  locations Locations[]
+  clones          Clones[]
+  profiles        Profiles[]
+  fasesCultivo    FasesCultivo[]
+  recipientes     Recipientes[]
+  genetics        Genetics[]
+  sections        Sections[]
+  locations       Locations[]
   propagationType PropagationType[]
-  trashReasons TrashReasons[]
-  lotes Lotes[]
-  trashedLotes TrashedLotes[]
+  trashReasons    TrashReasons[]
+  lotes           Lotes[]
+  trashedLotes    TrashedLotes[]
+  organizations   Organizations?   @relation(name: "userCreate")
 
   @@map("users")
 }
 
-// PARAMS
-model Profiles {
-  id          Int    @id @default(autoincrement())
+model Organizations {
+  id Int @id @default(autoincrement())
+
+  userCreate     Users @relation(name: "userCreate", fields: [id_user_create], references: [id])
+  id_user_create Int @unique
+
   created_at DateTime @default(now())
 
-    id_user_create Int
+  name        String @unique
+  nick        String
+  description String
+
+  users Users[] @relation(name: "user-organization")
+
+  @@map("organizations")
+}
+
+// PARAMS
+model Profiles {
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+
+  id_user_create Int
   userCreate     Users @relation(fields: [id_user_create], references: [id])
 
   name        String
@@ -50,15 +74,14 @@ model Profiles {
 }
 
 model FasesCultivo {
-  id          Int    @id @default(autoincrement())
-  created_at DateTime @default(now())
-   id_user_create Int
-  userCreate     Users @relation(fields: [id_user_create], references: [id])
+  id             Int      @id @default(autoincrement())
+  created_at     DateTime @default(now())
+  id_user_create Int
+  userCreate     Users    @relation(fields: [id_user_create], references: [id])
 
   name        String
   description String
-  ordem Int?
-
+  ordem       Int?
 
   //plantas Plantas[]
 
@@ -66,30 +89,26 @@ model FasesCultivo {
 }
 
 model Recipientes {
-  id          Int    @id @default(autoincrement())
-  created_at DateTime @default(now())
-   id_user_create Int
-  userCreate     Users @relation(fields: [id_user_create], references: [id])
-
+  id             Int      @id @default(autoincrement())
+  created_at     DateTime @default(now())
+  id_user_create Int
+  userCreate     Users    @relation(fields: [id_user_create], references: [id])
 
   name        String
   description String
-
-  
 
   @@map("recipientes")
 }
 
 model Genetics {
-  id          Int    @id @default(autoincrement())
-  created_at DateTime @default(now())
-     id_user_create Int
-  userCreate     Users @relation(fields: [id_user_create], references: [id])
+  id             Int      @id @default(autoincrement())
+  created_at     DateTime @default(now())
+  id_user_create Int
+  userCreate     Users    @relation(fields: [id_user_create], references: [id])
 
   name        String
   nick        String
   description String
-
 
   id_profile Int
   profile    Profiles @relation(fields: [id_profile], references: [id])
@@ -100,32 +119,30 @@ model Genetics {
 }
 
 model Sections {
-  id          Int    @id @default(autoincrement())
-  created_at DateTime @default(now())
-     id_user_create Int
-  userCreate     Users @relation(fields: [id_user_create], references: [id])
+  id             Int      @id @default(autoincrement())
+  created_at     DateTime @default(now())
+  id_user_create Int
+  userCreate     Users    @relation(fields: [id_user_create], references: [id])
 
   name        String
   description String
 
   locations Locations[]
 
-
   @@map("section")
 }
 
 model Locations {
-  id          Int    @id @default(autoincrement())
-  created_at DateTime @default(now())
-     id_user_create Int
-  userCreate     Users @relation(fields: [id_user_create], references: [id])
-  
+  id             Int      @id @default(autoincrement())
+  created_at     DateTime @default(now())
+  id_user_create Int
+  userCreate     Users    @relation(fields: [id_user_create], references: [id])
+
   name        String
   description String
 
   id_section Int
   section    Sections @relation(fields: [id_section], references: [id])
-
 
   lotes Lotes[]
 
@@ -133,11 +150,11 @@ model Locations {
 }
 
 model PropagationType {
-  id Int @id @default(autoincrement())
-  created_at DateTime @default(now())
-     id_user_create Int
-  userCreate     Users @relation(fields: [id_user_create], references: [id])
-  
+  id             Int      @id @default(autoincrement())
+  created_at     DateTime @default(now())
+  id_user_create Int
+  userCreate     Users    @relation(fields: [id_user_create], references: [id])
+
   name        String @unique
   description String
 
@@ -147,11 +164,10 @@ model PropagationType {
 }
 
 model TrashReasons {
-  id Int @id @default(autoincrement())
-  created_at DateTime @default(now())
-       id_user_create Int
-  userCreate     Users @relation(fields: [id_user_create], references: [id])
-  
+  id             Int      @id @default(autoincrement())
+  created_at     DateTime @default(now())
+  id_user_create Int
+  userCreate     Users    @relation(fields: [id_user_create], references: [id])
 
   name        String @unique
   description String
@@ -162,17 +178,16 @@ model TrashReasons {
 }
 
 model Lotes {
-  id Int @id @default(autoincrement())
-     id_user_create Int
-  userCreate     Users @relation(fields: [id_user_create], references: [id])
-  created_at DateTime @default(now())
-  
+  id             Int      @id @default(autoincrement())
+  id_user_create Int
+  userCreate     Users    @relation(fields: [id_user_create], references: [id])
+  created_at     DateTime @default(now())
+
   name String @unique
 
   obs String
 
   propDate DateTime
-
 
   id_propagationType Int
   propagationType    PropagationType @relation(fields: [id_propagationType], references: [id])
@@ -194,10 +209,10 @@ model Lotes {
 }
 
 model TrashedLotes {
-  id         Int      @id @default(autoincrement())
-     id_user_create Int
-  userCreate     Users @relation(fields: [id_user_create], references: [id])
-  created_at DateTime @default(now())
+  id             Int      @id @default(autoincrement())
+  id_user_create Int
+  userCreate     Users    @relation(fields: [id_user_create], references: [id])
+  created_at     DateTime @default(now())
 
   obs String?
 
@@ -216,14 +231,11 @@ model TrashedLotes {
 }
 
 model Clones {
-  id Int @id @default(autoincrement())
-   id_user_create Int
-  userCreate     Users @relation(fields: [id_user_create], references: [id])
-  created_at DateTime @default(now())
-  name String
-
-
- 
+  id             Int      @id @default(autoincrement())
+  id_user_create Int
+  userCreate     Users    @relation(fields: [id_user_create], references: [id])
+  created_at     DateTime @default(now())
+  name           String
 
   total_clones Int
 

@@ -21,6 +21,7 @@ export async function ensureAuthenticate(
   try {
     const { sub } = verify(token, '739f8ebd49733117a132c34fe866bc09') as IPayload;
     console.log("verificow")
+    console.log("sub")
     request.id_user = Number.parseInt(sub);
 
     return next();

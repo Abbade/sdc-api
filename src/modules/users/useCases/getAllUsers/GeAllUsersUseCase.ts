@@ -2,12 +2,12 @@ import { hash } from 'bcrypt';
 import { prisma } from '../../../../database/prismaClient';
 
 interface IUserFilter {
-  email?: string;
+  description?: string;
   name?: string;
 }
 
 export class GeAllUsersUseCase {
-  async execute({ email, name }: IUserFilter) {
+  async execute({ description, name }: IUserFilter) {
     const users = await prisma.users.findMany();
 
     if (!users) {

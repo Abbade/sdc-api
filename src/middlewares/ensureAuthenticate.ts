@@ -20,11 +20,12 @@ export async function ensureAuthenticate(
 
   try {
     const { sub } = verify(token, '739f8ebd49733117a132c34fe866bc09') as IPayload;
-
+    console.log("verificow")
     request.id_user = sub;
 
     return next();
   } catch (error) {
-    return response.status(401).json({ message: 'Invalid token!' });
+    console.log(error)
+    return response.status(401).json({ message: 'Invalid token!' + token });
   }
 }

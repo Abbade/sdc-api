@@ -9,27 +9,36 @@ interface IAuthenticateUser {
 
 export class AuthenticateUserUseCase {
   async execute({ email, password }: IAuthenticateUser) {
+
+    console.log(email);
     const user = await prisma.users.findFirst({
       where: {
-        email ,
+        email: {
+          equals: email,
+          mode: 'insensitive',
+        }
       },
     });
 
     if (!user) {
       throw new Error('email or password invalid!');
     }
+    console.log(password);
+    console.log(user.password);
+
 
     const passwordMatch = await compare(password, user.password);
 
+    console.log('ae')
     if (!passwordMatch) {
       throw new Error('email or password invalid!');
     }
-
+    console.log('ae')
     const token = sign({ email }, '739f8ebd49733117a132c34fe866bc09', {
-      subject: user.id,
+      subject: user.id.toString(),
       expiresIn: '1d',
     });
 
-    return {token, success: true};
+    return { token, success: true };
   }
 }

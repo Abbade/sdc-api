@@ -6,6 +6,7 @@ idLote: number;
 id_trashReason: number;
 qtTrash: number;
 trashDate: Date;
+obs: string
 }
 
 export class TrashLoteUseCase {

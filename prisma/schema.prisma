@@ -160,7 +160,7 @@ model TrashedLotes {
   id Int @id @default(autoincrement())
   created_at DateTime @default(now())
   
-  obs String
+  obs String?
 
   id_lote Int
   lote     Lotes @relation(fields: [id_lote], references: [id])

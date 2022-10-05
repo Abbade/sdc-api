@@ -34,11 +34,11 @@ export class AuthenticateUserUseCase {
       throw new Error('email or password invalid!');
     }
     console.log('ae')
-    const token = sign({ email }, '739f8ebd49733117a132c34fe866bc09', {
+    const token = sign({ email , roles: ["administrador"], permissions: ["lote.list", "lote.create"] }, '739f8ebd49733117a132c34fe866bc09', {
       subject: user.id.toString(),
       expiresIn: '1d',
     });
 
-    return { token, success: true };
+    return { token, success: true, roles: ["administrador"], permissions: ["lote.list", "lote.create"] };
   }
 }

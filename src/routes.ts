@@ -26,12 +26,15 @@ import { CreatePropagationTypeUseCase } from './modules/params/propagationType/U
 import { GetAllPropagationTypeUseCase } from './modules/params/propagationType/UseCases/getAllPropagationTypes/GetAllPropagationTypeUseCase';
 import { CreatePropagationTypeController } from './modules/params/propagationType/UseCases/createPropagationType/CreatePropagationTypeController';
 import { GetAllPropagationTypeController } from './modules/params/propagationType/UseCases/getAllPropagationTypes/GetAllPropagationTypeController';
+import { MeController } from './modules/account/me/meController';
 
 const routes = Router();
 
 const createUserController = new CreateUserController();
 const authenticateUserController = new AuthenticateUserController();
 const geAllUsersController = new GeAllUsersController();
+
+const meController = new MeController();
 
 const createProfileController = new CreateProfileController();
 const getAllProfilesUseCase = new GetAllProfileController();
@@ -61,6 +64,8 @@ const trashLoteController = new TrashLoteController()
 
 // auth
 routes.post('/authenticate', authenticateUserController.handle);
+
+routes.get('/me', ensureAuthenticate, meController.handle);
 
 //users
 routes.post('/user', createUserController.handle);

@@ -3,7 +3,7 @@ import { TrashLoteUseCase } from './TrashLoteUseCase';
 
 export class TrashLoteController {
   async handle(request: Request, response: Response) {
-    const { idLote, qtTrash, trashDate, id_trashReason} = request.body;
+    const { idLote, qtTrash, trashDate, id_trashReason, obs} = request.body;
 
     const trashLoteUseCase = new TrashLoteUseCase();
     const result = await trashLoteUseCase.execute({
@@ -11,6 +11,7 @@ export class TrashLoteController {
       id_trashReason,
       qtTrash,
       trashDate,
+      obs
     });
 
     return response.json(result);

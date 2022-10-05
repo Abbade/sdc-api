@@ -27,6 +27,10 @@ import { GetAllPropagationTypeUseCase } from './modules/params/propagationType/U
 import { CreatePropagationTypeController } from './modules/params/propagationType/UseCases/createPropagationType/CreatePropagationTypeController';
 import { GetAllPropagationTypeController } from './modules/params/propagationType/UseCases/getAllPropagationTypes/GetAllPropagationTypeController';
 import { MeController } from './modules/account/me/meController';
+import { CreateFaseCultivoController } from './modules/params/faseCultivo/UseCases/createFaseCultivo/CreateFaseCultivoController';
+import { GetAllFasesCultivoController } from './modules/params/faseCultivo/UseCases/getAllFasesCultivo/getAllFasesCultivoController';
+import { GetAllRecipientesController } from './modules/params/recipiente/UseCases/getAllRecipientes/getAllRecipientesController';
+import { CreateRecipienteController } from './modules/params/recipiente/UseCases/createRecipiente/CreateRecipienteController';
 
 const routes = Router();
 
@@ -42,6 +46,11 @@ const getAllProfilesUseCase = new GetAllProfileController();
 const createGeneticController = new CreateGeneticController();
 const getAllGeneticsController = new GetAllGeneticsController();
 
+const createFaseCultivoController = new CreateFaseCultivoController();
+const getAllFasesCultivoController = new GetAllFasesCultivoController();
+
+const createRecipienteController = new CreateRecipienteController();
+const getAllRecipientesController = new GetAllRecipientesController();
 
 const createLocationController = new CreateLocationController();
 const getAllLocationsController = new GetAllLocationsController();
@@ -72,6 +81,15 @@ routes.post('/user', createUserController.handle);
 routes.get('/user', ensureAuthenticate , geAllUsersController.handle);
 
 //params
+
+// fase cultivo
+routes.post('/fase-cultivo', ensureAuthenticate, createFaseCultivoController.handle);
+routes.get('/fase-cultivo',ensureAuthenticate, getAllFasesCultivoController.handle);
+
+// recipiente
+routes.post('/recipiente', ensureAuthenticate, createRecipienteController.handle);
+routes.get('/recipiente',ensureAuthenticate, getAllRecipientesController.handle);
+
 
 // genetic profile 
 routes.post('/profile', ensureAuthenticate, createProfileController.handle);

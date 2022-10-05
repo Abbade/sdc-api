@@ -23,10 +23,6 @@ model Users {
   @@map("users")
 }
 
-
-
-
-
 // PARAMS
 model Profiles {
   id          Int    @id @default(autoincrement())
@@ -38,17 +34,35 @@ model Profiles {
   @@map("profiles")
 }
 
+model FasesCultivo {
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String
+  ordem Int?
+
+  //plantas Plantas[]
+
+  @@map("fasesCultivo")
+}
+
+model Recipientes {
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String
+
+  @@map("recipientes")
+}
+
 model Genetics {
-  id   Int    @id @default(autoincrement())
-  name String
-  nick String
+  id          Int    @id @default(autoincrement())
+  name        String
+  nick        String
   description String
 
   created_at DateTime @default(now())
 
-
-  id_profile       Int
-  profile Profiles @relation(fields: [id_profile], references: [id])
+  id_profile Int
+  profile    Profiles @relation(fields: [id_profile], references: [id])
 
   lotes Lotes[]
 
@@ -56,40 +70,30 @@ model Genetics {
 }
 
 model Sections {
-
-  id   Int    @id @default(autoincrement())
-  name String
+  id          Int    @id @default(autoincrement())
+  name        String
   description String
 
-  
   locations Locations[]
-
 
   created_at DateTime @default(now())
 
   @@map("section")
-
-
 }
 
 model Locations {
-
-  id   Int    @id @default(autoincrement())
-  name String
+  id          Int    @id @default(autoincrement())
+  name        String
   description String
 
-
-  id_section       Int
-  section Sections @relation(fields: [id_section], references: [id])
-
+  id_section Int
+  section    Sections @relation(fields: [id_section], references: [id])
 
   created_at DateTime @default(now())
 
   lotes Lotes[]
 
-
   @@map("location")
-
 }
 
 model PropagationType {
@@ -97,30 +101,26 @@ model PropagationType {
 
   created_at DateTime @default(now())
 
-  name String @unique
+  name        String @unique
   description String
 
   lotes Lotes[]
-  
-@@map("propagationType")
-  
+
+  @@map("propagationType")
 }
 
 model TrashReasons {
   id Int @id @default(autoincrement())
 
-    created_at DateTime @default(now())
+  created_at DateTime @default(now())
 
-  name String @unique
+  name        String @unique
   description String
 
   trashedLotes TrashedLotes[]
-  
-@@map("trashReason")
-  
+
+  @@map("trashReason")
 }
-
-
 
 model Lotes {
   id Int @id @default(autoincrement())
@@ -134,52 +134,43 @@ model Lotes {
   created_at DateTime @default(now())
 
   id_propagationType Int
-  propagationType     PropagationType @relation(fields: [id_propagationType], references: [id])
- 
+  propagationType    PropagationType @relation(fields: [id_propagationType], references: [id])
 
   id_genetic Int
-  genetic     Genetics @relation(fields: [id_genetic], references: [id])
+  genetic    Genetics @relation(fields: [id_genetic], references: [id])
 
   id_location_init Int
-  location     Locations @relation(fields: [id_location_init], references: [id])
+  location         Locations @relation(fields: [id_location_init], references: [id])
 
-  qtTotal Int
-  qtProp Int 
+  qtTotal       Int
+  qtProp        Int
   qtPropTrashed Int @default(0)
-  qtPlant Int @default(0)
+  qtPlant       Int @default(0)
 
   descartes TrashedLotes[]
 
   @@map("lotes")
 }
 
-
-
 model TrashedLotes {
-
-  id Int @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   created_at DateTime @default(now())
-  
+
   obs String?
 
   id_lote Int
-  lote     Lotes @relation(fields: [id_lote], references: [id])
+  lote    Lotes @relation(fields: [id_lote], references: [id])
 
   id_trashReason Int
-  trashReason     TrashReasons @relation(fields: [id_trashReason], references: [id])
+  trashReason    TrashReasons @relation(fields: [id_trashReason], references: [id])
 
   trashDate DateTime
 
   qtPropTrashed Int
-  massTrashed Float @default(0)
-
+  massTrashed   Float @default(0)
 
   @@map("trashedLotes")
-
 }
-
-
-
 
 model Clones {
   id Int @id @default(autoincrement())

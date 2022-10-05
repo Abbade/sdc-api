@@ -12,7 +12,8 @@ export class GetAllOrganizationsUseCase {
   async execute({ name,description }: IOrganizationsFilter) {
     const lotes = await prisma.organizations.findMany({
       include: {
-        users: true
+        users: true,
+        userCreate: true
         
       }
     });

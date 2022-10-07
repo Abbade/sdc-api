@@ -44,7 +44,7 @@ export class CreateLoteUseCase {
     })
 
     if (!selectedLocation) {
-      throw new Error('Genética não existente: ' + id_genetic);
+      throw new Error('Local não existente: ' + id_genetic);
     }
 
 

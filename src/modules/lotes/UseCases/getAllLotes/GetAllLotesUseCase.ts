@@ -13,7 +13,8 @@ export class GetAllLotesUseCase {
     const lotes = await prisma.lotes.findMany({
       include: {
         location: true,
-        genetic: true
+        genetic: true,
+        propagationType: true
         
       }
     });

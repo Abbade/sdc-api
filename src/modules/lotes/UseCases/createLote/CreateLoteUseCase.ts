@@ -17,6 +17,11 @@ export class CreateLoteUseCase {
   async execute({ propDate, id_propagationType, id_genetic, id_location_init, qtTotal,obs, id_user_create }: ICreateLote) {
 
     //VALIDA CAMPOS
+
+    if (qtTotal <= 0) {
+      throw new Error('Quantidade deve ser maior que 0.');
+    }
+
     const selectedGenetic = await prisma.genetics.findFirst({
       where: {
         id: id_genetic

@@ -28,4 +28,4 @@ app.get('/', (request, response) => {
   });
 });
 
-app.listen(3333, () => console.log('Server is running'));
+app.listen(process.env.PORT || 80 , () => console.log('Server is running'));

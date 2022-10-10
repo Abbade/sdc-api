@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { MeUseCase } from './MeUseCase';
+import { MeUseCase } from './meUseCase';
 
 export class MeController {
   async handle(request: Request, response: Response) {

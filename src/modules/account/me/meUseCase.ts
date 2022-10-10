@@ -3,7 +3,7 @@ import { compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 
 interface IMe {
-  id: string;
+  id: number;
 
 }
 
@@ -14,7 +14,7 @@ export class MeUseCase {
     const user = await prisma.users.findFirst({
       where: {
         id: {
-          equals: parseInt(id)
+          equals: id
         }
       },
     });

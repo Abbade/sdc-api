@@ -4,9 +4,10 @@ import { prisma } from '../../../../database/prismaClient';
 interface ILoteFilter {
   name?: string;
   description?: string;
+  id?: number;
+
   page: number;
   limit: number;
-  id: number;
 
 }
 
@@ -22,6 +23,9 @@ export class GetAllLotesUseCase {
       where: {
         name: {
           contains: name
+        },
+        id: {
+          equals: id
         }
       }
     })

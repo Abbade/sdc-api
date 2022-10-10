@@ -22,7 +22,7 @@ export class GetAllTrashedLotesUseCase {
 
     const total = await prisma.trashedLotes.count({
       where: {
-        id: {
+        id_lote: {
           equals: id
 
         }
@@ -36,7 +36,7 @@ export class GetAllTrashedLotesUseCase {
       skip: (page - 1) ? (page - 1) : 0,
       where: {
 
-        id: {
+        id_lote: {
           equals: id
         },
 

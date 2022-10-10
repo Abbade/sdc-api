@@ -13,32 +13,31 @@ interface ILoteFilter {
 
 export class GetAllLotesUseCase {
 
-  async execute({ name, description, page, limit,id }: ILoteFilter) {
+  async execute({ name, description, page, limit, id }: ILoteFilter) {
 
     console.log(page);
     console.log(limit);
-    
+
 
     const total = await prisma.lotes.count({
       where: {
+        id,
         name: {
           contains: name
         },
-        id: {
-          equals: id
-        }
+
       }
     })
     const lotes = await prisma.lotes.findMany({
-      take: (limit * page)?(limit * page):20,
-      skip: (page - 1)?(page - 1):0,
+      take: (limit * page) ? (limit * page) : 20,
+      skip: (page - 1) ? (page - 1) : 0,
       where: {
-        name: {
+
+          id,
+          name: {
           contains: name
         },
-        id: {
-          equals: id
-        }
+
       },
       include: {
         location: true,

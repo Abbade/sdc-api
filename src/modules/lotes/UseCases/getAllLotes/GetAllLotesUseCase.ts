@@ -32,7 +32,9 @@ export class GetAllLotesUseCase {
         name: {
           contains: name
         },
-        id: id
+        id: {
+          equals: id
+        }
       },
       include: {
         location: true,

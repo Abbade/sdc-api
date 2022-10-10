@@ -6,12 +6,13 @@ interface ILoteFilter {
   description?: string;
   page: number;
   limit: number;
+  id: number;
 
 }
 
 export class GetAllLotesUseCase {
 
-  async execute({ name, description, page, limit }: ILoteFilter) {
+  async execute({ name, description, page, limit,id }: ILoteFilter) {
 
     console.log(page);
     console.log(limit);
@@ -30,7 +31,8 @@ export class GetAllLotesUseCase {
       where: {
         name: {
           contains: name
-        }
+        },
+        id: id
       },
       include: {
         location: true,

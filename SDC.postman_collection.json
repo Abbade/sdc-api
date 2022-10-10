@@ -1,682 +1,800 @@
 {
 	"info": {
-		"_postman_id": "5c4e315a-3dee-477d-8428-4351d4d4e617",
+		"_postman_id": "ad4a00e2-af2e-441f-9630-d1e8d4fdf3e3",
 		"name": "SDC",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "21121069"
 	},
 	"item": [
 		{
-			"name": "Authenticate",
-			"protocolProfileBehavior": {
-				"disabledSystemHeaders": {
-					"accept-encoding": true,
-					"connection": true,
-					"user-agent": true,
-					"host": true
-				}
-			},
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"email\": \"gabrielbroitmanpinheiro@gmail.com\",\n    \"password\": \"Broit.123\"\n\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "params",
+			"item": [
+				{
+					"name": "Create Recipiente",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdhYnJpZWxicm9pdG1hbnBpbmhlaXJvQGdtYWlsLmNvbSIsImlhdCI6MTY2NDkxNDYwMSwiZXhwIjoxNjY1MDAxMDAxLCJzdWIiOiIxIn0.XfLxDx1FTzF5mwc4ZPTCe_xsQYUKRHpzx0mgxoTSPRc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"1L\",\n    \"description\": \"Vasos 1L\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HEROKU API}}/recipiente",
+							"host": [
+								"{{HEROKU API}}"
+							],
+							"path": [
+								"recipiente"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "127.0.0.1:3000/authenticate",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "3000",
-					"path": [
-						"authenticate"
-					]
+				{
+					"name": "Get Recipientes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:3000/recipiente",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"recipiente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Fase Cultivo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdhYnJpZWxicm9pdG1hbnBpbmhlaXJvQGdtYWlsLmNvbSIsImlhdCI6MTY2NDkxNDYwMSwiZXhwIjoxNjY1MDAxMDAxLCJzdWIiOiIxIn0.XfLxDx1FTzF5mwc4ZPTCe_xsQYUKRHpzx0mgxoTSPRc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Vegetação\",\n    \"description\": \"Fase de fotoperiodo extendido.\",\n    \"ordem\": 2\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3000/fase-cultivo",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"fase-cultivo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Fases Cultivo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdhYnJpZWxicm9pdG1hbnBpbmhlaXJvQGdtYWlsLmNvbSIsImlhdCI6MTY2NDkxNDYwMSwiZXhwIjoxNjY1MDAxMDAxLCJzdWIiOiIxIn0.XfLxDx1FTzF5mwc4ZPTCe_xsQYUKRHpzx0mgxoTSPRc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:3000/fase-cultivo",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"fase-cultivo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Profile",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Alto THC\",\n    \"description\": \"Categoria referente às plantas cuja predominância é de THC.\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3333/profile",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3333",
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Profiles",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdhYnJpZWxicm9pdG1hbnBpbmhlaXJvQGdtYWlsLmNvbSIsImlhdCI6MTY2NDkxNDYwMSwiZXhwIjoxNjY1MDAxMDAxLCJzdWIiOiIxIn0.XfLxDx1FTzF5mwc4ZPTCe_xsQYUKRHpzx0mgxoTSPRc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:3000/profile",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Genetic",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Purple Wreck\",\n    \"nick\": \"PWK\",\n    \"description\": \"Da casa.\",\n    \"id_profile\": 1\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3333/genetic",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3333",
+							"path": [
+								"genetic"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Genetics",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true,
+							"accept-encoding": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:3333/genetic",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3333",
+							"path": [
+								"genetic"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Section",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Área de Vegetação\",\n    \"description\": \"Área referente a parte de vegetação.\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3333/section",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3333",
+							"path": [
+								"section"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Sections",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdhYnJpZWxicm9pdG1hbnBpbmhlaXJvQGdtYWlsLmNvbSIsImlhdCI6MTY2NDkxNDYwMSwiZXhwIjoxNjY1MDAxMDAxLCJzdWIiOiIxIn0.XfLxDx1FTzF5mwc4ZPTCe_xsQYUKRHpzx0mgxoTSPRc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:3000/section",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"section"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Location",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Canteiro A\",\n    \"description\": \"Canteiro próximo a zona rural.\",\n    \"id_section\": 1\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3333/location",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3333",
+							"path": [
+								"location"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Locations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:3333/location",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3333",
+							"path": [
+								"location"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Trash Reason",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Fungow\",\n    \"description\": \"Fungos\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3333/trash-reason",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3333",
+							"path": [
+								"trash-reason"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Trash Reasons",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdhYnJpZWxicm9pdG1hbnBpbmhlaXJvQGdtYWlsLmNvbSIsImlhdCI6MTY2NDkxNDYwMSwiZXhwIjoxNjY1MDAxMDAxLCJzdWIiOiIxIn0.XfLxDx1FTzF5mwc4ZPTCe_xsQYUKRHpzx0mgxoTSPRc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:3000/trash-reason",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"trash-reason"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Propagation Type",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Estaquia\",\n    \"description\": \"Produção de estacas\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3333/propagation-type",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3333",
+							"path": [
+								"propagation-type"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Propagation Types",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:3333/propagation-type",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3333",
+							"path": [
+								"propagation-type"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "Create User",
-			"protocolProfileBehavior": {
-				"disabledSystemHeaders": {
-					"accept-encoding": true,
-					"user-agent": true,
-					"host": true
-				}
-			},
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer 739f8ebd49733117a132c34fe866bc09",
-						"type": "text",
-						"disabled": true
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"password\": \"Broit.123\",\n    \"email\": \"gabrielbroitmanpinheiro@gmail.com\",\n    \"name\": \"Gabriel Broitman Pinheiro\"\n\n\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "business",
+			"item": [
+				{
+					"name": "Create Lote",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"propDate\": \"2012-04-23T18:25:43.511Z\",\n    \"id_propagationType\": 2,\n    \"id_genetic\": 4,\n    \"id_location_init\": 3,\n    \"qtTotal\": 50,\n    \"obs\": \"Lote criado por POSTMAN via TEST\"\n\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3000/lote",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"lote"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "127.0.0.1:3000/user",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "3000",
-					"path": [
-						"user"
-					]
+				{
+					"name": "Trash Lote",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"idLote\": 27,\n    \"qtTrash\": 20,\n    \"trashDate\": \"2012-04-23T18:25:43.511Z\",\n    \"id_trashReason\": 2,\n    \"obs\": \"test\"\n\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:33/trash-lote",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "33",
+							"path": [
+								"trash-lote"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Lotes",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "127.0.0.1:3333/lote?page=1&limit=10&name=PWK%23230",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3333",
+							"path": [
+								"lote"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "name",
+									"value": "PWK#230"
+								}
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "Get Users",
-			"protocolProfileBehavior": {
-				"disabledSystemHeaders": {
-					"accept-encoding": true,
-					"host": true,
-					"connection": true,
-					"user-agent": true,
-					"accept": true
+			"name": "core",
+			"item": [
+				{
+					"name": "Authenticate",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept-encoding": true,
+							"connection": true,
+							"user-agent": true,
+							"host": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"gabrielbroitmanpinheiro@gmail.com\",\n    \"password\": \"Broit.123\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3333/authenticate",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3333",
+							"path": [
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Organization",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept-encoding": true,
+							"user-agent": true,
+							"host": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 739f8ebd49733117a132c34fe866bc09",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Sistema de Cultivo\",\n    \"nick\": \"SDC\",\n    \"description\": \"Administradores\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3000/organizations",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"organizations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Organizations",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept-encoding": true,
+							"host": true,
+							"connection": true,
+							"user-agent": true,
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "739f8ebd49733117a132c34fe866bc09",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "127.0.0.1:3000/organization",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"organization"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept-encoding": true,
+							"user-agent": true,
+							"host": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 739f8ebd49733117a132c34fe866bc09",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"Broit.123\",\n    \"email\": \"gabrielbroitmanpinheiro@gmail.com\",\n    \"name\": \"Gabriel Broitman Pinheiro\"\n\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3000/user",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Users",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept-encoding": true,
+							"host": true,
+							"connection": true,
+							"user-agent": true,
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "739f8ebd49733117a132c34fe866bc09",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "127.0.0.1:3000/user",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdhYnJpZWxicm9pdG1hbnBpbmhlaXJvQGdtYWlsLmNvbSIsImlhdCI6MTY2NDkxNDYwMSwiZXhwIjoxNjY1MDAxMDAxLCJzdWIiOiIxIn0.XfLxDx1FTzF5mwc4ZPTCe_xsQYUKRHpzx0mgxoTSPRc",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "739f8ebd49733117a132c34fe866bc09",
-						"type": "text",
-						"disabled": true
-					}
-				],
-				"url": {
-					"raw": "127.0.0.1:3000/user",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "3000",
-					"path": [
-						"user"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create Profile",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdhYnJpZWxicm9pdG1hbnBpbmhlaXJvQGdtYWlsLmNvbSIsImlhdCI6MTY2NDkxNDYwMSwiZXhwIjoxNjY1MDAxMDAxLCJzdWIiOiIxIn0.XfLxDx1FTzF5mwc4ZPTCe_xsQYUKRHpzx0mgxoTSPRc",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"Alto THC\",\n    \"description\": \"Categoria referente às plantas cuja predominância é de THC.\"\n\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "127.0.0.1:3000/profile",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "3000",
-					"path": [
-						"profile"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Profiles",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdhYnJpZWxicm9pdG1hbnBpbmhlaXJvQGdtYWlsLmNvbSIsImlhdCI6MTY2NDkxNDYwMSwiZXhwIjoxNjY1MDAxMDAxLCJzdWIiOiIxIn0.XfLxDx1FTzF5mwc4ZPTCe_xsQYUKRHpzx0mgxoTSPRc",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "127.0.0.1:3000/profile",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "3000",
-					"path": [
-						"profile"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create Genetic",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdhYnJpZWxicm9pdG1hbnBpbmhlaXJvQGdtYWlsLmNvbSIsImlhdCI6MTY2NDkxNDYwMSwiZXhwIjoxNjY1MDAxMDAxLCJzdWIiOiIxIn0.XfLxDx1FTzF5mwc4ZPTCe_xsQYUKRHpzx0mgxoTSPRc",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"Purple Wreck\",\n    \"nick\": \"PWK\",\n    \"description\": \"Da casa.\",\n    \"id_profile\": 1\n\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "127.0.0.1:3000/genetic",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "3000",
-					"path": [
-						"genetic"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Genetics",
-			"protocolProfileBehavior": {
-				"disabledSystemHeaders": {
-					"accept": true,
-					"accept-encoding": true
-				}
-			},
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdhYnJpZWxicm9pdG1hbnBpbmhlaXJvQGdtYWlsLmNvbSIsImlhdCI6MTY2NDkxNDYwMSwiZXhwIjoxNjY1MDAxMDAxLCJzdWIiOiIxIn0.XfLxDx1FTzF5mwc4ZPTCe_xsQYUKRHpzx0mgxoTSPRc",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "127.0.0.1:3000/genetic",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "3000",
-					"path": [
-						"genetic"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create Section",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdhYnJpZWxicm9pdG1hbnBpbmhlaXJvQGdtYWlsLmNvbSIsImlhdCI6MTY2NDkxNDYwMSwiZXhwIjoxNjY1MDAxMDAxLCJzdWIiOiIxIn0.XfLxDx1FTzF5mwc4ZPTCe_xsQYUKRHpzx0mgxoTSPRc",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"Área de Vegetação\",\n    \"description\": \"Área referente a parte de vegetação.\"\n\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "127.0.0.1:3000/section",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "3000",
-					"path": [
-						"section"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Sections",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdhYnJpZWxicm9pdG1hbnBpbmhlaXJvQGdtYWlsLmNvbSIsImlhdCI6MTY2NDkxNDYwMSwiZXhwIjoxNjY1MDAxMDAxLCJzdWIiOiIxIn0.XfLxDx1FTzF5mwc4ZPTCe_xsQYUKRHpzx0mgxoTSPRc",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "127.0.0.1:3000/section",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "3000",
-					"path": [
-						"section"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create Location",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdhYnJpZWxicm9pdG1hbnBpbmhlaXJvQGdtYWlsLmNvbSIsImlhdCI6MTY2NDkxNDYwMSwiZXhwIjoxNjY1MDAxMDAxLCJzdWIiOiIxIn0.XfLxDx1FTzF5mwc4ZPTCe_xsQYUKRHpzx0mgxoTSPRc",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"Canteiro A\",\n    \"description\": \"Canteiro próximo a zona rural.\",\n    \"id_section\": 1\n\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "127.0.0.1:3000/location",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "3000",
-					"path": [
-						"location"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Locations",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdhYnJpZWxicm9pdG1hbnBpbmhlaXJvQGdtYWlsLmNvbSIsImlhdCI6MTY2NDkxNDYwMSwiZXhwIjoxNjY1MDAxMDAxLCJzdWIiOiIxIn0.XfLxDx1FTzF5mwc4ZPTCe_xsQYUKRHpzx0mgxoTSPRc",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "127.0.0.1:3000/location",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "3000",
-					"path": [
-						"location"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create Trash Reason",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdhYnJpZWxicm9pdG1hbnBpbmhlaXJvQGdtYWlsLmNvbSIsImlhdCI6MTY2NDkxNDYwMSwiZXhwIjoxNjY1MDAxMDAxLCJzdWIiOiIxIn0.XfLxDx1FTzF5mwc4ZPTCe_xsQYUKRHpzx0mgxoTSPRc",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"Fungo\",\n    \"description\": \"Fungos\"\n\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "127.0.0.1:3000/trash-reason",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "3000",
-					"path": [
-						"trash-reason"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Trash Reasons",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdhYnJpZWxicm9pdG1hbnBpbmhlaXJvQGdtYWlsLmNvbSIsImlhdCI6MTY2NDkxNDYwMSwiZXhwIjoxNjY1MDAxMDAxLCJzdWIiOiIxIn0.XfLxDx1FTzF5mwc4ZPTCe_xsQYUKRHpzx0mgxoTSPRc",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "127.0.0.1:3000/trash-reason",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "3000",
-					"path": [
-						"trash-reason"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create Propagation Type",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdhYnJpZWxicm9pdG1hbnBpbmhlaXJvQGdtYWlsLmNvbSIsImlhdCI6MTY2NDkxNDYwMSwiZXhwIjoxNjY1MDAxMDAxLCJzdWIiOiIxIn0.XfLxDx1FTzF5mwc4ZPTCe_xsQYUKRHpzx0mgxoTSPRc",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"Fungo\",\n    \"description\": \"Fungos\"\n\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "127.0.0.1:3000/propagation-type",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "3000",
-					"path": [
-						"propagation-type"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Propagation Types",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdhYnJpZWxicm9pdG1hbnBpbmhlaXJvQGdtYWlsLmNvbSIsImlhdCI6MTY2NDkxNDYwMSwiZXhwIjoxNjY1MDAxMDAxLCJzdWIiOiIxIn0.XfLxDx1FTzF5mwc4ZPTCe_xsQYUKRHpzx0mgxoTSPRc",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "127.0.0.1:3000/trash-reason",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "3000",
-					"path": [
-						"trash-reason"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create Lote",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdhYnJpZWxicm9pdG1hbnBpbmhlaXJvQGdtYWlsLmNvbSIsImlhdCI6MTY2NDkxNDYwMSwiZXhwIjoxNjY1MDAxMDAxLCJzdWIiOiIxIn0.XfLxDx1FTzF5mwc4ZPTCe_xsQYUKRHpzx0mgxoTSPRc",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"propDate\": \"2012-04-23T18:25:43.511Z\",\n    \"id_genetic\": 1,\n    \"id_location_init\": 2,\n    \"qtTotal\": 50,\n    \"obs\": \"Lote criado por POSTMAN via TEST\"\n\n\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "127.0.0.1:3000/lote",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "3000",
-					"path": [
-						"lote"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Trash Lote",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdhYnJpZWxicm9pdG1hbnBpbmhlaXJvQGdtYWlsLmNvbSIsImlhdCI6MTY2NDkxNDYwMSwiZXhwIjoxNjY1MDAxMDAxLCJzdWIiOiIxIn0.XfLxDx1FTzF5mwc4ZPTCe_xsQYUKRHpzx0mgxoTSPRc",
-							"type": "string"
-						}
-					]
-				},
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"idLote\": 14,\n    \"qtTrash\": 1,\n    \"trashDate\": \"2012-04-23T18:25:43.511Z\",\n    \"id_trashReason\": 2\n\n\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "127.0.0.1:3000/trash-lote",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "3000",
-					"path": [
-						"trash-lote"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Lotes",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdhYnJpZWxicm9pdG1hbnBpbmhlaXJvQGdtYWlsLmNvbSIsImlhdCI6MTY2NDkxNDYwMSwiZXhwIjoxNjY1MDAxMDAxLCJzdWIiOiIxIn0.XfLxDx1FTzF5mwc4ZPTCe_xsQYUKRHpzx0mgxoTSPRc",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "127.0.0.1:3000/lote",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "3000",
-					"path": [
-						"lote"
-					]
-				}
-			},
-			"response": []
+			]
 		}
 	],
 	"auth": {
@@ -684,7 +802,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdhYnJpZWxicm9pdG1hbnBpbmhlaXJvQGdtYWlsLmNvbSIsImlhdCI6MTY2NDkxNDYwMSwiZXhwIjoxNjY1MDAxMDAxLCJzdWIiOiIxIn0.XfLxDx1FTzF5mwc4ZPTCe_xsQYUKRHpzx0mgxoTSPRc",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdhYnJpZWxicm9pdG1hbnBpbmhlaXJvQGdtYWlsLmNvbSIsInJvbGVzIjpbImFkbWluaXN0cmFkb3IiXSwicGVybWlzc2lvbnMiOlsibG90ZS5saXN0IiwibG90ZS5jcmVhdGUiXSwiaWF0IjoxNjY1MTEyMDY5LCJleHAiOjE2NjUxOTg0NjksInN1YiI6IjEifQ.FE-t9WwdUtpDA1esCLWVk0MLxkrD7HCFkZJ21bsNZ7g",
 				"type": "string"
 			}
 		]
@@ -707,6 +825,17 @@
 					""
 				]
 			}
+		}
+	],
+	"variable": [
+		{
+			"key": "OLDAPI",
+			"value": "127.0.0.1:3000"
+		},
+		{
+			"key": "HEROKU API",
+			"value": "https://plantaqui.herokuapp.com:3333",
+			"type": "string"
 		}
 	]
 }

@@ -11,7 +11,7 @@ interface ILoteFilter {
 
 }
 
-export class GetAllLotesUseCase {
+export class GetAllTrashedLotesUseCase {
 
   async execute({ name, description, page, limit, id }: ILoteFilter) {
 
@@ -20,20 +20,18 @@ export class GetAllLotesUseCase {
     
     id = id ? Number.parseInt(id) : undefined
 
-    const total = await prisma.lotes.count({
+    const total = await prisma.trashedLotes.count({
       where: {
         id: {
           equals: id
 
         }
         ,
-        name: {
-          contains: name
-        },
+
 
       }
     })
-    const lotes = await prisma.lotes.findMany({
+    const lotes = await prisma.trashedLotes.findMany({
       take: (limit * page) ? (limit * page) : 20,
       skip: (page - 1) ? (page - 1) : 0,
       where: {
@@ -41,15 +39,11 @@ export class GetAllLotesUseCase {
         id: {
           equals: id
         },
-        name: {
-          contains: name
-        },
+
 
       },
       include: {
-        location: true,
-        genetic: true,
-        propagationType: true
+        trashReason: true
 
       }
     });

@@ -33,6 +33,7 @@ import { GetAllRecipientesController } from './modules/params/recipiente/UseCase
 import { CreateRecipienteController } from './modules/params/recipiente/UseCases/createRecipiente/CreateRecipienteController';
 import { CreateOrganizationController } from './modules/organization/useCases/createOrganization/CreateOrganizationController';
 import { GetAllOrganizationsController } from './modules/organization/useCases/getAllOrganizations/GetAllOrganizationsController';
+import { GetAllTrashedLotesController } from './modules/lotes/UseCases/getAllTrashedLotes/getAllTrashedLotesController';
 
 const routes = Router();
 
@@ -73,6 +74,8 @@ const getAllPropagationTypeUseCase = new GetAllPropagationTypeController();
 
 const createLoteController = new CreateLoteController();
 const getAllLotesController = new GetAllLotesController();
+
+const getAllTrashedLotesController = new GetAllTrashedLotesController();
 
 const trashLoteController = new TrashLoteController()
 
@@ -134,6 +137,7 @@ routes.post('/lote', ensureAuthenticate, createLoteController.handle);
 routes.get('/lote',ensureAuthenticate, getAllLotesController.handle);
 
 //lote - descarte
+routes.get('/trashed-lote', ensureAuthenticate, getAllTrashedLotesController.handle);
 routes.put('/trash-lote', ensureAuthenticate, trashLoteController.handle);
 
 

@@ -114,7 +114,7 @@ export class CreatePlantsLoteUseCase {
         id_genetic: selectedLote.id_genetic,
         id_propagationType: selectedLote.id_propagationType,
 
-        id_faseCultivo: 2,
+        id_faseCultivo: 1,
         obs: obs
 
 

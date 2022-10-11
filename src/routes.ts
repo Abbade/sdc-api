@@ -35,6 +35,7 @@ import { CreateOrganizationController } from './modules/organization/useCases/cr
 import { GetAllOrganizationsController } from './modules/organization/useCases/getAllOrganizations/GetAllOrganizationsController';
 import { GetAllTrashedLotesController } from './modules/lotes/UseCases/getAllTrashedLotes/getAllTrashedLotesController';
 import { CreatePlantsLoteController } from './modules/plants/useCase/createPlantsLote/CreatePlantsLoteController';
+import { GetAllPlantsController } from './modules/plants/useCase/getAllPlants/GetAllPlantsController';
 
 const routes = Router();
 
@@ -77,6 +78,7 @@ const createLoteController = new CreateLoteController();
 const getAllLotesController = new GetAllLotesController();
 
 const createPlantsLoteController = new CreatePlantsLoteController()
+const getAllPlantsController = new GetAllPlantsController()
 
 const getAllTrashedLotesController = new GetAllTrashedLotesController();
 
@@ -141,6 +143,7 @@ routes.get('/lote',ensureAuthenticate, getAllLotesController.handle);
 
 // lote - create plants
 routes.post('/plant', ensureAuthenticate, createPlantsLoteController.handle);
+routes.get('/plant', ensureAuthenticate, getAllPlantsController.handle);
 
 //lote - descarte
 routes.get('/trashed-lote', ensureAuthenticate, getAllTrashedLotesController.handle);

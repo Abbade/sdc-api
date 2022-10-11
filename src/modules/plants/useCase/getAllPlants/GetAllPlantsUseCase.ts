@@ -43,7 +43,10 @@ export class GetAllPlantsUseCase {
 
       },
       include: {
-        trashReason: true
+        location: true,
+        genetic: true,
+        recipiente: true,
+        propagationType: true,
 
       }
     });

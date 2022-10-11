@@ -276,13 +276,11 @@ model TrashedLotes {
 
   obs String?
 
-  id_lote Int
-  lote    Lotes @relation(fields: [id_lote], references: [id])
+  id_lote Int?
+  lote    Lotes? @relation(fields: [id_lote], references: [id])
 
-  id_planta Int
-  planta    Plantas @relation(fields: [id_planta], references: [id])
-
-  propDate DateTime
+  id_planta Int?
+  planta    Plantas? @relation(fields: [id_planta], references: [id])
 
   id_trashReason Int
   trashReason    TrashReasons @relation(fields: [id_trashReason], references: [id])

@@ -34,7 +34,7 @@ import { CreateRecipienteController } from './modules/params/recipiente/UseCases
 import { CreateOrganizationController } from './modules/organization/useCases/createOrganization/CreateOrganizationController';
 import { GetAllOrganizationsController } from './modules/organization/useCases/getAllOrganizations/GetAllOrganizationsController';
 import { GetAllTrashedLotesController } from './modules/lotes/UseCases/getAllTrashedLotes/getAllTrashedLotesController';
-import { CreatePlantsLoteController } from './modules/lotes/UseCases/createPlantsLote/CreatePlantsLoteController';
+import { CreatePlantsLoteController } from './modules/plants/useCase/createPlantsLote/CreatePlantsLoteController';
 
 const routes = Router();
 

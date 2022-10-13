@@ -13,7 +13,7 @@ export async function ensureAuthenticate(
   const authHeader = request.headers.authorization;
 
   if (!authHeader) {
-    return response.status(401).json({ message: 'Token missing' });
+    return response?.status(401)?.json({ message: 'Token missing' });
   }
 
   const [, token] = authHeader.split(' ');
@@ -27,6 +27,6 @@ export async function ensureAuthenticate(
     return next();
   } catch (error) {
     console.log(error)
-    return response.status(401).json({ message: 'Invalid token!' + token });
+    return response?.status(401)?.json({ message: 'Invalid token!' + token });
   }
 }

@@ -13,7 +13,7 @@ app.use((err: Error, request: Request, response: Response, next: NextFunction) =
   if (err instanceof Error) {
     console.log(err);
     return response.status(400).json({
-      message: err.message,
+      message: JSON.stringify(err),
     });
   }
 

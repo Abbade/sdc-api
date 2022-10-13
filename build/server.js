@@ -15,7 +15,7 @@ app.use(function (err, request, response, next) {
     if (err instanceof Error) {
         console.log(err);
         return response.status(400).json({
-            message: err.message
+            message: JSON.stringify(err)
         });
     }
     return response.status(500).json({

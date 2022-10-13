@@ -36,32 +36,33 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.MeUseCase = void 0;
-var prismaClient_1 = require("../../../database/prismaClient");
-var MeUseCase = /** @class */ (function () {
-    function MeUseCase() {
+exports.GetAllPlantsController = void 0;
+var GetAllPlantsUseCase_1 = require("./GetAllPlantsUseCase");
+var GetAllPlantsController = /** @class */ (function () {
+    function GetAllPlantsController() {
     }
-    MeUseCase.prototype.execute = function (_a) {
-        var id = _a.id;
+    GetAllPlantsController.prototype.handle = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var user;
+            var _a, id, name, page, limit, getAllPlantsUseCase, result;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, prismaClient_1.prisma.users.findFirst({
-                            where: {
-                                id: {
-                                    equals: id
-                                }
-                            }
-                        })];
+                    case 0:
+                        _a = request.query, id = _a.id, name = _a.name, page = _a.page, limit = _a.limit;
+                        getAllPlantsUseCase = new GetAllPlantsUseCase_1.GetAllPlantsUseCase();
+                        return [4 /*yield*/, getAllPlantsUseCase.execute({
+                                id: id,
+                                name: name,
+                                page: page,
+                                limit: limit
+                            })];
                     case 1:
-                        user = _b.sent();
-                        return [2 /*return*/, { email: user === null || user === void 0 ? void 0 : user.email, roles: ["administrador"], permissions: ["lote.list", "lote.create"] }];
+                        result = _b.sent();
+                        return [2 /*return*/, response.json(result)];
                 }
             });
         });
     };
-    return MeUseCase;
+    return GetAllPlantsController;
 }());
-exports.MeUseCase = MeUseCase;
-//# sourceMappingURL=meUseCase.js.map
+exports.GetAllPlantsController = GetAllPlantsController;
+//# sourceMappingURL=GetAllPlantsController.js.map

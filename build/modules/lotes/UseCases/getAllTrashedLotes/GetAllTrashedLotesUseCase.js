@@ -36,32 +36,56 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.MeUseCase = void 0;
-var prismaClient_1 = require("../../../database/prismaClient");
-var MeUseCase = /** @class */ (function () {
-    function MeUseCase() {
+exports.GetAllTrashedLotesUseCase = void 0;
+var prismaClient_1 = require("../../../../database/prismaClient");
+var GetAllTrashedLotesUseCase = /** @class */ (function () {
+    function GetAllTrashedLotesUseCase() {
     }
-    MeUseCase.prototype.execute = function (_a) {
-        var id = _a.id;
+    GetAllTrashedLotesUseCase.prototype.execute = function (_a) {
+        var name = _a.name, description = _a.description, page = _a.page, limit = _a.limit, id = _a.id;
         return __awaiter(this, void 0, void 0, function () {
-            var user;
+            var total, lotes;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, prismaClient_1.prisma.users.findFirst({
-                            where: {
-                                id: {
-                                    equals: id
+                    case 0:
+                        console.log(page);
+                        console.log(limit);
+                        id = id ? Number.parseInt(id) : undefined;
+                        return [4 /*yield*/, prismaClient_1.prisma.trashedLotes.count({
+                                where: {
+                                    id_lote: {
+                                        equals: id
+                                    }
                                 }
-                            }
-                        })];
+                            })];
                     case 1:
-                        user = _b.sent();
-                        return [2 /*return*/, { email: user === null || user === void 0 ? void 0 : user.email, roles: ["administrador"], permissions: ["lote.list", "lote.create"] }];
+                        total = _b.sent();
+                        return [4 /*yield*/, prismaClient_1.prisma.trashedLotes.findMany({
+                                take: (limit * page) ? (limit * page) : 20,
+                                skip: (page - 1) ? (page - 1) : 0,
+                                where: {
+                                    id_lote: {
+                                        equals: id
+                                    }
+                                },
+                                include: {
+                                    trashReason: true
+                                }
+                            })];
+                    case 2:
+                        lotes = _b.sent();
+                        if (!lotes) {
+                            throw new Error('Sem Profiles Existentes.');
+                        }
+                        return [2 /*return*/, {
+                                total: total,
+                                itens: lotes
+                            }];
                 }
             });
         });
     };
-    return MeUseCase;
+    return GetAllTrashedLotesUseCase;
 }());
-exports.MeUseCase = MeUseCase;
-//# sourceMappingURL=meUseCase.js.map
+exports.GetAllTrashedLotesUseCase = GetAllTrashedLotesUseCase;
+//# sourceMappingURL=GetAllTrashedLotesUseCase.js.map

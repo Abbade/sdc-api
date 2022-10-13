@@ -37,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 exports.MeController = void 0;
-var MeUseCase_1 = require("./MeUseCase");
+var meUseCase_1 = require("./meUseCase");
 var MeController = /** @class */ (function () {
     function MeController() {
     }
@@ -47,7 +47,7 @@ var MeController = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        authenticateClientUseCase = new MeUseCase_1.MeUseCase();
+                        authenticateClientUseCase = new meUseCase_1.MeUseCase();
                         id = request.id_user;
                         return [4 /*yield*/, authenticateClientUseCase.execute({ id: id })];
                     case 1:

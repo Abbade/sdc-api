@@ -36,32 +36,33 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.MeUseCase = void 0;
-var prismaClient_1 = require("../../../database/prismaClient");
-var MeUseCase = /** @class */ (function () {
-    function MeUseCase() {
+exports.GetAllTrashedLotesController = void 0;
+var GetAllTrashedLotesUseCase_1 = require("./GetAllTrashedLotesUseCase");
+var GetAllTrashedLotesController = /** @class */ (function () {
+    function GetAllTrashedLotesController() {
     }
-    MeUseCase.prototype.execute = function (_a) {
-        var id = _a.id;
+    GetAllTrashedLotesController.prototype.handle = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var user;
+            var _a, id, name, page, limit, getAllTrashedLotesUseCase, result;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, prismaClient_1.prisma.users.findFirst({
-                            where: {
-                                id: {
-                                    equals: id
-                                }
-                            }
-                        })];
+                    case 0:
+                        _a = request.query, id = _a.id, name = _a.name, page = _a.page, limit = _a.limit;
+                        getAllTrashedLotesUseCase = new GetAllTrashedLotesUseCase_1.GetAllTrashedLotesUseCase();
+                        return [4 /*yield*/, getAllTrashedLotesUseCase.execute({
+                                id: id,
+                                name: name,
+                                page: page,
+                                limit: limit
+                            })];
                     case 1:
-                        user = _b.sent();
-                        return [2 /*return*/, { email: user === null || user === void 0 ? void 0 : user.email, roles: ["administrador"], permissions: ["lote.list", "lote.create"] }];
+                        result = _b.sent();
+                        return [2 /*return*/, response.json(result)];
                 }
             });
         });
     };
-    return MeUseCase;
+    return GetAllTrashedLotesController;
 }());
-exports.MeUseCase = MeUseCase;
-//# sourceMappingURL=meUseCase.js.map
+exports.GetAllTrashedLotesController = GetAllTrashedLotesController;
+//# sourceMappingURL=getAllTrashedLotesController.js.map

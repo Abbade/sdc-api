@@ -13,6 +13,7 @@ app.use((0, cors_1["default"])());
 app.use(routes_1.routes);
 app.use(function (err, request, response, next) {
     if (err instanceof Error) {
+        console.log(err);
         return response.status(400).json({
             message: err.message
         });

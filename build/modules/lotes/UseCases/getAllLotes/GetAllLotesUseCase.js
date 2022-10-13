@@ -42,7 +42,7 @@ var GetAllLotesUseCase = /** @class */ (function () {
     function GetAllLotesUseCase() {
     }
     GetAllLotesUseCase.prototype.execute = function (_a) {
-        var name = _a.name, description = _a.description, page = _a.page, limit = _a.limit;
+        var name = _a.name, description = _a.description, page = _a.page, limit = _a.limit, id = _a.id;
         return __awaiter(this, void 0, void 0, function () {
             var total, lotes;
             return __generator(this, function (_b) {
@@ -50,8 +50,12 @@ var GetAllLotesUseCase = /** @class */ (function () {
                     case 0:
                         console.log(page);
                         console.log(limit);
+                        id = id ? Number.parseInt(id) : undefined;
                         return [4 /*yield*/, prismaClient_1.prisma.lotes.count({
                                 where: {
+                                    id: {
+                                        equals: id
+                                    },
                                     name: {
                                         contains: name
                                     }
@@ -63,6 +67,9 @@ var GetAllLotesUseCase = /** @class */ (function () {
                                 take: (limit * page) ? (limit * page) : 20,
                                 skip: (page - 1) ? (page - 1) : 0,
                                 where: {
+                                    id: {
+                                        equals: id
+                                    },
                                     name: {
                                         contains: name
                                     }

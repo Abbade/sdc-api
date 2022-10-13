@@ -43,13 +43,14 @@ var GetAllLotesController = /** @class */ (function () {
     }
     GetAllLotesController.prototype.handle = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, name, page, limit, getAllLotesUseCase, result;
+            var _a, id, name, page, limit, getAllLotesUseCase, result;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _a = request.query, name = _a.name, page = _a.page, limit = _a.limit;
+                        _a = request.query, id = _a.id, name = _a.name, page = _a.page, limit = _a.limit;
                         getAllLotesUseCase = new GetAllLotesUseCase_1.GetAllLotesUseCase();
                         return [4 /*yield*/, getAllLotesUseCase.execute({
+                                id: id,
                                 name: name,
                                 page: page,
                                 limit: limit

@@ -36,32 +36,37 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.MeUseCase = void 0;
-var prismaClient_1 = require("../../../database/prismaClient");
-var MeUseCase = /** @class */ (function () {
-    function MeUseCase() {
+exports.CreatePlantsLoteController = void 0;
+var CreatePlantsLoteUseCase_1 = require("./CreatePlantsLoteUseCase");
+var CreatePlantsLoteController = /** @class */ (function () {
+    function CreatePlantsLoteController() {
     }
-    MeUseCase.prototype.execute = function (_a) {
-        var id = _a.id;
+    CreatePlantsLoteController.prototype.handle = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var user;
+            var _a, id_lote, id_location, id_recipiente, aclimatationDate, qtPlant, obs, id_user_create, createPlantsLoteUseCase, result;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, prismaClient_1.prisma.users.findFirst({
-                            where: {
-                                id: {
-                                    equals: id
-                                }
-                            }
-                        })];
+                    case 0:
+                        _a = request.body, id_lote = _a.id_lote, id_location = _a.id_location, id_recipiente = _a.id_recipiente, aclimatationDate = _a.aclimatationDate, qtPlant = _a.qtPlant, obs = _a.obs;
+                        id_user_create = request.id_user;
+                        createPlantsLoteUseCase = new CreatePlantsLoteUseCase_1.CreatePlantsLoteUseCase();
+                        return [4 /*yield*/, createPlantsLoteUseCase.execute({
+                                id_lote: id_lote,
+                                aclimatationDate: aclimatationDate,
+                                qtPlant: qtPlant,
+                                obs: obs,
+                                id_user_create: id_user_create,
+                                id_location: id_location,
+                                id_recipiente: id_recipiente
+                            })];
                     case 1:
-                        user = _b.sent();
-                        return [2 /*return*/, { email: user === null || user === void 0 ? void 0 : user.email, roles: ["administrador"], permissions: ["lote.list", "lote.create"] }];
+                        result = _b.sent();
+                        return [2 /*return*/, response.json(result)];
                 }
             });
         });
     };
-    return MeUseCase;
+    return CreatePlantsLoteController;
 }());
-exports.MeUseCase = MeUseCase;
-//# sourceMappingURL=meUseCase.js.map
+exports.CreatePlantsLoteController = CreatePlantsLoteController;
+//# sourceMappingURL=CreatePlantsLoteController.js.map

@@ -32,7 +32,7 @@ export class GetAllPlantsUseCase {
       }
     })
     const lotes = await prisma.plantas.findMany({
-      take: (limit * page) ? (limit * page) : 20,
+      take: (limit * page) ? (limit * page) : total,
       skip: (page - 1) ? (page - 1) : 0,
       where: {
 

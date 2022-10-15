@@ -1,6 +1,17 @@
 import { hash } from 'bcrypt';
 import { prisma } from '../../../../database/prismaClient';
 
+const postmanJson = {
+  "transplantDate": "2012-04-30T18:25:43.511Z",
+  "plants": [1, 2, 3, 4],
+  "id_recipiente": 1,
+  "id_location": 1,
+  "id_faseCultivo": 2,
+
+
+  "obs": "Ae"
+  }
+
 interface ITransplantPlants {
   id_user_create: number;
   transplantDate: Date;
@@ -77,14 +88,21 @@ export class TransplantPlantsUseCase {
         throw new Error('Não é possivel transplantar plantas colhidas.')
       }
 
+      if (plant.id_recipiente == selectedRecipiente.id ) {
+        throw new Error('Não é possivel transplantar planta para um mesmo recipiente.')
+      }
+
+      if(plant.lastTransplant && plant.lastTransplant > transplantDate) {
+        throw new Error('Não é possivel transplantar plantas em uma data anterior a ultimo transplante.')
+        
+      }
+
       if(plant.id_faseCultivo > selectedFaseCultivo.id) {
         throw new Error('Não é possivel voltar com plantas para fase anterior.')
         
       }
 
 
-
-      // ADICIONA A LISTA DE UPDATES
 
 
     })

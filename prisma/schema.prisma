@@ -82,9 +82,10 @@ model FasesCultivo {
 
   name        String
   description String
-  ordem       Int?
+  ordem       Int @unique
 
   plantas Plantas[]
+  locations Locations[]
 
   @@map("fasesCultivo")
 }
@@ -147,6 +148,9 @@ model Locations {
 
   id_section Int
   section    Sections @relation(fields: [id_section], references: [id])
+
+  id_faseCultivo Int?
+  faseCultivo FasesCultivo? @relation(fields: [id_faseCultivo], references: [id])
 
   plantas Plantas[]
   lotes   Lotes[]
@@ -244,17 +248,33 @@ model Plantas {
   id_faseCultivo Int
   faseCultivo    FasesCultivo @relation(fields: [id_faseCultivo], references: [id])
 
+  lastTransplant DateTime?
+
   propDate DateTime
   propName String
 
   aclimatationDate DateTime
-  aclimatationName String
-
   vegetationDate DateTime?
-  vegetationName String?
-
+  vegetation2Date DateTime?
+  vegetation3Date DateTime?
   floweringDate DateTime?
-  floweringName String?
+
+  //report purposes
+  aclimatationLocation String?
+  aclimatationRecipient String?
+
+  vegetationLocation String?
+  vegetationRecipient String?
+
+  vegetation2Location String?
+  vegetation2Recipient String?
+
+  vegetation3Location String?
+  vegetation3Recipient String?
+  
+  floweringLocation String?
+  floweringRecipient String?
+
 
   cropDate DateTime?
   cropName String?

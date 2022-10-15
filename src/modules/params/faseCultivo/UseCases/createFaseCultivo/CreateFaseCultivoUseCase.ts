@@ -14,15 +14,14 @@ export class CreateFaseCultivoUseCase {
   async execute({ name,description, ordem, id_user_create }: ICreateFaseCultivo) {
     const clientExists = await prisma.fasesCultivo.findFirst({
       where: {
-        name: {
-          equals: name,
-          mode: 'insensitive'
+        ordem: {
+          equals: ordem
         },
       },
     });
 
     if (clientExists) {
-      throw new Error('Client already exists');
+      throw new Error('Ordem de fase de cultivo já ocupada');
     }
 
     const client = await prisma.fasesCultivo.create({

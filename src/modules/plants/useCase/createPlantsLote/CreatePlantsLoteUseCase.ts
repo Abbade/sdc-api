@@ -1,4 +1,3 @@
-import { hash } from 'bcrypt';
 import { prisma } from '../../../../database/prismaClient';
 
 interface ITrashLote {
@@ -105,8 +104,9 @@ export class CreatePlantsLoteUseCase {
         id_recipiente: id_recipiente,
 
         aclimatationDate: aclimatationDate,
-        //GENERATED ABOVE
-        aclimatationName: '',
+        aclimatationRecipient: selectedRecipiente.name,
+        aclimatationLocation: selectedLocation.name,
+
 
         id_user_create: id_user_create,
         propDate: selectedLote.propDate,
@@ -114,7 +114,7 @@ export class CreatePlantsLoteUseCase {
         id_genetic: selectedLote.id_genetic,
         id_propagationType: selectedLote.id_propagationType,
 
-        id_faseCultivo: 1,
+        id_faseCultivo: 2,
         obs: obs
 
 

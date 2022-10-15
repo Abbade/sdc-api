@@ -5,6 +5,7 @@ interface ICreateGenetic {
   name: string;
   description: string;
   id_section: number;
+  id_faseCultivo: number;
   id_user_create: number;
 
 }
@@ -12,7 +13,7 @@ interface ICreateGenetic {
 export class CreateLocationUseCase {
   
   
-async execute({ name,description,id_section,id_user_create}: ICreateGenetic) {
+async execute({ name,description,id_section,id_user_create, id_faseCultivo}: ICreateGenetic) {
 
   const selectedSection = await prisma.sections.findFirst({
     where: {
@@ -22,6 +23,16 @@ async execute({ name,description,id_section,id_user_create}: ICreateGenetic) {
   
   if (!selectedSection) {
     throw new Error('Perfil de genética não existente: ' + id_section);
+  }
+
+  const selectedFaseCultivo = await prisma.fasesCultivo.findFirst({
+    where: {
+      id: id_faseCultivo
+    }
+  })
+  
+  if (!selectedFaseCultivo) {
+    throw new Error('Fase de cultivo não existente: ' + id_faseCultivo);
   }
 
 

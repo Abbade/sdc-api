@@ -13,7 +13,7 @@ export class GetAllFasesCultivoUseCase {
     const trashReasons = await prisma.fasesCultivo.findMany();
 
     if (!trashReasons) {
-      throw new Error('Sem Profiles Existentes.');
+      throw new Error('Sem Fases de Cultivo Existentes.');
     }
 
 

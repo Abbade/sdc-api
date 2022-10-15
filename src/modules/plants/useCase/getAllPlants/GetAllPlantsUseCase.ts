@@ -47,6 +47,7 @@ export class GetAllPlantsUseCase {
         genetic: true,
         recipiente: true,
         propagationType: true,
+        faseCultivo: true
 
       }
     });

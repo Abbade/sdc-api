@@ -108,7 +108,7 @@ export class TransplantPlantsUseCase {
     })
 
     // ACLIMATAÇÃO
-    if (selectedFaseCultivo.id == 2) {
+    if (selectedFaseCultivo.ordem == 2) {
 
 
 
@@ -155,7 +155,7 @@ export class TransplantPlantsUseCase {
     }
 
     // VEGETAÇÃO
-    if (selectedFaseCultivo.id == 3) {
+    if (selectedFaseCultivo.ordem == 3) {
       const param = {
         where: {
           id: { in: plants }
@@ -242,7 +242,7 @@ export class TransplantPlantsUseCase {
     }
 
     // FLORACAO
-    if (selectedFaseCultivo.id == 4) {
+    if (selectedFaseCultivo.ordem == 4) {
       const param = {
         where: {
           id: { in: plants }

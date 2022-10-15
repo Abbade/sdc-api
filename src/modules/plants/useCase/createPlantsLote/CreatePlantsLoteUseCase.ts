@@ -106,6 +106,7 @@ export class CreatePlantsLoteUseCase {
         aclimatationDate: aclimatationDate,
         aclimatationRecipient: selectedRecipiente.name,
         aclimatationLocation: selectedLocation.name,
+        lastTransplant: aclimatationDate,
 
 
         id_user_create: id_user_create,

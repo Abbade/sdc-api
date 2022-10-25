@@ -21,6 +21,7 @@ export class GetAllPlantsUseCase {
     id = id ? Number.parseInt(id) : undefined
 
     const total = await prisma.plantas.count({
+    
       where: {
         id_lote: {
           equals: id
@@ -28,18 +29,22 @@ export class GetAllPlantsUseCase {
         }
         ,
 
-
+        name: {
+          contains: name
+        },
       }
     })
     const lotes = await prisma.plantas.findMany({
-      take: (limit * page) ? (limit * page) : total,
-      skip: (page - 1) ? (page - 1) : 0,
+      take: Number.parseInt(limit.toString()),
+      skip: (page - 1) * limit,
       where: {
 
         id_lote: {
           equals: id
         },
-
+        name: {
+          contains: name
+        },
 
       },
       include: {

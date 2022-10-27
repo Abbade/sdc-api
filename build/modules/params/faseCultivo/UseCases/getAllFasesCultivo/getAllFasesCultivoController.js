@@ -43,15 +43,16 @@ var GetAllFasesCultivoController = /** @class */ (function () {
     }
     GetAllFasesCultivoController.prototype.handle = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, name, description, getAllFasesCultivoUseCase, result;
+            var _a, name, page, limit, getAllFasesCultivoUseCase, result;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _a = request.body, name = _a.name, description = _a.description;
+                        _a = request.query, name = _a.name, page = _a.page, limit = _a.limit;
                         getAllFasesCultivoUseCase = new getAllFasesCultivoUseCase_1.GetAllFasesCultivoUseCase();
                         return [4 /*yield*/, getAllFasesCultivoUseCase.execute({
-                                name: name,
-                                description: description
+                                name: name === null || name === void 0 ? void 0 : name.toString(),
+                                page: Number.parseInt(page === null || page === void 0 ? void 0 : page.toString()),
+                                limit: Number.parseInt(limit === null || limit === void 0 ? void 0 : limit.toString())
                             })];
                     case 1:
                         result = _b.sent();

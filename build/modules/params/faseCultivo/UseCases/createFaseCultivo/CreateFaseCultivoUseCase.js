@@ -49,16 +49,15 @@ var CreateFaseCultivoUseCase = /** @class */ (function () {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, prismaClient_1.prisma.fasesCultivo.findFirst({
                             where: {
-                                name: {
-                                    equals: name,
-                                    mode: 'insensitive'
+                                ordem: {
+                                    equals: ordem
                                 }
                             }
                         })];
                     case 1:
                         clientExists = _b.sent();
                         if (clientExists) {
-                            throw new Error('Client already exists');
+                            throw new Error('Ordem de fase de cultivo já ocupada');
                         }
                         return [4 /*yield*/, prismaClient_1.prisma.fasesCultivo.create({
                                 data: {

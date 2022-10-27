@@ -36,26 +36,28 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.CreateLocationController = void 0;
-var CreateLocationUseCase_1 = require("./CreateLocationUseCase");
-var CreateLocationController = /** @class */ (function () {
-    function CreateLocationController() {
+exports.TransplantPlantsController = void 0;
+var TransplantPlantsUseCase_1 = require("./TransplantPlantsUseCase");
+var TransplantPlantsController = /** @class */ (function () {
+    function TransplantPlantsController() {
     }
-    CreateLocationController.prototype.handle = function (request, response) {
+    TransplantPlantsController.prototype.handle = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, name, description, id_section, id_faseCultivo, id_user_create, createLocationUseCase, result;
+            var _a, transplantDate, plants, id_recipiente, id_location, id_faseCultivo, obs, id_user_create, transplantPlantsUseCase, result;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _a = request.body, name = _a.name, description = _a.description, id_section = _a.id_section, id_faseCultivo = _a.id_faseCultivo;
+                        _a = request.body, transplantDate = _a.transplantDate, plants = _a.plants, id_recipiente = _a.id_recipiente, id_location = _a.id_location, id_faseCultivo = _a.id_faseCultivo, obs = _a.obs;
                         id_user_create = request.id_user;
-                        createLocationUseCase = new CreateLocationUseCase_1.CreateLocationUseCase();
-                        return [4 /*yield*/, createLocationUseCase.execute({
-                                name: name,
-                                description: description,
+                        transplantPlantsUseCase = new TransplantPlantsUseCase_1.TransplantPlantsUseCase();
+                        return [4 /*yield*/, transplantPlantsUseCase.execute({
+                                transplantDate: transplantDate,
+                                plants: plants,
+                                id_recipiente: id_recipiente,
+                                id_location: id_location,
                                 id_faseCultivo: id_faseCultivo,
-                                id_section: id_section,
-                                id_user_create: id_user_create
+                                id_user_create: id_user_create,
+                                obs: obs
                             })];
                     case 1:
                         result = _b.sent();
@@ -64,7 +66,7 @@ var CreateLocationController = /** @class */ (function () {
             });
         });
     };
-    return CreateLocationController;
+    return TransplantPlantsController;
 }());
-exports.CreateLocationController = CreateLocationController;
-//# sourceMappingURL=CreateLocationController.js.map
+exports.TransplantPlantsController = TransplantPlantsController;
+//# sourceMappingURL=TransplantPlantsController.js.map

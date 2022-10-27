@@ -42,18 +42,38 @@ var GetAllFasesCultivoUseCase = /** @class */ (function () {
     function GetAllFasesCultivoUseCase() {
     }
     GetAllFasesCultivoUseCase.prototype.execute = function (_a) {
-        var name = _a.name, description = _a.description;
+        var name = _a.name, limit = _a.limit, page = _a.page;
         return __awaiter(this, void 0, void 0, function () {
-            var trashReasons;
+            var total, itens;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, prismaClient_1.prisma.fasesCultivo.findMany()];
+                    case 0: return [4 /*yield*/, prismaClient_1.prisma.fasesCultivo.count({
+                            where: {
+                                name: {
+                                    contains: name
+                                }
+                            }
+                        })];
                     case 1:
-                        trashReasons = _b.sent();
-                        if (!trashReasons) {
-                            throw new Error('Sem Profiles Existentes.');
+                        total = _b.sent();
+                        return [4 /*yield*/, prismaClient_1.prisma.fasesCultivo.findMany({
+                                take: Number.parseInt(limit.toString()),
+                                skip: (page - 1) * limit,
+                                where: {
+                                    name: {
+                                        contains: name
+                                    }
+                                }
+                            })];
+                    case 2:
+                        itens = _b.sent();
+                        if (!itens) {
+                            throw new Error('Sem Fases de Cultivo Existentes.');
                         }
-                        return [2 /*return*/, trashReasons];
+                        return [2 /*return*/, {
+                                total: total,
+                                itens: itens
+                            }];
                 }
             });
         });

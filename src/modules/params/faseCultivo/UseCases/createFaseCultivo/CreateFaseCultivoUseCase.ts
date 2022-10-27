@@ -1,7 +1,7 @@
 import { hash } from 'bcrypt';
 import { prisma } from '../../../../../database/prismaClient';
 
-interface ICreateFaseCultivo {
+export interface ICreateFaseCultivo {
   name: string;
   description: string;
   ordem: number;

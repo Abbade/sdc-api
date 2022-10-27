@@ -55,24 +55,31 @@ var GetAllPlantsUseCase = /** @class */ (function () {
                                 where: {
                                     id_lote: {
                                         equals: id
+                                    },
+                                    name: {
+                                        contains: name
                                     }
                                 }
                             })];
                     case 1:
                         total = _b.sent();
                         return [4 /*yield*/, prismaClient_1.prisma.plantas.findMany({
-                                take: (limit * page) ? (limit * page) : 20,
-                                skip: (page - 1) ? (page - 1) : 0,
+                                take: Number.parseInt(limit.toString()),
+                                skip: (page - 1) * limit,
                                 where: {
                                     id_lote: {
                                         equals: id
+                                    },
+                                    name: {
+                                        contains: name
                                     }
                                 },
                                 include: {
                                     location: true,
                                     genetic: true,
                                     recipiente: true,
-                                    propagationType: true
+                                    propagationType: true,
+                                    faseCultivo: true
                                 }
                             })];
                     case 2:

@@ -48,8 +48,7 @@ var GetAllLotesUseCase = /** @class */ (function () {
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        console.log(page);
-                        console.log(limit);
+                        page = page == 0 ? 1 : page;
                         id = id ? Number.parseInt(id) : undefined;
                         return [4 /*yield*/, prismaClient_1.prisma.lotes.count({
                                 where: {
@@ -64,8 +63,8 @@ var GetAllLotesUseCase = /** @class */ (function () {
                     case 1:
                         total = _b.sent();
                         return [4 /*yield*/, prismaClient_1.prisma.lotes.findMany({
-                                take: (limit * page) ? (limit * page) : 20,
-                                skip: (page - 1) ? (page - 1) : 0,
+                                take: Number.parseInt(limit.toString()),
+                                skip: (page - 1) * limit,
                                 where: {
                                     id: {
                                         equals: id

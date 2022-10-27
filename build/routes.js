@@ -31,6 +31,7 @@ var GetAllOrganizationsController_1 = require("./modules/organization/useCases/g
 var getAllTrashedLotesController_1 = require("./modules/lotes/UseCases/getAllTrashedLotes/getAllTrashedLotesController");
 var CreatePlantsLoteController_1 = require("./modules/plants/useCase/createPlantsLote/CreatePlantsLoteController");
 var GetAllPlantsController_1 = require("./modules/plants/useCase/getAllPlants/GetAllPlantsController");
+var TransplantPlantsController_1 = require("./modules/plants/useCase/transplantPlant/TransplantPlantsController");
 var routes = (0, express_1.Router)();
 exports.routes = routes;
 var createUserController = new CreateUserController_1.CreateUserController();
@@ -59,6 +60,7 @@ var createLoteController = new CreateLoteController_1.CreateLoteController();
 var getAllLotesController = new GetAllLotesController_1.GetAllLotesController();
 var createPlantsLoteController = new CreatePlantsLoteController_1.CreatePlantsLoteController();
 var getAllPlantsController = new GetAllPlantsController_1.GetAllPlantsController();
+var transplantPlantsController = new TransplantPlantsController_1.TransplantPlantsController();
 var getAllTrashedLotesController = new getAllTrashedLotesController_1.GetAllTrashedLotesController();
 var trashLoteController = new TrashLoteController_1.TrashLoteController();
 // auth
@@ -99,10 +101,12 @@ routes.get('/trash-reason', ensureAuthenticate_1.ensureAuthenticate, getAllTrash
 // lote
 routes.post('/lote', ensureAuthenticate_1.ensureAuthenticate, createLoteController.handle);
 routes.get('/lote', ensureAuthenticate_1.ensureAuthenticate, getAllLotesController.handle);
-// lote - create plants
-routes.post('/plant', ensureAuthenticate_1.ensureAuthenticate, createPlantsLoteController.handle);
-routes.get('/plant', ensureAuthenticate_1.ensureAuthenticate, getAllPlantsController.handle);
 //lote - descarte
 routes.get('/trashed-lote', ensureAuthenticate_1.ensureAuthenticate, getAllTrashedLotesController.handle);
 routes.put('/trash-lote', ensureAuthenticate_1.ensureAuthenticate, trashLoteController.handle);
+// lote - create plants
+routes.post('/plant', ensureAuthenticate_1.ensureAuthenticate, createPlantsLoteController.handle);
+routes.get('/plant', ensureAuthenticate_1.ensureAuthenticate, getAllPlantsController.handle);
+//plant - transplant
+routes.put('/transplant-plants', ensureAuthenticate_1.ensureAuthenticate, transplantPlantsController.handle);
 //# sourceMappingURL=routes.js.map

@@ -14,9 +14,7 @@ interface ILoteFilter {
 export class GetAllLotesUseCase {
 
   async execute({ name, description, page, limit, id }: ILoteFilter) {
-    console.log("PAGEEEEEEEEEEEEEEEEEEEEEEE");
-    console.log(page);
-    console.log(limit);
+
     page = page == 0 ? 1 : page;
     id = id ? Number.parseInt(id) : undefined
 

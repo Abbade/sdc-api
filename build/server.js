@@ -12,13 +12,14 @@ app.use(express_1["default"].json());
 app.use((0, cors_1["default"])());
 app.use(routes_1.routes);
 app.use(function (err, request, response, next) {
+    var _a, _b;
     if (err instanceof Error) {
         console.log(err);
-        return response.status(400).json({
-            message: JSON.stringify(err)
+        return (_a = response === null || response === void 0 ? void 0 : response.status(400)) === null || _a === void 0 ? void 0 : _a.json({
+            message: JSON.stringify(err.message)
         });
     }
-    return response.status(500).json({
+    return (_b = response === null || response === void 0 ? void 0 : response.status(500)) === null || _b === void 0 ? void 0 : _b.json({
         status: 'error',
         message: 'Internal server error'
     });

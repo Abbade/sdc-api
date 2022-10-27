@@ -39,14 +39,15 @@ exports.__esModule = true;
 exports.ensureAuthenticate = void 0;
 var jsonwebtoken_1 = require("jsonwebtoken");
 function ensureAuthenticate(request, response, next) {
+    var _a, _b;
     return __awaiter(this, void 0, void 0, function () {
-        var authHeader, _a, token, sub;
-        return __generator(this, function (_b) {
+        var authHeader, _c, token, sub;
+        return __generator(this, function (_d) {
             authHeader = request.headers.authorization;
             if (!authHeader) {
-                return [2 /*return*/, response.status(401).json({ message: 'Token missing' })];
+                return [2 /*return*/, (_a = response === null || response === void 0 ? void 0 : response.status(401)) === null || _a === void 0 ? void 0 : _a.json({ message: 'Token missing' })];
             }
-            _a = authHeader.split(' '), token = _a[1];
+            _c = authHeader.split(' '), token = _c[1];
             try {
                 sub = (0, jsonwebtoken_1.verify)(token, '739f8ebd49733117a132c34fe866bc09').sub;
                 console.log("verificow");
@@ -56,7 +57,7 @@ function ensureAuthenticate(request, response, next) {
             }
             catch (error) {
                 console.log(error);
-                return [2 /*return*/, response.status(401).json({ message: 'Invalid token!' + token })];
+                return [2 /*return*/, (_b = response === null || response === void 0 ? void 0 : response.status(401)) === null || _b === void 0 ? void 0 : _b.json({ message: 'Invalid token!' + token })];
             }
             return [2 /*return*/];
         });

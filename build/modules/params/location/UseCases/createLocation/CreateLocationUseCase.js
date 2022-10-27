@@ -42,9 +42,9 @@ var CreateLocationUseCase = /** @class */ (function () {
     function CreateLocationUseCase() {
     }
     CreateLocationUseCase.prototype.execute = function (_a) {
-        var name = _a.name, description = _a.description, id_section = _a.id_section, id_user_create = _a.id_user_create;
+        var name = _a.name, description = _a.description, id_section = _a.id_section, id_user_create = _a.id_user_create, id_faseCultivo = _a.id_faseCultivo;
         return __awaiter(this, void 0, void 0, function () {
-            var selectedSection, clientExists, client;
+            var selectedSection, selectedFaseCultivo, clientExists, client;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, prismaClient_1.prisma.sections.findFirst({
@@ -57,6 +57,16 @@ var CreateLocationUseCase = /** @class */ (function () {
                         if (!selectedSection) {
                             throw new Error('Perfil de genética não existente: ' + id_section);
                         }
+                        return [4 /*yield*/, prismaClient_1.prisma.fasesCultivo.findFirst({
+                                where: {
+                                    id: id_faseCultivo
+                                }
+                            })];
+                    case 2:
+                        selectedFaseCultivo = _b.sent();
+                        if (!selectedFaseCultivo) {
+                            throw new Error('Fase de cultivo não existente: ' + id_faseCultivo);
+                        }
                         return [4 /*yield*/, prismaClient_1.prisma.locations.findFirst({
                                 where: {
                                     name: {
@@ -65,7 +75,7 @@ var CreateLocationUseCase = /** @class */ (function () {
                                     }
                                 }
                             })];
-                    case 2:
+                    case 3:
                         clientExists = _b.sent();
                         if (clientExists) {
                             throw new Error('Client already exists');
@@ -78,7 +88,7 @@ var CreateLocationUseCase = /** @class */ (function () {
                                     id_user_create: id_user_create
                                 }
                             })];
-                    case 3:
+                    case 4:
                         client = _b.sent();
                         return [2 /*return*/, client];
                 }

@@ -11,6 +11,24 @@ datasource db {
   //provider = "sqlite"
   //url      = "file:./dev.db"
 }
+model Roles {
+  id             Int      @id @default(autoincrement())
+  name        String
+  active        Boolean @default(true)
+
+  permissions Permissions[]
+
+  @@map("roles")
+}
+
+model Permissions {
+  id Int @id @default(autoincrement())
+  code String @unique
+  name        String
+  roles Roles[]
+
+  @@map("permissions")
+}
 
 model Users {
   id Int @id @default(autoincrement())
@@ -326,3 +344,4 @@ model Clones {
 
   @@map("clones")
 }
+

@@ -32,6 +32,8 @@ var getAllTrashedLotesController_1 = require("./modules/lotes/UseCases/getAllTra
 var CreatePlantsLoteController_1 = require("./modules/plants/useCase/createPlantsLote/CreatePlantsLoteController");
 var GetAllPlantsController_1 = require("./modules/plants/useCase/getAllPlants/GetAllPlantsController");
 var TransplantPlantsController_1 = require("./modules/plants/useCase/transplantPlant/TransplantPlantsController");
+var GetPropagationTypeController_1 = require("./modules/params/propagationType/UseCases/getPropagationTypes/GetPropagationTypeController");
+var UpdatePropagationTypeController_1 = require("./modules/params/propagationType/UseCases/updatePropagationType/UpdatePropagationTypeController");
 var routes = (0, express_1.Router)();
 exports.routes = routes;
 var createUserController = new CreateUserController_1.CreateUserController();
@@ -56,6 +58,8 @@ var createTrashReasonController = new CreateTrashReasonController_1.CreateTrashR
 var getAllTrashReasonsController = new getAllTrashReasonsController_1.GetAllTrashReasonsController();
 var createPropagationTypeUseCase = new CreatePropagationTypeController_1.CreatePropagationTypeController();
 var getAllPropagationTypeUseCase = new GetAllPropagationTypeController_1.GetAllPropagationTypeController();
+var getPropagationTypeUseCase = new GetPropagationTypeController_1.GetPropagationTypeController();
+var updatePropagationTypeUseCase = new UpdatePropagationTypeController_1.UpdatePropagationTypeController();
 var createLoteController = new CreateLoteController_1.CreateLoteController();
 var getAllLotesController = new GetAllLotesController_1.GetAllLotesController();
 var createPlantsLoteController = new CreatePlantsLoteController_1.CreatePlantsLoteController();
@@ -94,6 +98,8 @@ routes.get('/location', ensureAuthenticate_1.ensureAuthenticate, getAllLocations
 // propagationType
 routes.post('/propagation-type', ensureAuthenticate_1.ensureAuthenticate, createPropagationTypeUseCase.handle);
 routes.get('/propagation-type', ensureAuthenticate_1.ensureAuthenticate, getAllPropagationTypeUseCase.handle);
+routes.get('/propagation-type/:id', ensureAuthenticate_1.ensureAuthenticate, getPropagationTypeUseCase.handle);
+routes.put('/propagation-type/', ensureAuthenticate_1.ensureAuthenticate, updatePropagationTypeUseCase.handle);
 // trashReason
 routes.post('/trash-reason', ensureAuthenticate_1.ensureAuthenticate, createTrashReasonController.handle);
 routes.get('/trash-reason', ensureAuthenticate_1.ensureAuthenticate, getAllTrashReasonsController.handle);

@@ -37,6 +37,9 @@ import { GetAllTrashedLotesController } from './modules/lotes/UseCases/getAllTra
 import { CreatePlantsLoteController } from './modules/plants/useCase/createPlantsLote/CreatePlantsLoteController';
 import { GetAllPlantsController } from './modules/plants/useCase/getAllPlants/GetAllPlantsController';
 import { TransplantPlantsController } from './modules/plants/useCase/transplantPlant/TransplantPlantsController';
+import { GetPropagationTypeController } from './modules/params/propagationType/UseCases/getPropagationTypes/GetPropagationTypeController';
+import { UpdatePropagationTypeUseCase } from './modules/params/propagationType/UseCases/updatePropagationType/UpdatePropagationTypeUseCase';
+import { UpdatePropagationTypeController } from './modules/params/propagationType/UseCases/updatePropagationType/UpdatePropagationTypeController';
 
 const routes = Router();
 
@@ -74,6 +77,8 @@ const getAllTrashReasonsController = new GetAllTrashReasonsController();
 
 const createPropagationTypeUseCase = new CreatePropagationTypeController();
 const getAllPropagationTypeUseCase = new GetAllPropagationTypeController();
+const getPropagationTypeUseCase = new GetPropagationTypeController();
+const updatePropagationTypeUseCase = new UpdatePropagationTypeController();
 
 const createLoteController = new CreateLoteController();
 const getAllLotesController = new GetAllLotesController();
@@ -132,6 +137,8 @@ routes.get('/location',ensureAuthenticate, getAllLocationsController.handle);
 // propagationType
 routes.post('/propagation-type', ensureAuthenticate, createPropagationTypeUseCase.handle);
 routes.get('/propagation-type',ensureAuthenticate, getAllPropagationTypeUseCase.handle);
+routes.get('/propagation-type/:id',ensureAuthenticate, getPropagationTypeUseCase.handle);
+routes.put('/propagation-type/',ensureAuthenticate, updatePropagationTypeUseCase.handle);
 
 // trashReason
 routes.post('/trash-reason', ensureAuthenticate, createTrashReasonController.handle);

@@ -5,12 +5,19 @@ export interface IRole {
   id?: number;
   name: string;
   active: Boolean;
+  permissions: IPermission[];
+}
+export interface IPermission{
+  id: number;
+  name: string;
+  code: string;
 }
 
 export class CreatePropagationTypeUseCase {
   
   
-  async execute({ id, name,active}: IRole) {
+  async execute({ id, name,active, permissions}: IRole) {
+    var perms =  permissions.map((x) => { return {id: x.id}});
     // const clientExists = await prisma.propagationType.findFirst({
     //   where: {
     //     name: {
@@ -26,8 +33,14 @@ export class CreatePropagationTypeUseCase {
 
     const obj = await prisma.roles.create({
       data: {
-        name
+        name,
+        permissions: {
+          connect: perms
+        }
       },
+      include: {
+        permissions: true
+      }
     });
 
     return obj;

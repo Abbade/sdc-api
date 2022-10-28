@@ -9,7 +9,9 @@ export class GetRoleUseCase {
         id: {
           equals: id
         },
-
+      },
+      include: {
+        permissions: true
       }
     });
     if (!item) {

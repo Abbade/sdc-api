@@ -44,6 +44,7 @@ import { CreateRolesController } from './modules/roles/useCase/create/CreateRole
 import { GetAllRolesController } from './modules/roles/useCase/getAll/GetAllRolesController';
 import { GetRoleController } from './modules/roles/useCase/get/GetRoleController';
 import { UpdateRolesController } from './modules/roles/useCase/update/UpdateRolesController';
+import { GetAllPermissionsController } from './modules/permissions/useCase/getAll/GetAllPermissionsController';
 
 const routes = Router();
 
@@ -99,6 +100,8 @@ const createRolesController = new CreateRolesController();
 const getAllRolesController = new GetAllRolesController();
 const getRoleController = new GetRoleController();
 const updateRoleController = new UpdateRolesController();
+
+const getAllPermissionsController = new GetAllPermissionsController();
 
 
 // auth
@@ -180,6 +183,10 @@ routes.post('/roles', ensureAuthenticate, createRolesController.handle);
 routes.get('/roles',ensureAuthenticate, getAllRolesController.handle);
 routes.get('/roles/:id',ensureAuthenticate, getRoleController.handle);
 routes.put('/roles/',ensureAuthenticate, updateRoleController.handle);
+
+
+routes.get('/permissions',ensureAuthenticate, getAllPermissionsController.handle);
+
 
 
 

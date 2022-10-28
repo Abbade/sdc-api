@@ -43,16 +43,19 @@ var CreateRolesController = /** @class */ (function () {
     }
     CreateRolesController.prototype.handle = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, name, active, id_user_create, createSectionUseCase, result;
+            var _a, name, active, permissions, id_user_create, createSectionUseCase, result;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _a = request.body, name = _a.name, active = _a.active;
+                        _a = request.body, name = _a.name, active = _a.active, permissions = _a.permissions;
                         id_user_create = request.id_user;
+                        console.log("AAAAAAAAAAAAAAAA");
+                        console.log(permissions);
                         createSectionUseCase = new CreateRoleUseCase_1.CreatePropagationTypeUseCase();
                         return [4 /*yield*/, createSectionUseCase.execute({
                                 name: name,
-                                active: active
+                                active: active,
+                                permissions: permissions
                             })];
                     case 1:
                         result = _b.sent();

@@ -52,6 +52,9 @@ var GetRoleUseCase = /** @class */ (function () {
                                 id: {
                                     equals: id
                                 }
+                            },
+                            include: {
+                                permissions: true
                             }
                         })];
                     case 1:

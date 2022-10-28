@@ -36,24 +36,23 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.UpdateRolesController = void 0;
-var UpdateRolesUseCase_1 = require("./UpdateRolesUseCase");
-var UpdateRolesController = /** @class */ (function () {
-    function UpdateRolesController() {
+exports.GetAllPermissionsController = void 0;
+var GetAllPermissionsUseCase_1 = require("./GetAllPermissionsUseCase");
+var GetAllPermissionsController = /** @class */ (function () {
+    function GetAllPermissionsController() {
     }
-    UpdateRolesController.prototype.handle = function (request, response) {
+    GetAllPermissionsController.prototype.handle = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, name, active, id, permissions, createSectionUseCase, result;
+            var _a, name, limit, page, item, result;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _a = request.body, name = _a.name, active = _a.active, id = _a.id, permissions = _a.permissions;
-                        createSectionUseCase = new UpdateRolesUseCase_1.UpdateRolesUseCase();
-                        return [4 /*yield*/, createSectionUseCase.execute({
-                                id: id,
-                                name: name,
-                                active: active,
-                                permissions: permissions
+                        _a = request.query, name = _a.name, limit = _a.limit, page = _a.page;
+                        item = new GetAllPermissionsUseCase_1.GetAllPermissionsUseCase();
+                        return [4 /*yield*/, item.execute({
+                                name: name === null || name === void 0 ? void 0 : name.toString(),
+                                limit: Number.parseInt(limit === null || limit === void 0 ? void 0 : limit.toString()),
+                                page: Number.parseInt(page === null || page === void 0 ? void 0 : page.toString())
                             })];
                     case 1:
                         result = _b.sent();
@@ -62,7 +61,7 @@ var UpdateRolesController = /** @class */ (function () {
             });
         });
     };
-    return UpdateRolesController;
+    return GetAllPermissionsController;
 }());
-exports.UpdateRolesController = UpdateRolesController;
-//# sourceMappingURL=UpdateRolesController.js.map
+exports.GetAllPermissionsController = GetAllPermissionsController;
+//# sourceMappingURL=GetAllPermissionsController.js.map

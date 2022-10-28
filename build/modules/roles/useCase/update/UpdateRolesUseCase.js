@@ -42,20 +42,29 @@ var UpdateRolesUseCase = /** @class */ (function () {
     function UpdateRolesUseCase() {
     }
     UpdateRolesUseCase.prototype.execute = function (_a) {
-        var name = _a.name, active = _a.active, id = _a.id;
+        var name = _a.name, active = _a.active, id = _a.id, permissions = _a.permissions;
         return __awaiter(this, void 0, void 0, function () {
-            var updateUser;
+            var perms, updateUser;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, prismaClient_1.prisma.roles.update({
-                            where: {
-                                id: id
-                            },
-                            data: {
-                                name: name,
-                                active: active
-                            }
-                        })];
+                    case 0:
+                        perms = permissions.map(function (x) { return { id: x.id }; });
+                        return [4 /*yield*/, prismaClient_1.prisma.roles.update({
+                                where: {
+                                    id: id
+                                },
+                                data: {
+                                    name: name,
+                                    active: active,
+                                    permissions: {
+                                        set: [],
+                                        connect: perms
+                                    }
+                                },
+                                include: {
+                                    permissions: true
+                                }
+                            })];
                     case 1:
                         updateUser = _b.sent();
                         return [2 /*return*/, updateUser];

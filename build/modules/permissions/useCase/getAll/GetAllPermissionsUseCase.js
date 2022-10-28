@@ -36,33 +36,49 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.UpdateRolesController = void 0;
-var UpdateRolesUseCase_1 = require("./UpdateRolesUseCase");
-var UpdateRolesController = /** @class */ (function () {
-    function UpdateRolesController() {
+exports.GetAllPermissionsUseCase = void 0;
+var prismaClient_1 = require("../../../../database/prismaClient");
+var GetAllPermissionsUseCase = /** @class */ (function () {
+    function GetAllPermissionsUseCase() {
     }
-    UpdateRolesController.prototype.handle = function (request, response) {
+    GetAllPermissionsUseCase.prototype.execute = function (_a) {
+        var name = _a.name, limit = _a.limit, page = _a.page;
         return __awaiter(this, void 0, void 0, function () {
-            var _a, name, active, id, permissions, createSectionUseCase, result;
+            var total, itens;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0:
-                        _a = request.body, name = _a.name, active = _a.active, id = _a.id, permissions = _a.permissions;
-                        createSectionUseCase = new UpdateRolesUseCase_1.UpdateRolesUseCase();
-                        return [4 /*yield*/, createSectionUseCase.execute({
-                                id: id,
-                                name: name,
-                                active: active,
-                                permissions: permissions
-                            })];
+                    case 0: return [4 /*yield*/, prismaClient_1.prisma.permissions.count({
+                            where: {
+                                name: {
+                                    contains: name
+                                }
+                            }
+                        })];
                     case 1:
-                        result = _b.sent();
-                        return [2 /*return*/, response.json(result)];
+                        total = _b.sent();
+                        return [4 /*yield*/, prismaClient_1.prisma.permissions.findMany({
+                                take: !isNaN(limit) ? Number.parseInt(limit.toString()) : 9999,
+                                skip: !isNaN(page) ? (page - 1) * limit : 0,
+                                where: {
+                                    name: {
+                                        contains: name
+                                    }
+                                }
+                            })];
+                    case 2:
+                        itens = _b.sent();
+                        if (!itens) {
+                            throw new Error('Sem Perfis');
+                        }
+                        return [2 /*return*/, {
+                                total: total,
+                                itens: itens
+                            }];
                 }
             });
         });
     };
-    return UpdateRolesController;
+    return GetAllPermissionsUseCase;
 }());
-exports.UpdateRolesController = UpdateRolesController;
-//# sourceMappingURL=UpdateRolesController.js.map
+exports.GetAllPermissionsUseCase = GetAllPermissionsUseCase;
+//# sourceMappingURL=GetAllPermissionsUseCase.js.map

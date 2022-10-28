@@ -42,16 +42,24 @@ var CreatePropagationTypeUseCase = /** @class */ (function () {
     function CreatePropagationTypeUseCase() {
     }
     CreatePropagationTypeUseCase.prototype.execute = function (_a) {
-        var id = _a.id, name = _a.name, active = _a.active;
+        var id = _a.id, name = _a.name, active = _a.active, permissions = _a.permissions;
         return __awaiter(this, void 0, void 0, function () {
-            var obj;
+            var perms, obj;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, prismaClient_1.prisma.roles.create({
-                            data: {
-                                name: name
-                            }
-                        })];
+                    case 0:
+                        perms = permissions.map(function (x) { return { id: x.id }; });
+                        return [4 /*yield*/, prismaClient_1.prisma.roles.create({
+                                data: {
+                                    name: name,
+                                    permissions: {
+                                        connect: perms
+                                    }
+                                },
+                                include: {
+                                    permissions: true
+                                }
+                            })];
                     case 1:
                         obj = _b.sent();
                         return [2 /*return*/, obj];

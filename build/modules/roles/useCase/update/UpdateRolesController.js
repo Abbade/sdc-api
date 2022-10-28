@@ -36,48 +36,32 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.CreatePropagationTypeUseCase = void 0;
-var prismaClient_1 = require("../../../../../database/prismaClient");
-var CreatePropagationTypeUseCase = /** @class */ (function () {
-    function CreatePropagationTypeUseCase() {
+exports.UpdateRolesController = void 0;
+var UpdateRolesUseCase_1 = require("./UpdateRolesUseCase");
+var UpdateRolesController = /** @class */ (function () {
+    function UpdateRolesController() {
     }
-    CreatePropagationTypeUseCase.prototype.execute = function (_a) {
-        var name = _a.name, description = _a.description, id_user_create = _a.id_user_create;
+    UpdateRolesController.prototype.handle = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var clientExists, propagationType;
+            var _a, name, active, id, createSectionUseCase, result;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, prismaClient_1.prisma.propagationType.findFirst({
-                            where: {
-                                name: {
-                                    equals: name,
-                                    mode: 'insensitive'
-                                }
-                            }
-                        })];
-                    case 1:
-                        clientExists = _b.sent();
-                        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-                        console.log(id_user_create);
-                        if (clientExists) {
-                            console.log("BBBBBBBBBBBBBBBBBB");
-                            throw new Error('Client already exists');
-                        }
-                        return [4 /*yield*/, prismaClient_1.prisma.propagationType.create({
-                                data: {
-                                    name: name,
-                                    description: description,
-                                    id_user_create: id_user_create
-                                }
+                    case 0:
+                        _a = request.body, name = _a.name, active = _a.active, id = _a.id;
+                        createSectionUseCase = new UpdateRolesUseCase_1.UpdateRolesUseCase();
+                        return [4 /*yield*/, createSectionUseCase.execute({
+                                id: id,
+                                name: name,
+                                active: active
                             })];
-                    case 2:
-                        propagationType = _b.sent();
-                        return [2 /*return*/, propagationType];
+                    case 1:
+                        result = _b.sent();
+                        return [2 /*return*/, response.json(result)];
                 }
             });
         });
     };
-    return CreatePropagationTypeUseCase;
+    return UpdateRolesController;
 }());
-exports.CreatePropagationTypeUseCase = CreatePropagationTypeUseCase;
-//# sourceMappingURL=CreatePropagationTypeUseCase.js.map
+exports.UpdateRolesController = UpdateRolesController;
+//# sourceMappingURL=UpdateRolesController.js.map

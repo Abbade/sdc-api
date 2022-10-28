@@ -36,48 +36,35 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.CreatePropagationTypeUseCase = void 0;
-var prismaClient_1 = require("../../../../../database/prismaClient");
-var CreatePropagationTypeUseCase = /** @class */ (function () {
-    function CreatePropagationTypeUseCase() {
+exports.GetRoleUseCase = void 0;
+var prismaClient_1 = require("../../../../database/prismaClient");
+var GetRoleUseCase = /** @class */ (function () {
+    function GetRoleUseCase() {
     }
-    CreatePropagationTypeUseCase.prototype.execute = function (_a) {
-        var name = _a.name, description = _a.description, id_user_create = _a.id_user_create;
+    GetRoleUseCase.prototype.execute = function (_a) {
+        var id = _a.id;
         return __awaiter(this, void 0, void 0, function () {
-            var clientExists, propagationType;
+            var item;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, prismaClient_1.prisma.propagationType.findFirst({
+                    case 0: return [4 /*yield*/, prismaClient_1.prisma.roles.findFirst({
                             where: {
-                                name: {
-                                    equals: name,
-                                    mode: 'insensitive'
+                                id: {
+                                    equals: id
                                 }
                             }
                         })];
                     case 1:
-                        clientExists = _b.sent();
-                        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-                        console.log(id_user_create);
-                        if (clientExists) {
-                            console.log("BBBBBBBBBBBBBBBBBB");
-                            throw new Error('Client already exists');
+                        item = _b.sent();
+                        if (!item) {
+                            throw new Error('Sem Perfis.');
                         }
-                        return [4 /*yield*/, prismaClient_1.prisma.propagationType.create({
-                                data: {
-                                    name: name,
-                                    description: description,
-                                    id_user_create: id_user_create
-                                }
-                            })];
-                    case 2:
-                        propagationType = _b.sent();
-                        return [2 /*return*/, propagationType];
+                        return [2 /*return*/, item];
                 }
             });
         });
     };
-    return CreatePropagationTypeUseCase;
+    return GetRoleUseCase;
 }());
-exports.CreatePropagationTypeUseCase = CreatePropagationTypeUseCase;
-//# sourceMappingURL=CreatePropagationTypeUseCase.js.map
+exports.GetRoleUseCase = GetRoleUseCase;
+//# sourceMappingURL=GetRoleUseCase.js.map

@@ -36,48 +36,28 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.CreatePropagationTypeUseCase = void 0;
-var prismaClient_1 = require("../../../../../database/prismaClient");
-var CreatePropagationTypeUseCase = /** @class */ (function () {
-    function CreatePropagationTypeUseCase() {
+exports.GetRoleController = void 0;
+var GetRoleUseCase_1 = require("./GetRoleUseCase");
+var GetRoleController = /** @class */ (function () {
+    function GetRoleController() {
     }
-    CreatePropagationTypeUseCase.prototype.execute = function (_a) {
-        var name = _a.name, description = _a.description, id_user_create = _a.id_user_create;
+    GetRoleController.prototype.handle = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var clientExists, propagationType;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, prismaClient_1.prisma.propagationType.findFirst({
-                            where: {
-                                name: {
-                                    equals: name,
-                                    mode: 'insensitive'
-                                }
-                            }
-                        })];
+            var id, get, result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        id = request.params.id;
+                        get = new GetRoleUseCase_1.GetRoleUseCase();
+                        return [4 /*yield*/, get.execute({ id: Number.parseInt(id === null || id === void 0 ? void 0 : id.toString()) })];
                     case 1:
-                        clientExists = _b.sent();
-                        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-                        console.log(id_user_create);
-                        if (clientExists) {
-                            console.log("BBBBBBBBBBBBBBBBBB");
-                            throw new Error('Client already exists');
-                        }
-                        return [4 /*yield*/, prismaClient_1.prisma.propagationType.create({
-                                data: {
-                                    name: name,
-                                    description: description,
-                                    id_user_create: id_user_create
-                                }
-                            })];
-                    case 2:
-                        propagationType = _b.sent();
-                        return [2 /*return*/, propagationType];
+                        result = _a.sent();
+                        return [2 /*return*/, response.json(result)];
                 }
             });
         });
     };
-    return CreatePropagationTypeUseCase;
+    return GetRoleController;
 }());
-exports.CreatePropagationTypeUseCase = CreatePropagationTypeUseCase;
-//# sourceMappingURL=CreatePropagationTypeUseCase.js.map
+exports.GetRoleController = GetRoleController;
+//# sourceMappingURL=GetRoleController.js.map

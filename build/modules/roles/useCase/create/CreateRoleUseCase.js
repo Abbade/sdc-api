@@ -37,42 +37,24 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 exports.CreatePropagationTypeUseCase = void 0;
-var prismaClient_1 = require("../../../../../database/prismaClient");
+var prismaClient_1 = require("../../../../database/prismaClient");
 var CreatePropagationTypeUseCase = /** @class */ (function () {
     function CreatePropagationTypeUseCase() {
     }
     CreatePropagationTypeUseCase.prototype.execute = function (_a) {
-        var name = _a.name, description = _a.description, id_user_create = _a.id_user_create;
+        var id = _a.id, name = _a.name, active = _a.active;
         return __awaiter(this, void 0, void 0, function () {
-            var clientExists, propagationType;
+            var obj;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, prismaClient_1.prisma.propagationType.findFirst({
-                            where: {
-                                name: {
-                                    equals: name,
-                                    mode: 'insensitive'
-                                }
+                    case 0: return [4 /*yield*/, prismaClient_1.prisma.roles.create({
+                            data: {
+                                name: name
                             }
                         })];
                     case 1:
-                        clientExists = _b.sent();
-                        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-                        console.log(id_user_create);
-                        if (clientExists) {
-                            console.log("BBBBBBBBBBBBBBBBBB");
-                            throw new Error('Client already exists');
-                        }
-                        return [4 /*yield*/, prismaClient_1.prisma.propagationType.create({
-                                data: {
-                                    name: name,
-                                    description: description,
-                                    id_user_create: id_user_create
-                                }
-                            })];
-                    case 2:
-                        propagationType = _b.sent();
-                        return [2 /*return*/, propagationType];
+                        obj = _b.sent();
+                        return [2 /*return*/, obj];
                 }
             });
         });
@@ -80,4 +62,4 @@ var CreatePropagationTypeUseCase = /** @class */ (function () {
     return CreatePropagationTypeUseCase;
 }());
 exports.CreatePropagationTypeUseCase = CreatePropagationTypeUseCase;
-//# sourceMappingURL=CreatePropagationTypeUseCase.js.map
+//# sourceMappingURL=CreateRoleUseCase.js.map

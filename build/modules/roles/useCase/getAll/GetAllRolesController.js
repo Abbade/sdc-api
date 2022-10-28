@@ -36,48 +36,32 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.CreatePropagationTypeUseCase = void 0;
-var prismaClient_1 = require("../../../../../database/prismaClient");
-var CreatePropagationTypeUseCase = /** @class */ (function () {
-    function CreatePropagationTypeUseCase() {
+exports.GetAllRolesController = void 0;
+var GetAllRolesUseCase_1 = require("./GetAllRolesUseCase");
+var GetAllRolesController = /** @class */ (function () {
+    function GetAllRolesController() {
     }
-    CreatePropagationTypeUseCase.prototype.execute = function (_a) {
-        var name = _a.name, description = _a.description, id_user_create = _a.id_user_create;
+    GetAllRolesController.prototype.handle = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var clientExists, propagationType;
+            var _a, name, limit, page, getAllPropagationTypeUseCase, result;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, prismaClient_1.prisma.propagationType.findFirst({
-                            where: {
-                                name: {
-                                    equals: name,
-                                    mode: 'insensitive'
-                                }
-                            }
-                        })];
-                    case 1:
-                        clientExists = _b.sent();
-                        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-                        console.log(id_user_create);
-                        if (clientExists) {
-                            console.log("BBBBBBBBBBBBBBBBBB");
-                            throw new Error('Client already exists');
-                        }
-                        return [4 /*yield*/, prismaClient_1.prisma.propagationType.create({
-                                data: {
-                                    name: name,
-                                    description: description,
-                                    id_user_create: id_user_create
-                                }
+                    case 0:
+                        _a = request.query, name = _a.name, limit = _a.limit, page = _a.page;
+                        getAllPropagationTypeUseCase = new GetAllRolesUseCase_1.GetAllRolesUseCase();
+                        return [4 /*yield*/, getAllPropagationTypeUseCase.execute({
+                                name: name === null || name === void 0 ? void 0 : name.toString(),
+                                limit: Number.parseInt(limit === null || limit === void 0 ? void 0 : limit.toString()),
+                                page: Number.parseInt(page === null || page === void 0 ? void 0 : page.toString())
                             })];
-                    case 2:
-                        propagationType = _b.sent();
-                        return [2 /*return*/, propagationType];
+                    case 1:
+                        result = _b.sent();
+                        return [2 /*return*/, response.json(result)];
                 }
             });
         });
     };
-    return CreatePropagationTypeUseCase;
+    return GetAllRolesController;
 }());
-exports.CreatePropagationTypeUseCase = CreatePropagationTypeUseCase;
-//# sourceMappingURL=CreatePropagationTypeUseCase.js.map
+exports.GetAllRolesController = GetAllRolesController;
+//# sourceMappingURL=GetAllRolesController.js.map

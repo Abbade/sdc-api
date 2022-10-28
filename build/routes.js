@@ -34,6 +34,10 @@ var GetAllPlantsController_1 = require("./modules/plants/useCase/getAllPlants/Ge
 var TransplantPlantsController_1 = require("./modules/plants/useCase/transplantPlant/TransplantPlantsController");
 var GetPropagationTypeController_1 = require("./modules/params/propagationType/UseCases/getPropagationTypes/GetPropagationTypeController");
 var UpdatePropagationTypeController_1 = require("./modules/params/propagationType/UseCases/updatePropagationType/UpdatePropagationTypeController");
+var CreateRoleController_1 = require("./modules/roles/useCase/create/CreateRoleController");
+var GetAllRolesController_1 = require("./modules/roles/useCase/getAll/GetAllRolesController");
+var GetRoleController_1 = require("./modules/roles/useCase/get/GetRoleController");
+var UpdateRolesController_1 = require("./modules/roles/useCase/update/UpdateRolesController");
 var routes = (0, express_1.Router)();
 exports.routes = routes;
 var createUserController = new CreateUserController_1.CreateUserController();
@@ -67,6 +71,10 @@ var getAllPlantsController = new GetAllPlantsController_1.GetAllPlantsController
 var transplantPlantsController = new TransplantPlantsController_1.TransplantPlantsController();
 var getAllTrashedLotesController = new getAllTrashedLotesController_1.GetAllTrashedLotesController();
 var trashLoteController = new TrashLoteController_1.TrashLoteController();
+var createRolesController = new CreateRoleController_1.CreateRolesController();
+var getAllRolesController = new GetAllRolesController_1.GetAllRolesController();
+var getRoleController = new GetRoleController_1.GetRoleController();
+var updateRoleController = new UpdateRolesController_1.UpdateRolesController();
 // auth
 routes.post('/authenticate', authenticateUserController.handle);
 routes.get('/me', ensureAuthenticate_1.ensureAuthenticate, meController.handle);
@@ -115,4 +123,9 @@ routes.post('/plant', ensureAuthenticate_1.ensureAuthenticate, createPlantsLoteC
 routes.get('/plant', ensureAuthenticate_1.ensureAuthenticate, getAllPlantsController.handle);
 //plant - transplant
 routes.put('/transplant-plants', ensureAuthenticate_1.ensureAuthenticate, transplantPlantsController.handle);
+// roles
+routes.post('/roles', ensureAuthenticate_1.ensureAuthenticate, createRolesController.handle);
+routes.get('/roles', ensureAuthenticate_1.ensureAuthenticate, getAllRolesController.handle);
+routes.get('/roles/:id', ensureAuthenticate_1.ensureAuthenticate, getRoleController.handle);
+routes.put('/roles/', ensureAuthenticate_1.ensureAuthenticate, updateRoleController.handle);
 //# sourceMappingURL=routes.js.map

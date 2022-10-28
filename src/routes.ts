@@ -40,6 +40,10 @@ import { TransplantPlantsController } from './modules/plants/useCase/transplantP
 import { GetPropagationTypeController } from './modules/params/propagationType/UseCases/getPropagationTypes/GetPropagationTypeController';
 import { UpdatePropagationTypeUseCase } from './modules/params/propagationType/UseCases/updatePropagationType/UpdatePropagationTypeUseCase';
 import { UpdatePropagationTypeController } from './modules/params/propagationType/UseCases/updatePropagationType/UpdatePropagationTypeController';
+import { CreateRolesController } from './modules/roles/useCase/create/CreateRoleController';
+import { GetAllRolesController } from './modules/roles/useCase/getAll/GetAllRolesController';
+import { GetRoleController } from './modules/roles/useCase/get/GetRoleController';
+import { UpdateRolesController } from './modules/roles/useCase/update/UpdateRolesController';
 
 const routes = Router();
 
@@ -89,7 +93,12 @@ const transplantPlantsController = new TransplantPlantsController()
 
 const getAllTrashedLotesController = new GetAllTrashedLotesController();
 
-const trashLoteController = new TrashLoteController()
+const trashLoteController = new TrashLoteController();
+
+const createRolesController = new CreateRolesController();
+const getAllRolesController = new GetAllRolesController();
+const getRoleController = new GetRoleController();
+const updateRoleController = new UpdateRolesController();
 
 
 // auth
@@ -140,6 +149,9 @@ routes.get('/propagation-type',ensureAuthenticate, getAllPropagationTypeUseCase.
 routes.get('/propagation-type/:id',ensureAuthenticate, getPropagationTypeUseCase.handle);
 routes.put('/propagation-type/',ensureAuthenticate, updatePropagationTypeUseCase.handle);
 
+
+
+
 // trashReason
 routes.post('/trash-reason', ensureAuthenticate, createTrashReasonController.handle);
 routes.get('/trash-reason',ensureAuthenticate, getAllTrashReasonsController.handle);
@@ -162,6 +174,12 @@ routes.get('/plant', ensureAuthenticate, getAllPlantsController.handle);
 
 //plant - transplant
 routes.put('/transplant-plants', ensureAuthenticate, transplantPlantsController.handle);
+
+// roles
+routes.post('/roles', ensureAuthenticate, createRolesController.handle);
+routes.get('/roles',ensureAuthenticate, getAllRolesController.handle);
+routes.get('/roles/:id',ensureAuthenticate, getRoleController.handle);
+routes.put('/roles/',ensureAuthenticate, updateRoleController.handle);
 
 
 

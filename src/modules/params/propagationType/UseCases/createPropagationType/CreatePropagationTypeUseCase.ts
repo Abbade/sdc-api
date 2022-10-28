@@ -20,8 +20,10 @@ export class CreatePropagationTypeUseCase {
         },
       },
     });
-
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+    console.log(id_user_create);
     if (clientExists) {
+      console.log("BBBBBBBBBBBBBBBBBB");
       throw new Error('Client already exists');
     }
 

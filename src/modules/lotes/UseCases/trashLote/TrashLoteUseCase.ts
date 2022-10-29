@@ -15,6 +15,11 @@ export class TrashLoteUseCase {
 
   async execute({ idLote, id_trashReason, qtTrash, trashDate, obs, id_user_create }: ITrashLote) {
 
+
+    if (qtTrash < 0) {
+      throw new Error('Quantidade não deve ser negativa: ' + qtTrash);
+    }
+
     //VALIDA EXISTENCIA DE CAMPOS
     const selectedLote = await prisma.lotes.findFirst({
       where: {

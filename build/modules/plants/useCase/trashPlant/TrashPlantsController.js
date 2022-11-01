@@ -36,49 +36,36 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.GetAllFasesCultivoUseCase = void 0;
-var prismaClient_1 = require("../../../../../database/prismaClient");
-var GetAllFasesCultivoUseCase = /** @class */ (function () {
-    function GetAllFasesCultivoUseCase() {
+exports.TrashPlantsController = void 0;
+var TrashPlantsUseCase_1 = require("./TrashPlantsUseCase");
+var TrashPlantsController = /** @class */ (function () {
+    function TrashPlantsController() {
     }
-    GetAllFasesCultivoUseCase.prototype.execute = function (_a) {
-        var name = _a.name, limit = _a.limit, page = _a.page;
+    TrashPlantsController.prototype.handle = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var total, itens;
+            var _a, trashDate, plants, id_trashReason, id_location, obs, id_user_create, trashPlantsUseCase, result;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, prismaClient_1.prisma.fasesCultivo.count({
-                            where: {
-                                name: {
-                                    contains: name
-                                }
-                            }
-                        })];
-                    case 1:
-                        total = _b.sent();
-                        return [4 /*yield*/, prismaClient_1.prisma.fasesCultivo.findMany({
-                                //take: Number.parseInt(limit.toString()),
-                                //skip: (page - 1) * limit,
-                                where: {
-                                    name: {
-                                        contains: name
-                                    }
-                                }
+                    case 0:
+                        _a = request.body, trashDate = _a.trashDate, plants = _a.plants, id_trashReason = _a.id_trashReason, id_location = _a.id_location, obs = _a.obs;
+                        id_user_create = request.id_user;
+                        trashPlantsUseCase = new TrashPlantsUseCase_1.TrashPlantsUseCase();
+                        return [4 /*yield*/, trashPlantsUseCase.execute({
+                                trashDate: trashDate,
+                                plants: plants,
+                                id_location: id_location,
+                                id_trashReason: id_trashReason,
+                                id_user_create: id_user_create,
+                                obs: obs
                             })];
-                    case 2:
-                        itens = _b.sent();
-                        if (!itens) {
-                            throw new Error('Sem Fases de Cultivo Existentes.');
-                        }
-                        return [2 /*return*/, {
-                                total: total,
-                                itens: itens
-                            }];
+                    case 1:
+                        result = _b.sent();
+                        return [2 /*return*/, response.json(result)];
                 }
             });
         });
     };
-    return GetAllFasesCultivoUseCase;
+    return TrashPlantsController;
 }());
-exports.GetAllFasesCultivoUseCase = GetAllFasesCultivoUseCase;
-//# sourceMappingURL=getAllFasesCultivoUseCase.js.map
+exports.TrashPlantsController = TrashPlantsController;
+//# sourceMappingURL=TrashPlantsController.js.map

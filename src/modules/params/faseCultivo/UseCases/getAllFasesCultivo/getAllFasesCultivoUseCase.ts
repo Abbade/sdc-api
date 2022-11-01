@@ -13,16 +13,18 @@ export class GetAllFasesCultivoUseCase {
         },
       }
     })
-    const itens = await prisma.fasesCultivo.findMany({
-      take: Number.parseInt(limit.toString()),
-      skip: (page - 1) * limit,
+    const itens = await prisma.fasesCultivo.findMany(
+      {
+      //take: Number.parseInt(limit.toString()),
+      //skip: (page - 1) * limit,
       where: {
         name: {
           contains: name
         },
 
       }
-    });
+    }
+    );
 
     if (!itens) {
       throw new Error('Sem Fases de Cultivo Existentes.');

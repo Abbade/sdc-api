@@ -36,74 +36,72 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.TrashLoteUseCase = void 0;
+exports.TrashPlantsUseCase = void 0;
 var prismaClient_1 = require("../../../../database/prismaClient");
-var TrashLoteUseCase = /** @class */ (function () {
-    function TrashLoteUseCase() {
+var postmanJson = {
+    "transplantDate": "2012-04-30T18:25:43.511Z",
+    "plants": [1, 2, 3, 4],
+    "id_recipiente": 1,
+    "id_location": 1,
+    "id_faseCultivo": 2,
+    "obs": "Ae"
+};
+var TrashPlantsUseCase = /** @class */ (function () {
+    function TrashPlantsUseCase() {
     }
-    TrashLoteUseCase.prototype.execute = function (_a) {
-        var idLote = _a.idLote, id_trashReason = _a.id_trashReason, qtTrash = _a.qtTrash, trashDate = _a.trashDate, obs = _a.obs, id_user_create = _a.id_user_create;
+    TrashPlantsUseCase.prototype.execute = function (_a) {
+        var trashDate = _a.trashDate, plants = _a.plants, id_location = _a.id_location, id_trashReason = _a.id_trashReason, id_user_create = _a.id_user_create, obs = _a.obs;
         return __awaiter(this, void 0, void 0, function () {
-            var selectedLote, selectedTrashReason, lote, trashedLote;
+            var selectedTrashReason, plantsToUpdate, updatePlantsParams, updatedDatePlants;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0:
-                        if (qtTrash < 0) {
-                            throw new Error('Quantidade não deve ser negativa: ' + qtTrash);
-                        }
-                        return [4 /*yield*/, prismaClient_1.prisma.lotes.findFirst({
-                                where: {
-                                    id: idLote
-                                }
-                            })];
+                    case 0: return [4 /*yield*/, prismaClient_1.prisma.trashReasons.findFirst({
+                            where: {
+                                id: id_trashReason
+                            }
+                        })];
                     case 1:
-                        selectedLote = _b.sent();
-                        if (!selectedLote) {
-                            throw new Error('Lote não existente: ' + idLote);
-                        }
-                        return [4 /*yield*/, prismaClient_1.prisma.lotes.findFirst({
-                                where: {
-                                    id: id_trashReason
-                                }
-                            })];
-                    case 2:
                         selectedTrashReason = _b.sent();
                         if (!selectedTrashReason) {
                             throw new Error('Motivo de descarte não existente: ' + id_trashReason);
                         }
-                        //VALIDA QUANTIDADE DE ESTACAS/SEEDLINGS
-                        if ((selectedLote === null || selectedLote === void 0 ? void 0 : selectedLote.qtProp) - qtTrash < 0) {
-                            throw new Error('Lote não tem recurso suficiente para descarte.: ' + selectedLote.qtProp);
-                        }
-                        return [4 /*yield*/, prismaClient_1.prisma.lotes.update({
+                        return [4 /*yield*/, prismaClient_1.prisma.plantas.findMany({
                                 where: {
-                                    id: idLote
-                                },
-                                data: {
-                                    qtProp: selectedLote.qtProp - qtTrash,
-                                    qtPropTrashed: selectedLote.qtPropTrashed + qtTrash
+                                    id: { "in": plants }
                                 }
-                            })];
+                            })
+                            //VALIDA VIABILIDADE DE TRANSPLANTE
+                            //DESCARTADA?
+                        ];
+                    case 2:
+                        plantsToUpdate = _b.sent();
+                        //VALIDA VIABILIDADE DE TRANSPLANTE
+                        //DESCARTADA?
+                        plantsToUpdate.map(function (plant) {
+                            if (plant.trashDate) {
+                                throw new Error('Planta já foi descartada');
+                            }
+                            if (plant.cropDate) {
+                                throw new Error('Não é possivel descartar plantas colhidas.');
+                            }
+                        });
+                        updatePlantsParams = {
+                            where: {
+                                id: { "in": plants }
+                            },
+                            data: {
+                                trashDate: trashDate
+                            }
+                        };
+                        return [4 /*yield*/, prismaClient_1.prisma.plantas.updateMany(updatePlantsParams)];
                     case 3:
-                        lote = _b.sent();
-                        return [4 /*yield*/, prismaClient_1.prisma.trashedLotes.create({
-                                data: {
-                                    trashDate: trashDate,
-                                    id_lote: idLote,
-                                    id_trashReason: id_trashReason,
-                                    qtPropTrashed: qtTrash,
-                                    obs: obs,
-                                    id_user_create: id_user_create
-                                }
-                            })];
-                    case 4:
-                        trashedLote = _b.sent();
-                        return [2 /*return*/, lote];
+                        updatedDatePlants = _b.sent();
+                        return [2 /*return*/];
                 }
             });
         });
     };
-    return TrashLoteUseCase;
+    return TrashPlantsUseCase;
 }());
-exports.TrashLoteUseCase = TrashLoteUseCase;
-//# sourceMappingURL=TrashLoteUseCase.js.map
+exports.TrashPlantsUseCase = TrashPlantsUseCase;
+//# sourceMappingURL=TrashPlantsUseCase.js.map

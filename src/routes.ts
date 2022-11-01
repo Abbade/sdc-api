@@ -45,6 +45,7 @@ import { GetAllRolesController } from './modules/roles/useCase/getAll/GetAllRole
 import { GetRoleController } from './modules/roles/useCase/get/GetRoleController';
 import { UpdateRolesController } from './modules/roles/useCase/update/UpdateRolesController';
 import { GetAllPermissionsController } from './modules/permissions/useCase/getAll/GetAllPermissionsController';
+import { TrashPlantsController } from './modules/plants/useCase/trashPlant/TrashPlantsController';
 
 const routes = Router();
 
@@ -91,6 +92,7 @@ const getAllLotesController = new GetAllLotesController();
 const createPlantsLoteController = new CreatePlantsLoteController()
 const getAllPlantsController = new GetAllPlantsController()
 const transplantPlantsController = new TransplantPlantsController()
+const trashPlantsController = new TrashPlantsController()
 
 const getAllTrashedLotesController = new GetAllTrashedLotesController();
 
@@ -176,7 +178,8 @@ routes.post('/plant', ensureAuthenticate, createPlantsLoteController.handle);
 routes.get('/plant', ensureAuthenticate, getAllPlantsController.handle);
 
 //plant - transplant
-routes.put('/transplant-plants', ensureAuthenticate, transplantPlantsController.handle);
+routes.post('/transplant-plant', ensureAuthenticate, transplantPlantsController.handle);
+routes.post('/trash-plant', ensureAuthenticate, trashPlantsController.handle);
 
 // roles
 routes.post('/roles', ensureAuthenticate, createRolesController.handle);

@@ -42,18 +42,35 @@ var GeAllUsersUseCase = /** @class */ (function () {
     function GeAllUsersUseCase() {
     }
     GeAllUsersUseCase.prototype.execute = function (_a) {
-        var description = _a.description, name = _a.name;
+        var name = _a.name, limit = _a.limit, page = _a.page;
         return __awaiter(this, void 0, void 0, function () {
-            var users;
+            var total, users;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, prismaClient_1.prisma.users.findMany()];
+                    case 0: return [4 /*yield*/, prismaClient_1.prisma.users.count({
+                            where: {
+                                name: {
+                                    contains: name
+                                }
+                            }
+                        })];
                     case 1:
+                        total = _b.sent();
+                        return [4 /*yield*/, prismaClient_1.prisma.users.findMany({
+                                take: !isNaN(limit) ? Number.parseInt(limit.toString()) : 9999,
+                                skip: !isNaN(page) ? (page - 1) * limit : 0,
+                                where: {
+                                    name: {
+                                        contains: name
+                                    }
+                                }
+                            })];
+                    case 2:
                         users = _b.sent();
-                        if (!users) {
-                            throw new Error('Client already exists');
-                        }
-                        return [2 /*return*/, users];
+                        return [2 /*return*/, {
+                                total: total,
+                                itens: users
+                            }];
                 }
             });
         });

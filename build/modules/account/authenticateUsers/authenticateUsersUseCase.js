@@ -44,11 +44,12 @@ var AuthenticateUserUseCase = /** @class */ (function () {
     function AuthenticateUserUseCase() {
     }
     AuthenticateUserUseCase.prototype.execute = function (_a) {
+        var _b, _c, _d;
         var email = _a.email, password = _a.password;
         return __awaiter(this, void 0, void 0, function () {
-            var user, passwordMatch, token;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var user, perms, passwordMatch, token;
+            return __generator(this, function (_e) {
+                switch (_e.label) {
                     case 0:
                         console.log(email);
                         return [4 /*yield*/, prismaClient_1.prisma.users.findFirst({
@@ -57,28 +58,35 @@ var AuthenticateUserUseCase = /** @class */ (function () {
                                         equals: email,
                                         mode: 'insensitive'
                                     }
+                                },
+                                include: {
+                                    role: {
+                                        include: {
+                                            permissions: true
+                                        }
+                                    }
                                 }
                             })];
                     case 1:
-                        user = _b.sent();
+                        user = _e.sent();
                         if (!user) {
                             throw new Error('email or password invalid!');
                         }
-                        console.log(password);
-                        console.log(user.password);
+                        perms = (_b = user.role) === null || _b === void 0 ? void 0 : _b.permissions.map(function (item) {
+                            return item['code'];
+                        });
+                        console.log(perms);
                         return [4 /*yield*/, (0, bcrypt_1.compare)(password, user.password)];
                     case 2:
-                        passwordMatch = _b.sent();
-                        console.log('ae');
+                        passwordMatch = _e.sent();
                         if (!passwordMatch) {
                             throw new Error('email or password invalid!');
                         }
-                        console.log('ae');
-                        token = (0, jsonwebtoken_1.sign)({ email: email, roles: ["administrador"], permissions: ["lote.list", "lote.create"] }, '739f8ebd49733117a132c34fe866bc09', {
+                        token = (0, jsonwebtoken_1.sign)({ email: email, roles: [(_c = user.role) === null || _c === void 0 ? void 0 : _c.name], permissions: perms }, '739f8ebd49733117a132c34fe866bc09', {
                             subject: user.id.toString(),
                             expiresIn: '1d'
                         });
-                        return [2 /*return*/, { token: token, success: true, roles: ["administrador"], permissions: ["lote.list", "lote.create"] }];
+                        return [2 /*return*/, { token: token, success: true, roles: [(_d = user.role) === null || _d === void 0 ? void 0 : _d.name], permissions: perms }];
                 }
             });
         });

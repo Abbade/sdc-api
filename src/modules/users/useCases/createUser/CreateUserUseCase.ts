@@ -1,14 +1,16 @@
 import { hash } from 'bcrypt';
 import { prisma } from '../../../../database/prismaClient';
 
-interface ICreateUser {
+export interface ICreateUser {
+  id?: number;
   email: string;
   password: string;
   name: string;
+  id_role?: number;
 }
 
 export class CreateUserUseCase {
-  async execute({ password, email, name }: ICreateUser) {
+  async execute({ password, email, name, id_role }: ICreateUser) {
     const clientExists = await prisma.users.findFirst({
       where: {
         email: {
@@ -29,6 +31,7 @@ export class CreateUserUseCase {
         name,
         email,
         password: hashPassword,
+        id_role: id_role
       },
     });
 

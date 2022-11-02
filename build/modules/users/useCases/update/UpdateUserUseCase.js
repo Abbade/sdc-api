@@ -36,33 +36,35 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.CreateUserController = void 0;
-var CreateUserUseCase_1 = require("./CreateUserUseCase");
-var CreateUserController = /** @class */ (function () {
-    function CreateUserController() {
+exports.UpdateUserUseCase = void 0;
+var prismaClient_1 = require("../../../../database/prismaClient");
+var UpdateUserUseCase = /** @class */ (function () {
+    function UpdateUserUseCase() {
     }
-    CreateUserController.prototype.handle = function (request, response) {
+    UpdateUserUseCase.prototype.execute = function (_a) {
+        var name = _a.name, email = _a.email, id = _a.id, id_role = _a.id_role;
         return __awaiter(this, void 0, void 0, function () {
-            var _a, email, password, name, id_role, createClientUseCase, result;
+            var updateUser;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0:
-                        _a = request.body, email = _a.email, password = _a.password, name = _a.name, id_role = _a.id_role;
-                        createClientUseCase = new CreateUserUseCase_1.CreateUserUseCase();
-                        return [4 /*yield*/, createClientUseCase.execute({
-                                email: email,
+                    case 0: return [4 /*yield*/, prismaClient_1.prisma.users.update({
+                            where: {
+                                id: id
+                            },
+                            data: {
                                 name: name,
-                                password: password,
-                                id_role: Number.parseInt(id_role === null || id_role === void 0 ? void 0 : id_role.toString())
-                            })];
+                                email: email,
+                                id_role: id_role
+                            }
+                        })];
                     case 1:
-                        result = _b.sent();
-                        return [2 /*return*/, response.json(result)];
+                        updateUser = _b.sent();
+                        return [2 /*return*/, updateUser];
                 }
             });
         });
     };
-    return CreateUserController;
+    return UpdateUserUseCase;
 }());
-exports.CreateUserController = CreateUserController;
-//# sourceMappingURL=CreateUserController.js.map
+exports.UpdateUserUseCase = UpdateUserUseCase;
+//# sourceMappingURL=UpdateUserUseCase.js.map

@@ -46,12 +46,16 @@ import { GetRoleController } from './modules/roles/useCase/get/GetRoleController
 import { UpdateRolesController } from './modules/roles/useCase/update/UpdateRolesController';
 import { GetAllPermissionsController } from './modules/permissions/useCase/getAll/GetAllPermissionsController';
 import { TrashPlantsController } from './modules/plants/useCase/trashPlant/TrashPlantsController';
+import { GetUserController } from './modules/users/useCases/get/GetUserController';
+import { UpdateUserController } from './modules/users/useCases/update/UpdateUserController';
 
 const routes = Router();
 
 const createUserController = new CreateUserController();
 const authenticateUserController = new AuthenticateUserController();
 const geAllUsersController = new GeAllUsersController();
+const getUserController = new GetUserController();
+const updateUserController = new UpdateUserController();
 
 const createOrganizationController = new CreateOrganizationController();
 const getAllOrganizationsController = new GetAllOrganizationsController();
@@ -114,6 +118,8 @@ routes.get('/me', ensureAuthenticate, meController.handle);
 //users
 routes.post('/user', createUserController.handle);
 routes.get('/user', ensureAuthenticate , geAllUsersController.handle);
+routes.get('/user/:id', ensureAuthenticate , getUserController.handle);
+routes.put('/user', ensureAuthenticate , updateUserController.handle);
 
 //organization
 routes.post('/organization', ensureAuthenticate,createOrganizationController.handle);

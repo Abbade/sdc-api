@@ -3,6 +3,7 @@ import { verify } from 'jsonwebtoken';
 
 interface IPayload {
   sub: string;
+  permissions: string[];
 }
 
 export async function ensureAuthenticate(
@@ -19,9 +20,9 @@ export async function ensureAuthenticate(
   const [, token] = authHeader.split(' ');
 
   try {
-    const { sub } = verify(token, '739f8ebd49733117a132c34fe866bc09') as IPayload;
-    console.log("verificow")
-    console.log("sub")
+    const {sub, permissions} = verify(token, '739f8ebd49733117a132c34fe866bc09') as IPayload;
+
+    request.permissions = permissions;
     request.id_user = Number.parseInt(sub);
 
     return next();

@@ -18,27 +18,37 @@ export class AuthenticateUserUseCase {
           mode: 'insensitive',
         }
       },
+      include: {
+        role: {
+
+          include: {
+            permissions: true
+          }
+        }
+      }
     });
 
     if (!user) {
       throw new Error('email or password invalid!');
     }
-    console.log(password);
-    console.log(user.password);
 
+    let perms =  user.role?.permissions.map(function(item) {
+      return item['code'];
+    });
+    console.log(perms)
 
     const passwordMatch = await compare(password, user.password);
 
-    console.log('ae')
+ 
     if (!passwordMatch) {
       throw new Error('email or password invalid!');
     }
-    console.log('ae')
-    const token = sign({ email , roles: ["administrador"], permissions: ["lote.list", "lote.create"] }, '739f8ebd49733117a132c34fe866bc09', {
+
+    const token = sign({ email , roles: [user.role?.name], permissions: perms }, '739f8ebd49733117a132c34fe866bc09', {
       subject: user.id.toString(),
       expiresIn: '1d',
     });
 
-    return { token, success: true, roles: ["administrador"], permissions: ["lote.list", "lote.create"] };
+    return { token, success: true, roles: [user.role?.name], permissions: perms };
   }
 }

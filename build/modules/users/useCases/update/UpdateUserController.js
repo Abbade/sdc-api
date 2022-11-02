@@ -36,23 +36,23 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.CreateUserController = void 0;
-var CreateUserUseCase_1 = require("./CreateUserUseCase");
-var CreateUserController = /** @class */ (function () {
-    function CreateUserController() {
+exports.UpdateUserController = void 0;
+var UpdateUserUseCase_1 = require("./UpdateUserUseCase");
+var UpdateUserController = /** @class */ (function () {
+    function UpdateUserController() {
     }
-    CreateUserController.prototype.handle = function (request, response) {
+    UpdateUserController.prototype.handle = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, email, password, name, id_role, createClientUseCase, result;
+            var _a, name, email, id, id_role, createSectionUseCase, result;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _a = request.body, email = _a.email, password = _a.password, name = _a.name, id_role = _a.id_role;
-                        createClientUseCase = new CreateUserUseCase_1.CreateUserUseCase();
-                        return [4 /*yield*/, createClientUseCase.execute({
-                                email: email,
+                        _a = request.body, name = _a.name, email = _a.email, id = _a.id, id_role = _a.id_role;
+                        createSectionUseCase = new UpdateUserUseCase_1.UpdateUserUseCase();
+                        return [4 /*yield*/, createSectionUseCase.execute({
+                                id: id,
                                 name: name,
-                                password: password,
+                                email: email,
                                 id_role: Number.parseInt(id_role === null || id_role === void 0 ? void 0 : id_role.toString())
                             })];
                     case 1:
@@ -62,7 +62,7 @@ var CreateUserController = /** @class */ (function () {
             });
         });
     };
-    return CreateUserController;
+    return UpdateUserController;
 }());
-exports.CreateUserController = CreateUserController;
-//# sourceMappingURL=CreateUserController.js.map
+exports.UpdateUserController = UpdateUserController;
+//# sourceMappingURL=UpdateUserController.js.map

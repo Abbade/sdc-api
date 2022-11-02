@@ -43,14 +43,20 @@ var GeAllUsersController = /** @class */ (function () {
     }
     GeAllUsersController.prototype.handle = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var createClientUseCase, result;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var _a, name, limit, page, permissions, createClientUseCase, result;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
+                        _a = request.query, name = _a.name, limit = _a.limit, page = _a.page;
+                        permissions = request.permissions;
                         createClientUseCase = new GeAllUsersUseCase_1.GeAllUsersUseCase();
-                        return [4 /*yield*/, createClientUseCase.execute({})];
+                        return [4 /*yield*/, createClientUseCase.execute({
+                                name: name === null || name === void 0 ? void 0 : name.toString(),
+                                limit: Number.parseInt(limit === null || limit === void 0 ? void 0 : limit.toString()),
+                                page: Number.parseInt(page === null || page === void 0 ? void 0 : page.toString())
+                            })];
                     case 1:
-                        result = _a.sent();
+                        result = _b.sent();
                         return [2 /*return*/, response.json(result)];
                 }
             });

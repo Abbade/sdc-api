@@ -40,11 +40,15 @@ var GetRoleController_1 = require("./modules/roles/useCase/get/GetRoleController
 var UpdateRolesController_1 = require("./modules/roles/useCase/update/UpdateRolesController");
 var GetAllPermissionsController_1 = require("./modules/permissions/useCase/getAll/GetAllPermissionsController");
 var TrashPlantsController_1 = require("./modules/plants/useCase/trashPlant/TrashPlantsController");
+var GetUserController_1 = require("./modules/users/useCases/get/GetUserController");
+var UpdateUserController_1 = require("./modules/users/useCases/update/UpdateUserController");
 var routes = (0, express_1.Router)();
 exports.routes = routes;
 var createUserController = new CreateUserController_1.CreateUserController();
 var authenticateUserController = new authenticateUsersController_1.AuthenticateUserController();
 var geAllUsersController = new CreateUserController_2.GeAllUsersController();
+var getUserController = new GetUserController_1.GetUserController();
+var updateUserController = new UpdateUserController_1.UpdateUserController();
 var createOrganizationController = new CreateOrganizationController_1.CreateOrganizationController();
 var getAllOrganizationsController = new GetAllOrganizationsController_1.GetAllOrganizationsController();
 var meController = new meController_1.MeController();
@@ -85,6 +89,8 @@ routes.get('/me', ensureAuthenticate_1.ensureAuthenticate, meController.handle);
 //users
 routes.post('/user', createUserController.handle);
 routes.get('/user', ensureAuthenticate_1.ensureAuthenticate, geAllUsersController.handle);
+routes.get('/user/:id', ensureAuthenticate_1.ensureAuthenticate, getUserController.handle);
+routes.put('/user', ensureAuthenticate_1.ensureAuthenticate, updateUserController.handle);
 //organization
 routes.post('/organization', ensureAuthenticate_1.ensureAuthenticate, createOrganizationController.handle);
 routes.get('/organization', ensureAuthenticate_1.ensureAuthenticate, getAllOrganizationsController.handle);

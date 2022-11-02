@@ -43,7 +43,7 @@ var CreateUserUseCase = /** @class */ (function () {
     function CreateUserUseCase() {
     }
     CreateUserUseCase.prototype.execute = function (_a) {
-        var password = _a.password, email = _a.email, name = _a.name;
+        var password = _a.password, email = _a.email, name = _a.name, id_role = _a.id_role;
         return __awaiter(this, void 0, void 0, function () {
             var clientExists, hashPassword, client;
             return __generator(this, function (_b) {
@@ -67,7 +67,8 @@ var CreateUserUseCase = /** @class */ (function () {
                                 data: {
                                     name: name,
                                     email: email,
-                                    password: hashPassword
+                                    password: hashPassword,
+                                    id_role: id_role
                                 }
                             })];
                     case 3:

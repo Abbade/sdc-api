@@ -11,20 +11,23 @@ datasource db {
   //provider = "sqlite"
   //url      = "file:./dev.db"
 }
+
 model Roles {
-  id             Int      @id @default(autoincrement())
-  name        String
-  active        Boolean @default(true)
+  id     Int     @id @default(autoincrement())
+  name   String
+  active Boolean @default(true)
 
   permissions Permissions[]
+
+  users Users[] @relation(name: "user-role")
 
   @@map("roles")
 }
 
 model Permissions {
-  id Int @id @default(autoincrement())
-  code String @unique
-  name        String
+  id    Int     @id @default(autoincrement())
+  code  String  @unique
+  name  String
   roles Roles[]
 
   @@map("permissions")
@@ -34,6 +37,9 @@ model Users {
   id Int @id @default(autoincrement())
 
   created_at DateTime @default(now())
+
+  id_role Int?
+  role    Roles? @relation(name: "user-role", fields: [id_role], references: [id])
 
   id_organization Int?
   organization    Organizations? @relation(name: "user-organization", fields: [id_organization], references: [id])
@@ -100,9 +106,9 @@ model FasesCultivo {
 
   name        String
   description String
-  ordem       Int @unique
+  ordem       Int    @unique
 
-  plantas Plantas[]
+  plantas   Plantas[]
   locations Locations[]
 
   @@map("fasesCultivo")
@@ -168,7 +174,7 @@ model Locations {
   section    Sections @relation(fields: [id_section], references: [id])
 
   id_faseCultivo Int?
-  faseCultivo FasesCultivo? @relation(fields: [id_faseCultivo], references: [id])
+  faseCultivo    FasesCultivo? @relation(fields: [id_faseCultivo], references: [id])
 
   plantas Plantas[]
   lotes   Lotes[]
@@ -272,27 +278,26 @@ model Plantas {
   propName String
 
   aclimatationDate DateTime
-  vegetationDate DateTime?
-  vegetation2Date DateTime?
-  vegetation3Date DateTime?
-  floweringDate DateTime?
+  vegetationDate   DateTime?
+  vegetation2Date  DateTime?
+  vegetation3Date  DateTime?
+  floweringDate    DateTime?
 
   //report purposes
-  aclimatationLocation String?
+  aclimatationLocation  String?
   aclimatationRecipient String?
 
-  vegetationLocation String?
+  vegetationLocation  String?
   vegetationRecipient String?
 
-  vegetation2Location String?
+  vegetation2Location  String?
   vegetation2Recipient String?
 
-  vegetation3Location String?
+  vegetation3Location  String?
   vegetation3Recipient String?
-  
-  floweringLocation String?
-  floweringRecipient String?
 
+  floweringLocation  String?
+  floweringRecipient String?
 
   cropDate DateTime?
   cropName String?
@@ -344,4 +349,3 @@ model Clones {
 
   @@map("clones")
 }
-

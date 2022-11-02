@@ -41,17 +41,16 @@ var jsonwebtoken_1 = require("jsonwebtoken");
 function ensureAuthenticate(request, response, next) {
     var _a, _b;
     return __awaiter(this, void 0, void 0, function () {
-        var authHeader, _c, token, sub;
-        return __generator(this, function (_d) {
+        var authHeader, _c, token, _d, sub, permissions;
+        return __generator(this, function (_e) {
             authHeader = request.headers.authorization;
             if (!authHeader) {
                 return [2 /*return*/, (_a = response === null || response === void 0 ? void 0 : response.status(401)) === null || _a === void 0 ? void 0 : _a.json({ message: 'Token missing' })];
             }
             _c = authHeader.split(' '), token = _c[1];
             try {
-                sub = (0, jsonwebtoken_1.verify)(token, '739f8ebd49733117a132c34fe866bc09').sub;
-                console.log("verificow");
-                console.log("sub");
+                _d = (0, jsonwebtoken_1.verify)(token, '739f8ebd49733117a132c34fe866bc09'), sub = _d.sub, permissions = _d.permissions;
+                request.permissions = permissions;
                 request.id_user = Number.parseInt(sub);
                 return [2 /*return*/, next()];
             }

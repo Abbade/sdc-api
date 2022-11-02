@@ -36,33 +36,35 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.CreateUserController = void 0;
-var CreateUserUseCase_1 = require("./CreateUserUseCase");
-var CreateUserController = /** @class */ (function () {
-    function CreateUserController() {
+exports.GetUserUseCase = void 0;
+var prismaClient_1 = require("../../../../database/prismaClient");
+var GetUserUseCase = /** @class */ (function () {
+    function GetUserUseCase() {
     }
-    CreateUserController.prototype.handle = function (request, response) {
+    GetUserUseCase.prototype.execute = function (_a) {
+        var id = _a.id;
         return __awaiter(this, void 0, void 0, function () {
-            var _a, email, password, name, id_role, createClientUseCase, result;
+            var item;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0:
-                        _a = request.body, email = _a.email, password = _a.password, name = _a.name, id_role = _a.id_role;
-                        createClientUseCase = new CreateUserUseCase_1.CreateUserUseCase();
-                        return [4 /*yield*/, createClientUseCase.execute({
-                                email: email,
-                                name: name,
-                                password: password,
-                                id_role: Number.parseInt(id_role === null || id_role === void 0 ? void 0 : id_role.toString())
-                            })];
+                    case 0: return [4 /*yield*/, prismaClient_1.prisma.users.findFirst({
+                            where: {
+                                id: {
+                                    equals: id
+                                }
+                            }
+                        })];
                     case 1:
-                        result = _b.sent();
-                        return [2 /*return*/, response.json(result)];
+                        item = _b.sent();
+                        if (!item) {
+                            throw new Error('Sem Perfis.');
+                        }
+                        return [2 /*return*/, item];
                 }
             });
         });
     };
-    return CreateUserController;
+    return GetUserUseCase;
 }());
-exports.CreateUserController = CreateUserController;
-//# sourceMappingURL=CreateUserController.js.map
+exports.GetUserUseCase = GetUserUseCase;
+//# sourceMappingURL=GetUserUseCase.js.map

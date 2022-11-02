@@ -1,5 +1,6 @@
 import { hash } from 'bcrypt';
 import { prisma } from '../../../../database/prismaClient';
+import { IFilter } from '../../../../interfaces/IFilter';
 
 interface IUserFilter {
   description?: string;
@@ -7,14 +8,31 @@ interface IUserFilter {
 }
 
 export class GeAllUsersUseCase {
-  async execute({ description, name }: IUserFilter) {
-    const users = await prisma.users.findMany();
+  async execute({ name, limit, page }: IFilter) {
 
-    if (!users) {
-      throw new Error('Client already exists');
-    }
+    const total = await prisma.users.count({
+      where: {
+        name: {
+          contains: name
+        },
 
+      }
+    })
+    
+    const users = await prisma.users.findMany({
+      take: !isNaN(limit) ? Number.parseInt(limit.toString()) : 9999,
+      skip: !isNaN(page) ?  (page - 1) * limit : 0,
+      where: {
+        name: {
+          contains: name
+        },
 
-    return users;
+      },
+    });
+
+    return {
+      total,
+      itens: users
+    };
   }
 }

@@ -48,6 +48,8 @@ import { GetAllPermissionsController } from './modules/permissions/useCase/getAl
 import { TrashPlantsController } from './modules/plants/useCase/trashPlant/TrashPlantsController';
 import { GetUserController } from './modules/users/useCases/get/GetUserController';
 import { UpdateUserController } from './modules/users/useCases/update/UpdateUserController';
+import { GetCompanyController } from './modules/company/useCase/get/GetCompanyController';
+import { UpdateCompanyController } from './modules/company/useCase/update/UpdateCompanyController';
 
 const routes = Router();
 
@@ -108,6 +110,9 @@ const getRoleController = new GetRoleController();
 const updateRoleController = new UpdateRolesController();
 
 const getAllPermissionsController = new GetAllPermissionsController();
+
+const getCompanyController = new GetCompanyController();
+const updateCompanyController = new UpdateCompanyController();
 
 
 // auth
@@ -192,6 +197,11 @@ routes.post('/roles', ensureAuthenticate, createRolesController.handle);
 routes.get('/roles',ensureAuthenticate, getAllRolesController.handle);
 routes.get('/roles/:id',ensureAuthenticate, getRoleController.handle);
 routes.put('/roles/',ensureAuthenticate, updateRoleController.handle);
+
+// company
+routes.get('/company/:id',ensureAuthenticate, getCompanyController.handle);
+routes.put('/company/',ensureAuthenticate, updateCompanyController.handle);
+
 
 
 routes.get('/permissions',ensureAuthenticate, getAllPermissionsController.handle);

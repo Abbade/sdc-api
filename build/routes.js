@@ -42,6 +42,8 @@ var GetAllPermissionsController_1 = require("./modules/permissions/useCase/getAl
 var TrashPlantsController_1 = require("./modules/plants/useCase/trashPlant/TrashPlantsController");
 var GetUserController_1 = require("./modules/users/useCases/get/GetUserController");
 var UpdateUserController_1 = require("./modules/users/useCases/update/UpdateUserController");
+var GetCompanyController_1 = require("./modules/company/useCase/get/GetCompanyController");
+var UpdateCompanyController_1 = require("./modules/company/useCase/update/UpdateCompanyController");
 var routes = (0, express_1.Router)();
 exports.routes = routes;
 var createUserController = new CreateUserController_1.CreateUserController();
@@ -83,6 +85,8 @@ var getAllRolesController = new GetAllRolesController_1.GetAllRolesController();
 var getRoleController = new GetRoleController_1.GetRoleController();
 var updateRoleController = new UpdateRolesController_1.UpdateRolesController();
 var getAllPermissionsController = new GetAllPermissionsController_1.GetAllPermissionsController();
+var getCompanyController = new GetCompanyController_1.GetCompanyController();
+var updateCompanyController = new UpdateCompanyController_1.UpdateCompanyController();
 // auth
 routes.post('/authenticate', authenticateUserController.handle);
 routes.get('/me', ensureAuthenticate_1.ensureAuthenticate, meController.handle);
@@ -139,5 +143,8 @@ routes.post('/roles', ensureAuthenticate_1.ensureAuthenticate, createRolesContro
 routes.get('/roles', ensureAuthenticate_1.ensureAuthenticate, getAllRolesController.handle);
 routes.get('/roles/:id', ensureAuthenticate_1.ensureAuthenticate, getRoleController.handle);
 routes.put('/roles/', ensureAuthenticate_1.ensureAuthenticate, updateRoleController.handle);
+// company
+routes.get('/company/:id', ensureAuthenticate_1.ensureAuthenticate, getCompanyController.handle);
+routes.put('/company/', ensureAuthenticate_1.ensureAuthenticate, updateCompanyController.handle);
 routes.get('/permissions', ensureAuthenticate_1.ensureAuthenticate, getAllPermissionsController.handle);
 //# sourceMappingURL=routes.js.map

@@ -67,6 +67,7 @@ model Users {
   lotes           Lotes[]
   trashedLotes    TrashedLotes[]
   plantas         Plantas[]
+  crops           Crops[]
   organizations   Organizations?    @relation(name: "userCreate")
 
   @@map("users")
@@ -185,6 +186,7 @@ model Locations {
 
   plantas Plantas[]
   lotes   Lotes[]
+  crops Crops[]
 
   @@map("location")
 }
@@ -240,6 +242,9 @@ model Lotes {
   id_location_init Int
   location         Locations @relation(fields: [id_location_init], references: [id])
 
+  id_motherPlant Int?
+  motherPlant Plantas? @relation("MotherPlantLote",fields: [id_motherPlant],references: [id])
+
   qtTotal       Int
   qtProp        Int
   qtPropTrashed Int @default(0)
@@ -279,6 +284,19 @@ model Plantas {
   id_faseCultivo Int
   faseCultivo    FasesCultivo @relation(fields: [id_faseCultivo], references: [id])
 
+  isMotherPlant Boolean? @default(false)
+  isMalePlant Boolean? @default(false)
+
+  isTrashed Boolean? @default(false)
+  isCropped Boolean? @default(false)
+
+
+  id_mother Int? 
+  motherPlant Plantas? @relation("MotherPlants",fields: [id_mother], references: [id])
+
+  lotes Lotes[] @relation("MotherPlantLote")
+  clones Plantas[] @relation("MotherPlants") 
+
   lastTransplant DateTime?
 
   propDate DateTime
@@ -308,6 +326,8 @@ model Plantas {
 
   cropDate DateTime?
   cropName String?
+  id_crop Int?
+  crop Crops? @relation(fields: [id_crop], references: [id])
 
   trashDate      DateTime?
   id_trashReason Int?
@@ -317,6 +337,37 @@ model Plantas {
 
   @@map("plantas")
 }
+
+model Crops {
+  id             Int      @id @default(autoincrement())
+  id_user_create Int
+  userCreate     Users    @relation(fields: [id_user_create], references: [id])
+  created_at     DateTime @default(now())
+
+  obs String?
+
+  id_location Int
+  location    Locations @relation(fields: [id_location], references: [id])
+
+  name String
+
+  isTrashed Boolean @default(false)
+  isStored Boolean @default(false)
+
+  cropDate DateTime
+  dryingStartDate DateTime?
+  dryingEndDate DateTime?
+  storageDate DateTime?
+
+  plantsQuantity Int?
+
+  cropFullMass Float?
+  cropWetMass Float?
+  cropDriedMass Float?  
+
+  plantas Plantas[]
+}
+
 
 model TrashedLotes {
   id             Int      @id @default(autoincrement())

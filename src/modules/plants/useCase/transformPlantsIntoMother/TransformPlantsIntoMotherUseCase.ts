@@ -12,13 +12,11 @@ const postmanJson = {
   "obs": "Ae"
   }
 
-interface ITransplantPlants {
+interface IMovePlants {
   id_user_create: number;
-  trashDate: Date;
+  actionDate: Date;
   plants: number[];
 
-  id_trashReason: number;
-  id_location: number;
 
 
   obs: string;
@@ -26,33 +24,13 @@ interface ITransplantPlants {
 }
 
 
-export class TrashPlantsUseCase {
+export class TransformPlantsIntoMotherUseCase {
 
 
-  async execute({ trashDate, plants, id_location, id_trashReason, id_user_create,obs }: ITransplantPlants) {
+  async execute({ actionDate, plants, id_user_create,obs }: IMovePlants) {
 
     //VALIDA EXISTENCIA DE CAMPOS
   
-
-    // const selectedLocation = await prisma.locations.findFirst({
-    //   where: {
-    //     id: id_location
-    //   }
-    // })
-
-    // if (!selectedLocation) {
-    //   throw new Error('Local não existente: ' + id_location);
-    // }
-
-    const selectedTrashReason = await prisma.trashReasons.findFirst({
-      where: {
-        id: id_trashReason
-      }
-    })
-
-    if (!selectedTrashReason) {
-      throw new Error('Motivo de descarte não existente: ' + id_trashReason);
-    }
 
 
     let plantsToUpdate = await prisma.plantas.findMany({
@@ -68,12 +46,20 @@ export class TrashPlantsUseCase {
     //DESCARTADA?
     plantsToUpdate.map((plant) => {
 
+      if (plant.isMalePlant) {
+        throw new Error('Não é possivel transformar plantas macho em matrizes.')
+      }
+      
+      if (plant.isMotherPlant) {
+        throw new Error('Não é possivel transformar matrizes em matrizes.')
+      }
+
       if (plant.trashDate) {
-        throw new Error('Planta já foi descartada')
+        throw new Error('Não é possivel mover plantas descartadas.')
       }
 
       if (plant.cropDate) {
-        throw new Error('Não é possivel descartar plantas colhidas.')
+        throw new Error('Não é possivel mover plantas colhidas.')
       }
 
 
@@ -85,7 +71,7 @@ export class TrashPlantsUseCase {
 
         },
         data: {
-          trashDate: trashDate,
+          isMotherPlant: true,
 
         }
       }

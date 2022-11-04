@@ -36,7 +36,7 @@ import { GetAllOrganizationsController } from './modules/organization/useCases/g
 import { GetAllTrashedLotesController } from './modules/lotes/UseCases/getAllTrashedLotes/getAllTrashedLotesController';
 import { CreatePlantsLoteController } from './modules/plants/useCase/createPlantsLote/CreatePlantsLoteController';
 import { GetAllPlantsController } from './modules/plants/useCase/getAllPlants/GetAllPlantsController';
-import { TransplantPlantsController } from './modules/plants/useCase/transplantPlant/TransplantPlantsController';
+import { TransplantPlantsController } from './modules/plants/useCase/transplantPlants/TransplantPlantsController';
 import { GetPropagationTypeController } from './modules/params/propagationType/UseCases/getPropagationTypes/GetPropagationTypeController';
 import { UpdatePropagationTypeUseCase } from './modules/params/propagationType/UseCases/updatePropagationType/UpdatePropagationTypeUseCase';
 import { UpdatePropagationTypeController } from './modules/params/propagationType/UseCases/updatePropagationType/UpdatePropagationTypeController';
@@ -45,7 +45,7 @@ import { GetAllRolesController } from './modules/roles/useCase/getAll/GetAllRole
 import { GetRoleController } from './modules/roles/useCase/get/GetRoleController';
 import { UpdateRolesController } from './modules/roles/useCase/update/UpdateRolesController';
 import { GetAllPermissionsController } from './modules/permissions/useCase/getAll/GetAllPermissionsController';
-import { TrashPlantsController } from './modules/plants/useCase/trashPlant/TrashPlantsController';
+import { TrashPlantsController } from './modules/plants/useCase/trashPlants/TrashPlantsController';
 import { GetUserController } from './modules/users/useCases/get/GetUserController';
 import { UpdateUserController } from './modules/users/useCases/update/UpdateUserController';
 import { GetCompanyController } from './modules/company/useCase/get/GetCompanyController';

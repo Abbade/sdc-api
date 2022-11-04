@@ -242,8 +242,8 @@ model Lotes {
   id_location_init Int
   location         Locations @relation(fields: [id_location_init], references: [id])
 
-  id_motherPlant Int?
-  motherPlant Plantas? @relation("MotherPlantLote",fields: [id_motherPlant],references: [id])
+  id_mother Int?
+  motherPlant Plantas? @relation("MotherPlantLote",fields: [id_mother],references: [id])
 
   qtTotal       Int
   qtProp        Int

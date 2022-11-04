@@ -118,6 +118,7 @@ export class CreatePlantsLoteUseCase {
         id_faseCultivo: 2,
         obs: obs
 
+        //id_mother: selectedLote.id_mother
 
 
 

@@ -55,11 +55,11 @@ export class TransformPlantsIntoMotherUseCase {
       // }
 
       if (plant.trashDate) {
-        throw new Error('Não é possivel mover plantas descartadas.')
+        throw new Error('Não é possivel transformar plantas descartadas em matrizes.')
       }
 
       if (plant.cropDate) {
-        throw new Error('Não é possivel mover plantas colhidas.')
+        throw new Error('Não é possivel transformar plantas colhidas em matrizes.')
       }
 
 

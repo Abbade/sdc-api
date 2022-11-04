@@ -46,13 +46,13 @@ export class TransformPlantsIntoMotherUseCase {
     //DESCARTADA?
     plantsToUpdate.map((plant) => {
 
-      if (plant.isMalePlant) {
-        throw new Error('Não é possivel transformar plantas macho em matrizes.')
-      }
+      // if (plant.isMalePlant) {
+      //   throw new Error('Não é possivel transformar plantas macho em matrizes.')
+      // }
       
-      if (plant.isMotherPlant) {
-        throw new Error('Não é possivel transformar matrizes em matrizes.')
-      }
+      // if (plant.isMotherPlant) {
+      //   throw new Error('Não é possivel transformar matrizes em matrizes.')
+      // }
 
       if (plant.trashDate) {
         throw new Error('Não é possivel mover plantas descartadas.')

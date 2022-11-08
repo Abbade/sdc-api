@@ -36,35 +36,72 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.GetCompanyUseCase = void 0;
+exports.TrashPlantsUseCase = void 0;
 var prismaClient_1 = require("../../../../database/prismaClient");
-var GetCompanyUseCase = /** @class */ (function () {
-    function GetCompanyUseCase() {
+var postmanJson = {
+    "transplantDate": "2012-04-30T18:25:43.511Z",
+    "plants": [1, 2, 3, 4],
+    "id_recipiente": 1,
+    "id_location": 1,
+    "id_faseCultivo": 2,
+    "obs": "Ae"
+};
+var TrashPlantsUseCase = /** @class */ (function () {
+    function TrashPlantsUseCase() {
     }
-    GetCompanyUseCase.prototype.execute = function (_a) {
-        var id = _a.id;
+    TrashPlantsUseCase.prototype.execute = function (_a) {
+        var trashDate = _a.trashDate, plants = _a.plants, id_location = _a.id_location, id_trashReason = _a.id_trashReason, id_user_create = _a.id_user_create, obs = _a.obs;
         return __awaiter(this, void 0, void 0, function () {
-            var item;
+            var selectedTrashReason, plantsToUpdate, updatePlantsParams, updatedDatePlants;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, prismaClient_1.prisma.company.findFirst({
+                    case 0: return [4 /*yield*/, prismaClient_1.prisma.trashReasons.findFirst({
                             where: {
-                                id: {
-                                    equals: id
-                                }
+                                id: id_trashReason
                             }
                         })];
                     case 1:
-                        item = _b.sent();
-                        if (!item) {
-                            throw new Error('Sem Empresa.');
+                        selectedTrashReason = _b.sent();
+                        if (!selectedTrashReason) {
+                            throw new Error('Motivo de descarte não existente: ' + id_trashReason);
                         }
-                        return [2 /*return*/, item];
+                        return [4 /*yield*/, prismaClient_1.prisma.plantas.findMany({
+                                where: {
+                                    id: { "in": plants }
+                                }
+                            })
+                            //VALIDA VIABILIDADE DE TRANSPLANTE
+                            //DESCARTADA?
+                        ];
+                    case 2:
+                        plantsToUpdate = _b.sent();
+                        //VALIDA VIABILIDADE DE TRANSPLANTE
+                        //DESCARTADA?
+                        plantsToUpdate.map(function (plant) {
+                            if (plant.trashDate) {
+                                throw new Error('Planta já foi descartada');
+                            }
+                            if (plant.cropDate) {
+                                throw new Error('Não é possivel descartar plantas colhidas.');
+                            }
+                        });
+                        updatePlantsParams = {
+                            where: {
+                                id: { "in": plants }
+                            },
+                            data: {
+                                trashDate: trashDate
+                            }
+                        };
+                        return [4 /*yield*/, prismaClient_1.prisma.plantas.updateMany(updatePlantsParams)];
+                    case 3:
+                        updatedDatePlants = _b.sent();
+                        return [2 /*return*/];
                 }
             });
         });
     };
-    return GetCompanyUseCase;
+    return TrashPlantsUseCase;
 }());
-exports.GetCompanyUseCase = GetCompanyUseCase;
-//# sourceMappingURL=GetCompanyUseCase.js.map
+exports.TrashPlantsUseCase = TrashPlantsUseCase;
+//# sourceMappingURL=TrashPlantsUseCase.js.map

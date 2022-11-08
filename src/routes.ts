@@ -50,6 +50,8 @@ import { GetUserController } from './modules/users/useCases/get/GetUserControlle
 import { UpdateUserController } from './modules/users/useCases/update/UpdateUserController';
 import { GetCompanyController } from './modules/company/useCase/get/GetCompanyController';
 import { UpdateCompanyController } from './modules/company/useCase/update/UpdateCompanyController';
+import { TransformPlantsIntoMotherController } from './modules/plants/useCase/transformPlantsIntoMother/TransformPlantsIntoMotherController';
+import { MovePlantsController } from './modules/plants/useCase/movePlants/MovePlantsController';
 
 const routes = Router();
 
@@ -99,6 +101,8 @@ const createPlantsLoteController = new CreatePlantsLoteController()
 const getAllPlantsController = new GetAllPlantsController()
 const transplantPlantsController = new TransplantPlantsController()
 const trashPlantsController = new TrashPlantsController()
+const transformPlantsIntoMotherController = new TransformPlantsIntoMotherController()
+const movePlantsController = new MovePlantsController()
 
 const getAllTrashedLotesController = new GetAllTrashedLotesController();
 
@@ -191,6 +195,8 @@ routes.get('/plant', ensureAuthenticate, getAllPlantsController.handle);
 //plant - transplant
 routes.post('/transplant-plant', ensureAuthenticate, transplantPlantsController.handle);
 routes.post('/trash-plant', ensureAuthenticate, trashPlantsController.handle);
+routes.post('/move-plant', ensureAuthenticate, movePlantsController.handle);
+routes.post('/plant-mother', ensureAuthenticate, transformPlantsIntoMotherController.handle);
 
 // roles
 routes.post('/roles', ensureAuthenticate, createRolesController.handle);

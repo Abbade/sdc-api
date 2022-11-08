@@ -36,35 +36,75 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.GetCompanyUseCase = void 0;
+exports.MovePlantsUseCase = void 0;
 var prismaClient_1 = require("../../../../database/prismaClient");
-var GetCompanyUseCase = /** @class */ (function () {
-    function GetCompanyUseCase() {
+var postmanJson = {
+    "transplantDate": "2012-04-30T18:25:43.511Z",
+    "plants": [1, 2, 3, 4],
+    "id_recipiente": 1,
+    "id_location": 1,
+    "id_faseCultivo": 2,
+    "obs": "Ae"
+};
+var MovePlantsUseCase = /** @class */ (function () {
+    function MovePlantsUseCase() {
     }
-    GetCompanyUseCase.prototype.execute = function (_a) {
-        var id = _a.id;
+    MovePlantsUseCase.prototype.execute = function (_a) {
+        var moveDate = _a.moveDate, plants = _a.plants, id_location = _a.id_location, id_user_create = _a.id_user_create, obs = _a.obs;
         return __awaiter(this, void 0, void 0, function () {
-            var item;
+            var selectedLocation, plantsToUpdate, updatePlantsParams, updatedDatePlants;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, prismaClient_1.prisma.company.findFirst({
+                    case 0: return [4 /*yield*/, prismaClient_1.prisma.locations.findFirst({
                             where: {
-                                id: {
-                                    equals: id
-                                }
+                                id: id_location
                             }
                         })];
                     case 1:
-                        item = _b.sent();
-                        if (!item) {
-                            throw new Error('Sem Empresa.');
+                        selectedLocation = _b.sent();
+                        if (!selectedLocation) {
+                            throw new Error('Local não existente: ' + id_location);
                         }
-                        return [2 /*return*/, item];
+                        return [4 /*yield*/, prismaClient_1.prisma.plantas.findMany({
+                                where: {
+                                    id: { "in": plants }
+                                }
+                            })
+                            //VALIDA VIABILIDADE DE TRANSPLANTE
+                            //DESCARTADA?
+                        ];
+                    case 2:
+                        plantsToUpdate = _b.sent();
+                        //VALIDA VIABILIDADE DE TRANSPLANTE
+                        //DESCARTADA?
+                        plantsToUpdate.map(function (plant) {
+                            if (plant.id_location === id_location) {
+                                throw new Error('Planta já está no local');
+                            }
+                            if (plant.trashDate) {
+                                throw new Error('Não é possivel mover plantas descartadas.');
+                            }
+                            if (plant.cropDate) {
+                                throw new Error('Não é possivel mover plantas colhidas.');
+                            }
+                        });
+                        updatePlantsParams = {
+                            where: {
+                                id: { "in": plants }
+                            },
+                            data: {
+                                id_location: id_location
+                            }
+                        };
+                        return [4 /*yield*/, prismaClient_1.prisma.plantas.updateMany(updatePlantsParams)];
+                    case 3:
+                        updatedDatePlants = _b.sent();
+                        return [2 /*return*/];
                 }
             });
         });
     };
-    return GetCompanyUseCase;
+    return MovePlantsUseCase;
 }());
-exports.GetCompanyUseCase = GetCompanyUseCase;
-//# sourceMappingURL=GetCompanyUseCase.js.map
+exports.MovePlantsUseCase = MovePlantsUseCase;
+//# sourceMappingURL=MovePlantsUseCase.js.map

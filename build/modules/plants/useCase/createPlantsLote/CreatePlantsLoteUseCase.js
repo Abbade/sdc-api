@@ -110,6 +110,7 @@ var CreatePlantsLoteUseCase = /** @class */ (function () {
                                 id_propagationType: selectedLote.id_propagationType,
                                 id_faseCultivo: 2,
                                 obs: obs
+                                //id_mother: selectedLote.id_mother
                             });
                         }
                         return [4 /*yield*/, prismaClient_1.prisma.plantas.createMany({ data: newPlants })];

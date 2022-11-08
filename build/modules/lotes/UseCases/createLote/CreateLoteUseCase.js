@@ -42,9 +42,9 @@ var CreateLoteUseCase = /** @class */ (function () {
     function CreateLoteUseCase() {
     }
     CreateLoteUseCase.prototype.execute = function (_a) {
-        var propDate = _a.propDate, id_propagationType = _a.id_propagationType, id_genetic = _a.id_genetic, id_location_init = _a.id_location_init, qtTotal = _a.qtTotal, obs = _a.obs, id_user_create = _a.id_user_create;
+        var propDate = _a.propDate, id_propagationType = _a.id_propagationType, id_genetic = _a.id_genetic, id_location_init = _a.id_location_init, qtTotal = _a.qtTotal, id_mother = _a.id_mother, obs = _a.obs, id_user_create = _a.id_user_create;
         return __awaiter(this, void 0, void 0, function () {
-            var selectedGenetic, selectedPropagationType, selectedLocation, date, newName1, lotesEncontrados, newName2, clientExists, lote;
+            var selectedGenetic, selectedMother, selectedPropagationType, selectedLocation, date, newName1, lotesEncontrados, newName2, clientExists, lote;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -62,12 +62,24 @@ var CreateLoteUseCase = /** @class */ (function () {
                         if (!selectedGenetic) {
                             throw new Error('Genética não existente: ' + id_genetic);
                         }
-                        return [4 /*yield*/, prismaClient_1.prisma.propagationType.findFirst({
+                        if (!id_mother) return [3 /*break*/, 3];
+                        return [4 /*yield*/, prismaClient_1.prisma.plantas.findFirst({
                                 where: {
-                                    id: id_propagationType
+                                    id: id_mother
                                 }
                             })];
                     case 2:
+                        selectedMother = _b.sent();
+                        if (!selectedMother) {
+                            throw new Error('Matriz não existente: ' + id_mother);
+                        }
+                        _b.label = 3;
+                    case 3: return [4 /*yield*/, prismaClient_1.prisma.propagationType.findFirst({
+                            where: {
+                                id: id_propagationType
+                            }
+                        })];
+                    case 4:
                         selectedPropagationType = _b.sent();
                         if (!selectedPropagationType) {
                             throw new Error('Modo de propagação não existente: ' + id_propagationType);
@@ -77,7 +89,7 @@ var CreateLoteUseCase = /** @class */ (function () {
                                     id: id_location_init
                                 }
                             })];
-                    case 3:
+                    case 5:
                         selectedLocation = _b.sent();
                         if (!selectedLocation) {
                             throw new Error('Local não existente: ' + id_genetic);
@@ -92,7 +104,7 @@ var CreateLoteUseCase = /** @class */ (function () {
                                     }
                                 }
                             })];
-                    case 4:
+                    case 6:
                         lotesEncontrados = _b.sent();
                         newName2 = newName1 + "-" +
                             String.fromCharCode("A".charCodeAt(0) + (lotesEncontrados === null || lotesEncontrados === void 0 ? void 0 : lotesEncontrados.length));
@@ -104,7 +116,7 @@ var CreateLoteUseCase = /** @class */ (function () {
                                     }
                                 }
                             })];
-                    case 5:
+                    case 7:
                         clientExists = _b.sent();
                         if (clientExists) {
                             throw new Error('Client already exists: ' + newName2);
@@ -117,12 +129,13 @@ var CreateLoteUseCase = /** @class */ (function () {
                                     id_propagationType: id_propagationType,
                                     id_genetic: id_genetic,
                                     id_location_init: id_location_init,
+                                    // id_mother,
                                     qtTotal: qtTotal,
                                     qtProp: qtTotal,
                                     obs: obs
                                 }
                             })];
-                    case 6:
+                    case 8:
                         lote = _b.sent();
                         return [2 /*return*/, lote];
                 }

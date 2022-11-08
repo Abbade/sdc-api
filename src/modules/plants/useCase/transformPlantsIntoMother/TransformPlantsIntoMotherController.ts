@@ -3,7 +3,7 @@ import { TransformPlantsIntoMotherUseCase } from './TransformPlantsIntoMotherUse
 
 export class TransformPlantsIntoMotherController {
   async handle(request: Request, response: Response) {
-    const { actionDate, plants, id_location, obs} = request.body;
+    const { actionDate, plants, obs} = request.body;
     const id_user_create = request.id_user
 
     const transformPlantsIntoMotherUseCase = new TransformPlantsIntoMotherUseCase();

@@ -36,29 +36,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.CreateLoteController = void 0;
-var CreateLoteUseCase_1 = require("./CreateLoteUseCase");
-var CreateLoteController = /** @class */ (function () {
-    function CreateLoteController() {
+exports.TransformPlantsIntoMotherController = void 0;
+var TransformPlantsIntoMotherUseCase_1 = require("./TransformPlantsIntoMotherUseCase");
+var TransformPlantsIntoMotherController = /** @class */ (function () {
+    function TransformPlantsIntoMotherController() {
     }
-    CreateLoteController.prototype.handle = function (request, response) {
+    TransformPlantsIntoMotherController.prototype.handle = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, propDate, id_propagationType, id_genetic, id_location_init, id_mother, qtTotal, obs, id_user_create, createLoteUseCase, result;
+            var _a, actionDate, plants, obs, id_user_create, transformPlantsIntoMotherUseCase, result;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _a = request.body, propDate = _a.propDate, id_propagationType = _a.id_propagationType, id_genetic = _a.id_genetic, id_location_init = _a.id_location_init, id_mother = _a.id_mother, qtTotal = _a.qtTotal, obs = _a.obs;
+                        _a = request.body, actionDate = _a.actionDate, plants = _a.plants, obs = _a.obs;
                         id_user_create = request.id_user;
-                        createLoteUseCase = new CreateLoteUseCase_1.CreateLoteUseCase();
-                        return [4 /*yield*/, createLoteUseCase.execute({
-                                propDate: propDate,
-                                id_propagationType: id_propagationType,
-                                id_genetic: id_genetic,
-                                id_location_init: id_location_init,
-                                id_mother: id_mother,
-                                qtTotal: qtTotal,
-                                obs: obs,
-                                id_user_create: id_user_create
+                        transformPlantsIntoMotherUseCase = new TransformPlantsIntoMotherUseCase_1.TransformPlantsIntoMotherUseCase();
+                        return [4 /*yield*/, transformPlantsIntoMotherUseCase.execute({
+                                actionDate: actionDate,
+                                plants: plants,
+                                id_user_create: id_user_create,
+                                obs: obs
                             })];
                     case 1:
                         result = _b.sent();
@@ -67,7 +63,7 @@ var CreateLoteController = /** @class */ (function () {
             });
         });
     };
-    return CreateLoteController;
+    return TransformPlantsIntoMotherController;
 }());
-exports.CreateLoteController = CreateLoteController;
-//# sourceMappingURL=CreateLoteController.js.map
+exports.TransformPlantsIntoMotherController = TransformPlantsIntoMotherController;
+//# sourceMappingURL=TransformPlantsIntoMotherController.js.map

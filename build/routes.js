@@ -31,7 +31,7 @@ var GetAllOrganizationsController_1 = require("./modules/organization/useCases/g
 var getAllTrashedLotesController_1 = require("./modules/lotes/UseCases/getAllTrashedLotes/getAllTrashedLotesController");
 var CreatePlantsLoteController_1 = require("./modules/plants/useCase/createPlantsLote/CreatePlantsLoteController");
 var GetAllPlantsController_1 = require("./modules/plants/useCase/getAllPlants/GetAllPlantsController");
-var TransplantPlantsController_1 = require("./modules/plants/useCase/transplantPlant/TransplantPlantsController");
+var TransplantPlantsController_1 = require("./modules/plants/useCase/transplantPlants/TransplantPlantsController");
 var GetPropagationTypeController_1 = require("./modules/params/propagationType/UseCases/getPropagationTypes/GetPropagationTypeController");
 var UpdatePropagationTypeController_1 = require("./modules/params/propagationType/UseCases/updatePropagationType/UpdatePropagationTypeController");
 var CreateRoleController_1 = require("./modules/roles/useCase/create/CreateRoleController");
@@ -39,11 +39,13 @@ var GetAllRolesController_1 = require("./modules/roles/useCase/getAll/GetAllRole
 var GetRoleController_1 = require("./modules/roles/useCase/get/GetRoleController");
 var UpdateRolesController_1 = require("./modules/roles/useCase/update/UpdateRolesController");
 var GetAllPermissionsController_1 = require("./modules/permissions/useCase/getAll/GetAllPermissionsController");
-var TrashPlantsController_1 = require("./modules/plants/useCase/trashPlant/TrashPlantsController");
+var TrashPlantsController_1 = require("./modules/plants/useCase/trashPlants/TrashPlantsController");
 var GetUserController_1 = require("./modules/users/useCases/get/GetUserController");
 var UpdateUserController_1 = require("./modules/users/useCases/update/UpdateUserController");
 var GetCompanyController_1 = require("./modules/company/useCase/get/GetCompanyController");
 var UpdateCompanyController_1 = require("./modules/company/useCase/update/UpdateCompanyController");
+var TransformPlantsIntoMotherController_1 = require("./modules/plants/useCase/transformPlantsIntoMother/TransformPlantsIntoMotherController");
+var MovePlantsController_1 = require("./modules/plants/useCase/movePlants/MovePlantsController");
 var routes = (0, express_1.Router)();
 exports.routes = routes;
 var createUserController = new CreateUserController_1.CreateUserController();
@@ -78,6 +80,8 @@ var createPlantsLoteController = new CreatePlantsLoteController_1.CreatePlantsLo
 var getAllPlantsController = new GetAllPlantsController_1.GetAllPlantsController();
 var transplantPlantsController = new TransplantPlantsController_1.TransplantPlantsController();
 var trashPlantsController = new TrashPlantsController_1.TrashPlantsController();
+var transformPlantsIntoMotherController = new TransformPlantsIntoMotherController_1.TransformPlantsIntoMotherController();
+var movePlantsController = new MovePlantsController_1.MovePlantsController();
 var getAllTrashedLotesController = new getAllTrashedLotesController_1.GetAllTrashedLotesController();
 var trashLoteController = new TrashLoteController_1.TrashLoteController();
 var createRolesController = new CreateRoleController_1.CreateRolesController();
@@ -138,6 +142,8 @@ routes.get('/plant', ensureAuthenticate_1.ensureAuthenticate, getAllPlantsContro
 //plant - transplant
 routes.post('/transplant-plant', ensureAuthenticate_1.ensureAuthenticate, transplantPlantsController.handle);
 routes.post('/trash-plant', ensureAuthenticate_1.ensureAuthenticate, trashPlantsController.handle);
+routes.post('/move-plant', ensureAuthenticate_1.ensureAuthenticate, movePlantsController.handle);
+routes.post('/plant-mother', ensureAuthenticate_1.ensureAuthenticate, transformPlantsIntoMotherController.handle);
 // roles
 routes.post('/roles', ensureAuthenticate_1.ensureAuthenticate, createRolesController.handle);
 routes.get('/roles', ensureAuthenticate_1.ensureAuthenticate, getAllRolesController.handle);

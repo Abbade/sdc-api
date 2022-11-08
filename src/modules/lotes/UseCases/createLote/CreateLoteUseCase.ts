@@ -42,7 +42,7 @@ export class CreateLoteUseCase {
 
     
     if (!selectedMother) {
-      throw new Error('Matriz não existente: ' + id_genetic);
+      throw new Error('Matriz não existente: ' + id_mother);
     }
 
 

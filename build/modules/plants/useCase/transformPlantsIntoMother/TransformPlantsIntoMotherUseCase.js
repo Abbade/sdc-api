@@ -36,35 +36,68 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.GetCompanyUseCase = void 0;
+exports.TransformPlantsIntoMotherUseCase = void 0;
 var prismaClient_1 = require("../../../../database/prismaClient");
-var GetCompanyUseCase = /** @class */ (function () {
-    function GetCompanyUseCase() {
+var postmanJson = {
+    "transplantDate": "2012-04-30T18:25:43.511Z",
+    "plants": [1, 2, 3, 4],
+    "id_recipiente": 1,
+    "id_location": 1,
+    "id_faseCultivo": 2,
+    "obs": "Ae"
+};
+var TransformPlantsIntoMotherUseCase = /** @class */ (function () {
+    function TransformPlantsIntoMotherUseCase() {
     }
-    GetCompanyUseCase.prototype.execute = function (_a) {
-        var id = _a.id;
+    TransformPlantsIntoMotherUseCase.prototype.execute = function (_a) {
+        var actionDate = _a.actionDate, plants = _a.plants, id_user_create = _a.id_user_create, obs = _a.obs;
         return __awaiter(this, void 0, void 0, function () {
-            var item;
+            var plantsToUpdate, updatePlantsParams, updatedDatePlants;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, prismaClient_1.prisma.company.findFirst({
+                    case 0: return [4 /*yield*/, prismaClient_1.prisma.plantas.findMany({
                             where: {
-                                id: {
-                                    equals: id
-                                }
+                                id: { "in": plants }
                             }
-                        })];
+                        })
+                        //VALIDA VIABILIDADE DE TRANSPLANTE
+                        //DESCARTADA?
+                    ];
                     case 1:
-                        item = _b.sent();
-                        if (!item) {
-                            throw new Error('Sem Empresa.');
-                        }
-                        return [2 /*return*/, item];
+                        plantsToUpdate = _b.sent();
+                        //VALIDA VIABILIDADE DE TRANSPLANTE
+                        //DESCARTADA?
+                        plantsToUpdate.map(function (plant) {
+                            // if (plant.isMalePlant) {
+                            //   throw new Error('Não é possivel transformar plantas macho em matrizes.')
+                            // }
+                            // if (plant.isMotherPlant) {
+                            //   throw new Error('Não é possivel transformar matrizes em matrizes.')
+                            // }
+                            if (plant.trashDate) {
+                                throw new Error('Não é possivel transformar plantas descartadas em matrizes.');
+                            }
+                            if (plant.cropDate) {
+                                throw new Error('Não é possivel transformar plantas colhidas em matrizes.');
+                            }
+                        });
+                        updatePlantsParams = {
+                            where: {
+                                id: { "in": plants }
+                            },
+                            data: {
+                                isMotherPlant: true
+                            }
+                        };
+                        return [4 /*yield*/, prismaClient_1.prisma.plantas.updateMany(updatePlantsParams)];
+                    case 2:
+                        updatedDatePlants = _b.sent();
+                        return [2 /*return*/];
                 }
             });
         });
     };
-    return GetCompanyUseCase;
+    return TransformPlantsIntoMotherUseCase;
 }());
-exports.GetCompanyUseCase = GetCompanyUseCase;
-//# sourceMappingURL=GetCompanyUseCase.js.map
+exports.TransformPlantsIntoMotherUseCase = TransformPlantsIntoMotherUseCase;
+//# sourceMappingURL=TransformPlantsIntoMotherUseCase.js.map

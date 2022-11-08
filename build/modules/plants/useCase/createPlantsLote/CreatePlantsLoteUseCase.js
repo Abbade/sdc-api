@@ -47,11 +47,15 @@ var CreatePlantsLoteUseCase = /** @class */ (function () {
             var selectedLote, selectedGenetic, selectedLocation, selectedRecipiente, newPlants, plantIndex, i, trashedLote, lote;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, prismaClient_1.prisma.lotes.findFirst({
-                            where: {
-                                id: id_lote
-                            }
-                        })];
+                    case 0:
+                        if (qtPlant < 0) {
+                            throw new Error('Quantidade não deve ser negativa: ' + qtPlant);
+                        }
+                        return [4 /*yield*/, prismaClient_1.prisma.lotes.findFirst({
+                                where: {
+                                    id: id_lote
+                                }
+                            })];
                     case 1:
                         selectedLote = _b.sent();
                         if (!selectedLote) {

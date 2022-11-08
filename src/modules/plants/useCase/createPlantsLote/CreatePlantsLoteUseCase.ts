@@ -39,6 +39,11 @@ export class CreatePlantsLoteUseCase {
 
   async execute({ id_lote, aclimatationDate, qtPlant, id_location, id_recipiente, obs, id_user_create }: ITrashLote) {
 
+
+    if (qtPlant < 0) {
+      throw new Error('Quantidade não deve ser negativa: ' + qtPlant);
+    }
+
     //VALIDA EXISTENCIA DE CAMPOS
     const selectedLote = await prisma.lotes.findFirst({
       where: {

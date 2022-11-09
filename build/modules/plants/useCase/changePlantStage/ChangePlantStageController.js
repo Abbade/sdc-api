@@ -36,26 +36,26 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.GetAllPlantsController = void 0;
-var GetAllPlantsUseCase_1 = require("./GetAllPlantsUseCase");
-var GetAllPlantsController = /** @class */ (function () {
-    function GetAllPlantsController() {
+exports.ChangePlantStageController = void 0;
+var ChangePlantStageUseCase_1 = require("./ChangePlantStageUseCase");
+var ChangePlantStageController = /** @class */ (function () {
+    function ChangePlantStageController() {
     }
-    GetAllPlantsController.prototype.handle = function (request, response) {
+    ChangePlantStageController.prototype.handle = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, id, name, page, limit, isTrashed, isMother, getAllPlantsUseCase, result;
+            var _a, actionDate, plants, id_faseCultivo, obs, id_user_create, changePlantStageUseCase, result;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _a = request.query, id = _a.id, name = _a.name, page = _a.page, limit = _a.limit, isTrashed = _a.isTrashed, isMother = _a.isMother;
-                        getAllPlantsUseCase = new GetAllPlantsUseCase_1.GetAllPlantsUseCase();
-                        return [4 /*yield*/, getAllPlantsUseCase.execute({
-                                id: id,
-                                name: name,
-                                page: page,
-                                limit: limit,
-                                isTrashed: isTrashed,
-                                isMother: isMother
+                        _a = request.body, actionDate = _a.actionDate, plants = _a.plants, id_faseCultivo = _a.id_faseCultivo, obs = _a.obs;
+                        id_user_create = request.id_user;
+                        changePlantStageUseCase = new ChangePlantStageUseCase_1.ChangePlantStageUseCase();
+                        return [4 /*yield*/, changePlantStageUseCase.execute({
+                                actionDate: actionDate,
+                                plants: plants,
+                                id_faseCultivo: id_faseCultivo,
+                                id_user_create: id_user_create,
+                                obs: obs
                             })];
                     case 1:
                         result = _b.sent();
@@ -64,7 +64,7 @@ var GetAllPlantsController = /** @class */ (function () {
             });
         });
     };
-    return GetAllPlantsController;
+    return ChangePlantStageController;
 }());
-exports.GetAllPlantsController = GetAllPlantsController;
-//# sourceMappingURL=GetAllPlantsController.js.map
+exports.ChangePlantStageController = ChangePlantStageController;
+//# sourceMappingURL=ChangePlantStageController.js.map

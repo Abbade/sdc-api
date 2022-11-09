@@ -3,7 +3,7 @@ import { GetAllPlantsUseCase } from './GetAllPlantsUseCase';
 
 export class GetAllPlantsController {
   async handle(request: Request, response: Response) {
-    const { id, name, page, limit } = request.query as any
+    const { id, name, page, limit, isTrashed, isMother } = request.query as any
 
 
     const getAllPlantsUseCase = new GetAllPlantsUseCase();
@@ -11,7 +11,9 @@ export class GetAllPlantsController {
       id,
       name,
       page,
-      limit
+      limit,
+      isTrashed,
+      isMother
     });
     return response.json(result);
   }

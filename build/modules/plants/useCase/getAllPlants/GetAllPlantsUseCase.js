@@ -42,7 +42,7 @@ var GetAllPlantsUseCase = /** @class */ (function () {
     function GetAllPlantsUseCase() {
     }
     GetAllPlantsUseCase.prototype.execute = function (_a) {
-        var name = _a.name, description = _a.description, page = _a.page, limit = _a.limit, id = _a.id;
+        var name = _a.name, description = _a.description, page = _a.page, limit = _a.limit, id = _a.id, isMother = _a.isMother, isTrashed = _a.isTrashed;
         return __awaiter(this, void 0, void 0, function () {
             var total, lotes;
             return __generator(this, function (_b) {

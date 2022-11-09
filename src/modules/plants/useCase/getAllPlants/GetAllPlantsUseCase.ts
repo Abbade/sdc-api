@@ -9,11 +9,14 @@ interface ILoteFilter {
   page: number;
   limit: number;
 
+  isTrashed?: boolean;
+  isMother?: boolean;
+
 }
 
 export class GetAllPlantsUseCase {
 
-  async execute({ name, description, page, limit, id }: ILoteFilter) {
+  async execute({ name, description, page, limit, id, isMother, isTrashed }: ILoteFilter) {
 
     console.log(page);
     console.log(limit);
@@ -45,6 +48,7 @@ export class GetAllPlantsUseCase {
         name: {
           contains: name
         },
+       
 
       },
       include: {

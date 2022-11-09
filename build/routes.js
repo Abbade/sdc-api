@@ -46,6 +46,7 @@ var GetCompanyController_1 = require("./modules/company/useCase/get/GetCompanyCo
 var UpdateCompanyController_1 = require("./modules/company/useCase/update/UpdateCompanyController");
 var TransformPlantsIntoMotherController_1 = require("./modules/plants/useCase/transformPlantsIntoMother/TransformPlantsIntoMotherController");
 var MovePlantsController_1 = require("./modules/plants/useCase/movePlants/MovePlantsController");
+var ChangePlantStageController_1 = require("./modules/plants/useCase/changePlantStage/ChangePlantStageController");
 var routes = (0, express_1.Router)();
 exports.routes = routes;
 var createUserController = new CreateUserController_1.CreateUserController();
@@ -82,6 +83,7 @@ var transplantPlantsController = new TransplantPlantsController_1.TransplantPlan
 var trashPlantsController = new TrashPlantsController_1.TrashPlantsController();
 var transformPlantsIntoMotherController = new TransformPlantsIntoMotherController_1.TransformPlantsIntoMotherController();
 var movePlantsController = new MovePlantsController_1.MovePlantsController();
+var changePlantStageController = new ChangePlantStageController_1.ChangePlantStageController();
 var getAllTrashedLotesController = new getAllTrashedLotesController_1.GetAllTrashedLotesController();
 var trashLoteController = new TrashLoteController_1.TrashLoteController();
 var createRolesController = new CreateRoleController_1.CreateRolesController();
@@ -144,6 +146,7 @@ routes.post('/transplant-plant', ensureAuthenticate_1.ensureAuthenticate, transp
 routes.post('/trash-plant', ensureAuthenticate_1.ensureAuthenticate, trashPlantsController.handle);
 routes.post('/move-plant', ensureAuthenticate_1.ensureAuthenticate, movePlantsController.handle);
 routes.post('/plant-mother', ensureAuthenticate_1.ensureAuthenticate, transformPlantsIntoMotherController.handle);
+routes.post('/plant-stage', ensureAuthenticate_1.ensureAuthenticate, changePlantStageController.handle);
 // roles
 routes.post('/roles', ensureAuthenticate_1.ensureAuthenticate, createRolesController.handle);
 routes.get('/roles', ensureAuthenticate_1.ensureAuthenticate, getAllRolesController.handle);

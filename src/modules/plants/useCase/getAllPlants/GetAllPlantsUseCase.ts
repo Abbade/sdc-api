@@ -1,5 +1,6 @@
 import { hash } from 'bcrypt';
 import { prisma } from '../../../../database/prismaClient';
+import { FilterProp } from './GetAllPlantsController';
 
 interface ILoteFilter {
   name?: string;
@@ -12,14 +13,18 @@ interface ILoteFilter {
   isTrashed?: boolean;
   isMother?: boolean;
 
+  id_location?: number;
+  id_genetic?: number;
+  id_recipiente?: number;
+  id_faseCultivo?: number;
+  filter?: FilterProp;
 }
 
 export class GetAllPlantsUseCase {
 
-  async execute({ name, description, page, limit, id, isMother, isTrashed }: ILoteFilter) {
-
-    console.log(page);
-    console.log(limit);
+  async execute({ name, description, page, limit, id, isMother, isTrashed, filter }: ILoteFilter) {
+    console.log("filtro");
+    console.log(filter);
     
     id = id ? Number.parseInt(id) : undefined
 
@@ -31,6 +36,19 @@ export class GetAllPlantsUseCase {
 
         }
         ,
+        id_location: {
+          equals: filter?.idLocation != undefined ?  Number.parseInt(filter?.idLocation.toString()) : filter?.idLocation
+        },
+        id_genetic: {
+          equals: filter?.idGenetic != undefined ?  Number.parseInt(filter?.idGenetic.toString()) : filter?.idGenetic
+        },
+        id_recipiente: {
+          equals: filter?.idRecipiente != undefined ?  Number.parseInt(filter?.idRecipiente.toString()) : filter?.idRecipiente 
+        },
+        id_faseCultivo: {
+          equals: filter?.idFaseCultivo != undefined ?  Number.parseInt(filter?.idFaseCultivo.toString()) : filter?.idFaseCultivo  
+        },
+
 
         name: {
           contains: name
@@ -44,6 +62,18 @@ export class GetAllPlantsUseCase {
 
         id_lote: {
           equals: id
+        },
+        id_location: {
+          equals: filter?.idLocation != undefined ?  Number.parseInt(filter?.idLocation.toString()) : filter?.idLocation
+        },
+        id_genetic: {
+          equals: filter?.idGenetic != undefined ?  Number.parseInt(filter?.idGenetic.toString()) : filter?.idGenetic
+        },
+        id_recipiente: {
+          equals: filter?.idRecipiente != undefined ?  Number.parseInt(filter?.idRecipiente.toString()) : filter?.idRecipiente 
+        },
+        id_faseCultivo: {
+          equals: filter?.idFaseCultivo != undefined ?  Number.parseInt(filter?.idFaseCultivo.toString()) : filter?.idFaseCultivo  
         },
         name: {
           contains: name

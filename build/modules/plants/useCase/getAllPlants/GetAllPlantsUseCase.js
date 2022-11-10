@@ -42,19 +42,31 @@ var GetAllPlantsUseCase = /** @class */ (function () {
     function GetAllPlantsUseCase() {
     }
     GetAllPlantsUseCase.prototype.execute = function (_a) {
-        var name = _a.name, description = _a.description, page = _a.page, limit = _a.limit, id = _a.id, isMother = _a.isMother, isTrashed = _a.isTrashed;
+        var name = _a.name, description = _a.description, page = _a.page, limit = _a.limit, id = _a.id, isMother = _a.isMother, isTrashed = _a.isTrashed, filter = _a.filter;
         return __awaiter(this, void 0, void 0, function () {
             var total, lotes;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        console.log(page);
-                        console.log(limit);
+                        console.log("filtro");
+                        console.log(filter);
                         id = id ? Number.parseInt(id) : undefined;
                         return [4 /*yield*/, prismaClient_1.prisma.plantas.count({
                                 where: {
                                     id_lote: {
                                         equals: id
+                                    },
+                                    id_location: {
+                                        equals: (filter === null || filter === void 0 ? void 0 : filter.idLocation) != undefined ? Number.parseInt(filter === null || filter === void 0 ? void 0 : filter.idLocation.toString()) : filter === null || filter === void 0 ? void 0 : filter.idLocation
+                                    },
+                                    id_genetic: {
+                                        equals: (filter === null || filter === void 0 ? void 0 : filter.idGenetic) != undefined ? Number.parseInt(filter === null || filter === void 0 ? void 0 : filter.idGenetic.toString()) : filter === null || filter === void 0 ? void 0 : filter.idGenetic
+                                    },
+                                    id_recipiente: {
+                                        equals: (filter === null || filter === void 0 ? void 0 : filter.idRecipiente) != undefined ? Number.parseInt(filter === null || filter === void 0 ? void 0 : filter.idRecipiente.toString()) : filter === null || filter === void 0 ? void 0 : filter.idRecipiente
+                                    },
+                                    id_faseCultivo: {
+                                        equals: (filter === null || filter === void 0 ? void 0 : filter.idFaseCultivo) != undefined ? Number.parseInt(filter === null || filter === void 0 ? void 0 : filter.idFaseCultivo.toString()) : filter === null || filter === void 0 ? void 0 : filter.idFaseCultivo
                                     },
                                     name: {
                                         contains: name
@@ -69,6 +81,18 @@ var GetAllPlantsUseCase = /** @class */ (function () {
                                 where: {
                                     id_lote: {
                                         equals: id
+                                    },
+                                    id_location: {
+                                        equals: (filter === null || filter === void 0 ? void 0 : filter.idLocation) != undefined ? Number.parseInt(filter === null || filter === void 0 ? void 0 : filter.idLocation.toString()) : filter === null || filter === void 0 ? void 0 : filter.idLocation
+                                    },
+                                    id_genetic: {
+                                        equals: (filter === null || filter === void 0 ? void 0 : filter.idGenetic) != undefined ? Number.parseInt(filter === null || filter === void 0 ? void 0 : filter.idGenetic.toString()) : filter === null || filter === void 0 ? void 0 : filter.idGenetic
+                                    },
+                                    id_recipiente: {
+                                        equals: (filter === null || filter === void 0 ? void 0 : filter.idRecipiente) != undefined ? Number.parseInt(filter === null || filter === void 0 ? void 0 : filter.idRecipiente.toString()) : filter === null || filter === void 0 ? void 0 : filter.idRecipiente
+                                    },
+                                    id_faseCultivo: {
+                                        equals: (filter === null || filter === void 0 ? void 0 : filter.idFaseCultivo) != undefined ? Number.parseInt(filter === null || filter === void 0 ? void 0 : filter.idFaseCultivo.toString()) : filter === null || filter === void 0 ? void 0 : filter.idFaseCultivo
                                     },
                                     name: {
                                         contains: name

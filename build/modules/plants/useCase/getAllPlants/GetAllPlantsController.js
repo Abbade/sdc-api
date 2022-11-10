@@ -43,11 +43,13 @@ var GetAllPlantsController = /** @class */ (function () {
     }
     GetAllPlantsController.prototype.handle = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, id, name, page, limit, isTrashed, isMother, getAllPlantsUseCase, result;
+            var _a, id, name, page, limit, isTrashed, isMother, filter, filterValue, getAllPlantsUseCase, result;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _a = request.query, id = _a.id, name = _a.name, page = _a.page, limit = _a.limit, isTrashed = _a.isTrashed, isMother = _a.isMother;
+                        _a = request.query, id = _a.id, name = _a.name, page = _a.page, limit = _a.limit, isTrashed = _a.isTrashed, isMother = _a.isMother, filter = _a.filter;
+                        filterValue = filter;
+                        console.log(filterValue);
                         getAllPlantsUseCase = new GetAllPlantsUseCase_1.GetAllPlantsUseCase();
                         return [4 /*yield*/, getAllPlantsUseCase.execute({
                                 id: id,
@@ -55,7 +57,8 @@ var GetAllPlantsController = /** @class */ (function () {
                                 page: page,
                                 limit: limit,
                                 isTrashed: isTrashed,
-                                isMother: isMother
+                                isMother: isMother,
+                                filter: filterValue
                             })];
                     case 1:
                         result = _b.sent();

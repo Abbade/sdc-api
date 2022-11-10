@@ -32,8 +32,8 @@ export class GetAllLotesUseCase {
       }
     })
     const lotes = await prisma.lotes.findMany({
-      take: Number.parseInt(limit.toString()),
-      skip: (page - 1) * limit,
+      take: limit != undefined ? Number.parseInt(limit.toString()) : 999,
+      skip: page != undefined && limit != undefined ? (page - 1) * limit : 0,
       where: {
 
         id: {

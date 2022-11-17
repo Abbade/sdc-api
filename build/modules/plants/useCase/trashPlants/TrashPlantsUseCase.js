@@ -52,7 +52,7 @@ var TrashPlantsUseCase = /** @class */ (function () {
     TrashPlantsUseCase.prototype.execute = function (_a) {
         var trashDate = _a.trashDate, plants = _a.plants, id_location = _a.id_location, id_trashReason = _a.id_trashReason, id_user_create = _a.id_user_create, obs = _a.obs;
         return __awaiter(this, void 0, void 0, function () {
-            var selectedTrashReason, plantsToUpdate, updatePlantsParams, updatedDatePlants;
+            var selectedTrashReason, plantsToUpdate, updatePlantsParams, updatedDatePlants, actions, newActionGroup, createActionPlants;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, prismaClient_1.prisma.trashReasons.findFirst({
@@ -90,13 +90,42 @@ var TrashPlantsUseCase = /** @class */ (function () {
                                 id: { "in": plants }
                             },
                             data: {
-                                trashDate: trashDate
+                                trashDate: trashDate,
+                                isTrashed: true,
+                                id_trashReason: id_trashReason
                             }
                         };
                         return [4 /*yield*/, prismaClient_1.prisma.plantas.updateMany(updatePlantsParams)];
                     case 3:
                         updatedDatePlants = _b.sent();
-                        return [2 /*return*/];
+                        actions = [];
+                        return [4 /*yield*/, prismaClient_1.prisma.actionGroups.create({
+                                data: {
+                                    id_user_create: id_user_create,
+                                    obs: obs
+                                }
+                            })];
+                    case 4: return [4 /*yield*/, (_b.sent()).id];
+                    case 5:
+                        newActionGroup = _b.sent();
+                        plantsToUpdate.forEach(function (plant) {
+                            var newActionParams = {
+                                id_planta: plant.id,
+                                id_user_create: id_user_create,
+                                obs: obs,
+                                id_actionGroup: newActionGroup,
+                                status: "Completed",
+                                isCompleted: true,
+                                completionDate: trashDate,
+                                id_user_atribution: id_user_create,
+                                id_trashReason: id_trashReason
+                            };
+                            actions.push(newActionParams);
+                        });
+                        return [4 /*yield*/, prismaClient_1.prisma.actionPlants.createMany({ data: actions })];
+                    case 6:
+                        createActionPlants = _b.sent();
+                        return [2 /*return*/, actions];
                 }
             });
         });

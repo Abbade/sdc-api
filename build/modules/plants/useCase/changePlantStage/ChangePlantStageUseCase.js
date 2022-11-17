@@ -52,7 +52,7 @@ var ChangePlantStageUseCase = /** @class */ (function () {
     ChangePlantStageUseCase.prototype.execute = function (_a) {
         var actionDate = _a.actionDate, plants = _a.plants, id_faseCultivo = _a.id_faseCultivo, id_user_create = _a.id_user_create, obs = _a.obs;
         return __awaiter(this, void 0, void 0, function () {
-            var selectedFaseCultivo, plantsToUpdate, updatePlantsParams, updatedDatePlants, updatePlantsParams, updatedDatePlants;
+            var selectedFaseCultivo, plantsToUpdate, updatePlantsParams, updatedDatePlants, updatePlantsParams, updatedDatePlants, actions, newActionGroup, createActionPlants;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, prismaClient_1.prisma.fasesCultivo.findFirst({
@@ -117,7 +117,36 @@ var ChangePlantStageUseCase = /** @class */ (function () {
                     case 5:
                         updatedDatePlants = _b.sent();
                         _b.label = 6;
-                    case 6: return [2 /*return*/];
+                    case 6:
+                        actions = [];
+                        return [4 /*yield*/, prismaClient_1.prisma.actionGroups.create({
+                                data: {
+                                    id_user_create: id_user_create,
+                                    obs: obs
+                                }
+                            })];
+                    case 7: return [4 /*yield*/, (_b.sent()).id];
+                    case 8:
+                        newActionGroup = _b.sent();
+                        plantsToUpdate.forEach(function (plant) {
+                            var newActionParams = {
+                                id_planta: plant.id,
+                                id_user_create: id_user_create,
+                                obs: obs,
+                                id_actionGroup: newActionGroup,
+                                status: "Completed",
+                                isCompleted: true,
+                                completionDate: actionDate,
+                                id_user_atribution: id_user_create,
+                                id_faseCultivo: id_faseCultivo,
+                                id_faseCultivo_old: id_faseCultivo ? plant.id_faseCultivo : undefined
+                            };
+                            actions.push(newActionParams);
+                        });
+                        return [4 /*yield*/, prismaClient_1.prisma.actionPlants.createMany({ data: actions })];
+                    case 9:
+                        createActionPlants = _b.sent();
+                        return [2 /*return*/, actions];
                 }
             });
         });

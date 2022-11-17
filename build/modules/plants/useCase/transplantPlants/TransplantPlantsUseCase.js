@@ -52,7 +52,7 @@ var TransplantPlantsUseCase = /** @class */ (function () {
     TransplantPlantsUseCase.prototype.execute = function (_a) {
         var transplantDate = _a.transplantDate, plants = _a.plants, id_recipiente = _a.id_recipiente, id_location = _a.id_location, id_faseCultivo = _a.id_faseCultivo, id_user_create = _a.id_user_create, obs = _a.obs;
         return __awaiter(this, void 0, void 0, function () {
-            var selectedFaseCultivo, selectedLocation, selectedRecipiente, plantsToUpdate, param, updatedPlants, plantsWithEmptyDate, updateDateParams, updatedDatePlants, param_1, updatedPlants, plantsWithEmptyDateV1, updateDateParamsV1, updatedDatePlantsV1, plantsWithEmptyDateV2, updateDateParamsV2, updatedDatePlantsV2, plantsWithEmptyDateV3, updateDateParamsV3, updatedDatePlantsV3, param_2, updatedPlants, plantsWithEmptyDate, updateDateParams, updatedDatePlants;
+            var selectedFaseCultivo, selectedLocation, selectedRecipiente, plantsToUpdate, param, updatedPlants, plantsWithEmptyDate, updateDateParams, updatedDatePlants, param_1, updatedPlants, plantsWithEmptyDateV1, updateDateParamsV1, updatedDatePlantsV1, plantsWithEmptyDateV2, updateDateParamsV2, updatedDatePlantsV2, plantsWithEmptyDateV3, updateDateParamsV3, updatedDatePlantsV3, param_2, updatedPlants, plantsWithEmptyDate, updateDateParams, actions, newActionGroup, createActionPlants;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, prismaClient_1.prisma.fasesCultivo.findFirst({
@@ -220,7 +220,7 @@ var TransplantPlantsUseCase = /** @class */ (function () {
                         updatedDatePlantsV3 = _b.sent();
                         _b.label = 12;
                     case 12:
-                        if (!(selectedFaseCultivo.ordem == 4)) return [3 /*break*/, 15];
+                        if (!(selectedFaseCultivo.ordem == 4)) return [3 /*break*/, 14];
                         param_2 = {
                             where: {
                                 id: { "in": plants }
@@ -250,11 +250,41 @@ var TransplantPlantsUseCase = /** @class */ (function () {
                                 floweringRecipient: selectedRecipiente.name
                             }
                         };
-                        return [4 /*yield*/, prismaClient_1.prisma.plantas.updateMany(updateDateParams)];
+                        _b.label = 14;
                     case 14:
-                        updatedDatePlants = _b.sent();
-                        _b.label = 15;
-                    case 15: return [2 /*return*/];
+                        actions = [];
+                        return [4 /*yield*/, prismaClient_1.prisma.actionGroups.create({
+                                data: {
+                                    id_user_create: id_user_create,
+                                    obs: obs
+                                }
+                            })];
+                    case 15: return [4 /*yield*/, (_b.sent()).id];
+                    case 16:
+                        newActionGroup = _b.sent();
+                        plantsToUpdate.forEach(function (plant) {
+                            var newActionParams = {
+                                id_planta: plant.id,
+                                id_user_create: id_user_create,
+                                obs: obs,
+                                id_actionGroup: newActionGroup,
+                                status: "Completed",
+                                isCompleted: true,
+                                completionDate: transplantDate,
+                                id_user_atribution: id_user_create,
+                                id_faseCultivo: id_faseCultivo,
+                                id_location: id_location,
+                                id_recipiente: id_recipiente,
+                                id_faseCultivo_old: id_faseCultivo ? plant.id_faseCultivo : undefined,
+                                id_recipiente_old: id_recipiente ? plant.id_recipiente : undefined,
+                                id_location_old: id_location ? plant.id_location : undefined
+                            };
+                            actions.push(newActionParams);
+                        });
+                        return [4 /*yield*/, prismaClient_1.prisma.actionPlants.createMany({ data: actions })];
+                    case 17:
+                        createActionPlants = _b.sent();
+                        return [2 /*return*/, actions];
                 }
             });
         });

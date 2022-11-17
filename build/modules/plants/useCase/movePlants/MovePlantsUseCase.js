@@ -52,7 +52,7 @@ var MovePlantsUseCase = /** @class */ (function () {
     MovePlantsUseCase.prototype.execute = function (_a) {
         var moveDate = _a.moveDate, plants = _a.plants, id_location = _a.id_location, id_user_create = _a.id_user_create, obs = _a.obs;
         return __awaiter(this, void 0, void 0, function () {
-            var selectedLocation, plantsToUpdate, updatePlantsParams, updatedDatePlants;
+            var selectedLocation, plantsToUpdate, updatePlantsParams, updatedDatePlants, actions, newActionGroup, createActionPlants;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, prismaClient_1.prisma.locations.findFirst({
@@ -99,7 +99,35 @@ var MovePlantsUseCase = /** @class */ (function () {
                         return [4 /*yield*/, prismaClient_1.prisma.plantas.updateMany(updatePlantsParams)];
                     case 3:
                         updatedDatePlants = _b.sent();
-                        return [2 /*return*/];
+                        actions = [];
+                        return [4 /*yield*/, prismaClient_1.prisma.actionGroups.create({
+                                data: {
+                                    id_user_create: id_user_create,
+                                    obs: obs
+                                }
+                            })];
+                    case 4: return [4 /*yield*/, (_b.sent()).id];
+                    case 5:
+                        newActionGroup = _b.sent();
+                        plantsToUpdate.forEach(function (plant) {
+                            var newActionParams = {
+                                id_planta: plant.id,
+                                id_user_create: id_user_create,
+                                obs: obs,
+                                id_actionGroup: newActionGroup,
+                                status: "Completed",
+                                isCompleted: true,
+                                completionDate: moveDate,
+                                id_user_atribution: id_user_create,
+                                id_location: id_location,
+                                id_location_old: id_location ? plant.id_location : undefined
+                            };
+                            actions.push(newActionParams);
+                        });
+                        return [4 /*yield*/, prismaClient_1.prisma.actionPlants.createMany({ data: actions })];
+                    case 6:
+                        createActionPlants = _b.sent();
+                        return [2 /*return*/, actions];
                 }
             });
         });

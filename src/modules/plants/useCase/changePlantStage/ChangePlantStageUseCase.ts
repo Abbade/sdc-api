@@ -102,7 +102,39 @@ export class ChangePlantStageUseCase {
     }
 
 
+    let actions = [] as any;
 
+    const newActionGroup = await (await prisma.actionGroups.create({
+      data: {
+        id_user_create: id_user_create,
+        obs: obs
+      }
+    })).id
+
+    plantsToUpdate.forEach(plant => {
+      const newActionParams = {
+          id_planta: plant.id,
+          id_user_create: id_user_create,
+          obs: obs,
+          id_actionGroup: newActionGroup,
+
+          status: "Completed",
+          isCompleted: true,
+          completionDate: actionDate,
+          
+          id_user_atribution: id_user_create,
+
+          id_faseCultivo: id_faseCultivo,
+
+          id_faseCultivo_old: id_faseCultivo ? plant.id_faseCultivo : undefined,
+      }
+      actions.push(newActionParams)
+
+
+
+    })
+    const createActionPlants = await prisma.actionPlants.createMany({data: actions})
+    return actions
 
 
 

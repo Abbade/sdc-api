@@ -10,7 +10,7 @@ const postmanJson = {
 
 
   "obs": "Ae"
-  }
+}
 
 interface ITransplantPlants {
   id_user_create: number;
@@ -88,18 +88,18 @@ export class TransplantPlantsUseCase {
         throw new Error('Não é possivel transplantar plantas colhidas.')
       }
 
-      if (plant.id_recipiente == selectedRecipiente.id ) {
+      if (plant.id_recipiente == selectedRecipiente.id) {
         throw new Error('Não é possivel transplantar planta para um mesmo recipiente.')
       }
 
-      if(plant.lastTransplant && plant.lastTransplant > transplantDate) {
+      if (plant.lastTransplant && plant.lastTransplant > transplantDate) {
         throw new Error('Não é possivel transplantar plantas em uma data anterior a ultimo transplante.')
-        
+
       }
 
-      if(plant.id_faseCultivo > selectedFaseCultivo.id) {
+      if (plant.id_faseCultivo > selectedFaseCultivo.id) {
         throw new Error('Não é possivel voltar com plantas para fase anterior.')
-        
+
       }
 
 
@@ -123,7 +123,7 @@ export class TransplantPlantsUseCase {
 
           lastTransplant: transplantDate,
 
-          
+
 
         }
       }
@@ -276,13 +276,47 @@ export class TransplantPlantsUseCase {
         }
       }
 
-      const updatedDatePlants = await prisma.plantas.updateMany(updateDateParams)
+      // const updatedDatePlants = await prisma.plantas.updateMany(updateDateParams)
 
 
     }
 
+    let actions = [] as any;
+
+    const newActionGroup = await (await prisma.actionGroups.create({
+      data: {
+        id_user_create: id_user_create,
+        obs: obs
+      }
+    })).id
+
+    plantsToUpdate.forEach(plant => {
+      const newActionParams = {
+          id_planta: plant.id,
+          id_user_create: id_user_create,
+          obs: obs,
+          id_actionGroup: newActionGroup,
+
+          status: "Completed",
+          isCompleted: true,
+          completionDate: transplantDate,
+          
+          id_user_atribution: id_user_create,
+
+          id_faseCultivo: id_faseCultivo,
+          id_location: id_location,
+          id_recipiente: id_recipiente,
+
+          id_faseCultivo_old: id_faseCultivo ? plant.id_faseCultivo : undefined,
+          id_recipiente_old: id_recipiente ? plant.id_recipiente : undefined,
+          id_location_old: id_location ? plant.id_location : undefined
+      }
+      actions.push(newActionParams)
 
 
 
+    })
+    const createActionPlants = await prisma.actionPlants.createMany({data: actions})
+    return actions
   }
 }

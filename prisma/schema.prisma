@@ -69,6 +69,11 @@ model Users {
   plantas         Plantas[]
   crops           Crops[]
   organizations   Organizations?    @relation(name: "userCreate")
+  actionTypes ActionTypes[]
+  actions Actions[]
+  actionPlants ActionPlants[]
+  actionGroups ActionGroups[]
+  actionPlantsAtributions ActionPlants[] @relation(name: "userAtribution")
 
   @@map("users")
 }
@@ -118,6 +123,9 @@ model FasesCultivo {
 
   plantas   Plantas[]
   locations Locations[]
+  actionPlants ActionPlants[]
+  actionPlantsOld ActionPlants[] @relation("faseCultivoOld") 
+
 
   @@map("fasesCultivo")
 }
@@ -132,6 +140,8 @@ model Recipientes {
   description String
 
   plantas Plantas[]
+  actionPlants ActionPlants[]
+  actionPlantsOld ActionPlants[] @relation("recipienteOld") 
 
   @@map("recipientes")
 }
@@ -187,6 +197,9 @@ model Locations {
   plantas Plantas[]
   lotes   Lotes[]
   crops Crops[]
+  actionPlants ActionPlants[]
+  actionPlantsOld ActionPlants[] @relation("locationOld") 
+
 
   @@map("location")
 }
@@ -217,6 +230,7 @@ model TrashReasons {
 
   trashedLotes TrashedLotes[]
   plantas      Plantas[]
+  actionPlants ActionPlants[]
 
   @@map("trashReason")
 }
@@ -334,6 +348,7 @@ model Plantas {
   trashReason    TrashReasons? @relation(fields: [id_trashReason], references: [id])
 
   trashedLotes TrashedLotes[]
+  actionPlants ActionPlants[]
 
   @@map("plantas")
 }
@@ -407,3 +422,106 @@ model Clones {
 
   @@map("clones")
 }
+
+model ActionTypes {
+   id             Int      @id @default(autoincrement())
+  id_user_create Int
+  userCreate     Users    @relation(fields: [id_user_create], references: [id])
+  created_at     DateTime @default(now())
+  name           String
+  description    String?
+
+
+
+  actions Actions[]
+
+  @@map("actionTypes")
+
+}
+
+model Actions {
+  id             Int      @id @default(autoincrement())
+  id_user_create Int
+  userCreate     Users    @relation(fields: [id_user_create], references: [id])
+  created_at     DateTime @default(now())
+  name           String
+  description    String?
+
+  isPlant       Boolean @default(true)
+  isLote        Boolean @default(true)
+  isCrop        Boolean @default(false)
+  
+  id_actionType Int
+  actionType ActionTypes @relation(fields: [id_actionType], references: [id])
+
+  // actionPlants ActionPlants[]
+  @@map("actions")
+
+}
+
+model ActionGroups {
+  id             Int      @id @default(autoincrement())
+  id_user_create Int
+  userCreate     Users    @relation(fields: [id_user_create], references: [id])
+  created_at     DateTime @default(now())
+
+  obs String?
+
+  actionPlants ActionPlants[]
+
+}
+
+model ActionPlants {
+
+  id             Int      @id @default(autoincrement())
+  id_user_create Int
+  userCreate     Users    @relation(fields: [id_user_create], references: [id])
+  created_at     DateTime @default(now())
+
+  obs String?
+
+  status String
+
+  id_actionGroup Int
+  actionGroup ActionGroups @relation(fields: [id_actionGroup], references: [id])
+
+  id_user_atribution Int?
+  atribution Users? @relation("userAtribution", fields: [id_user_atribution], references: [id])
+
+  isCanceled  Boolean? 
+  cancelationDate     DateTime?
+
+  isCompleted Boolean? 
+  completionDate     DateTime?
+
+  // id_action Int
+  // action Actions @relation(fields: [id_action], references: [id])
+
+  id_planta Int
+  planta Plantas @relation(fields: [id_planta],references: [id])
+
+  id_recipiente Int?
+  recipiente Recipientes? @relation(fields: [id_recipiente],references: [id])
+
+  id_faseCultivo Int?
+  faseCultivo FasesCultivo? @relation(fields: [id_faseCultivo],references: [id])
+
+  id_location Int?
+  location Locations? @relation(fields: [id_location],references: [id])
+
+  id_trashReason Int?
+  trashReason TrashReasons? @relation(fields: [id_trashReason],references: [id])
+
+  id_recipiente_old Int?
+  recipienteOld Recipientes? @relation("recipienteOld",fields: [id_recipiente_old],references: [id])
+
+  id_faseCultivo_old Int?
+  faseCultivoOld FasesCultivo? @relation("faseCultivoOld",fields: [id_faseCultivo_old],references: [id])
+
+  id_location_old Int?
+  locationOld Locations? @relation("locationOld",fields: [id_location_old],references: [id])
+
+
+	@@map("actionPlants")
+}
+

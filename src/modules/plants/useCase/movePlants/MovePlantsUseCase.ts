@@ -85,11 +85,43 @@ export class MovePlantsUseCase {
 
       const updatedDatePlants = await prisma.plantas.updateMany(updatePlantsParams)
       
+      let actions = [] as any;
 
+      const newActionGroup = await (await prisma.actionGroups.create({
+        data: {
+          id_user_create: id_user_create,
+          obs: obs
+        }
+      })).id
+  
+      plantsToUpdate.forEach(plant => {
+        const newActionParams = {
+            id_planta: plant.id,
+            id_user_create: id_user_create,
+            obs: obs,
+            id_actionGroup: newActionGroup,
+  
+            status: "Completed",
+            isCompleted: true,
+            completionDate: moveDate,
+            
+            id_user_atribution: id_user_create,
+  
+            id_location: id_location,
+  
+            id_location_old: id_location ? plant.id_location : undefined
+        }
+        actions.push(newActionParams)
+  
+  
+  
+      })
+      const createActionPlants = await prisma.actionPlants.createMany({data: actions})
+      return actions
     }
 
 
-
+    
 
   }
 

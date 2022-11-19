@@ -12,7 +12,7 @@ export class GetAllGeneticsUseCase {
   
   async execute({ name, limit,page }: IFilter) {
 
-    const total = await prisma.roles.count({
+    const total = await prisma.genetics.count({
       where: {
         name: {
           contains: name

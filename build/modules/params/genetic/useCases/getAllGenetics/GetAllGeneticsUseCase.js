@@ -47,7 +47,7 @@ var GetAllGeneticsUseCase = /** @class */ (function () {
             var total, itens;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, prismaClient_1.prisma.roles.count({
+                    case 0: return [4 /*yield*/, prismaClient_1.prisma.genetics.count({
                             where: {
                                 name: {
                                     contains: name

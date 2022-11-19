@@ -55,6 +55,8 @@ import { MovePlantsController } from './modules/plants/useCase/movePlants/MovePl
 import { ChangePlantStageController } from './modules/plants/useCase/changePlantStage/ChangePlantStageController';
 import { GetFaseCultivoController } from './modules/params/faseCultivo/UseCases/get/GetFaseCultivoController';
 import { UpdateFaseCultivoController } from './modules/params/faseCultivo/UseCases/update/UpdateFaseCultivoController';
+import { GetGeneticController } from './modules/params/genetic/useCases/get/GetGeneticController';
+import { UpdateGeneticController } from './modules/params/genetic/useCases/update/UpdateGeneticController';
 
 const routes = Router();
 
@@ -75,6 +77,8 @@ const getAllProfilesUseCase = new GetAllProfileController();
 
 const createGeneticController = new CreateGeneticController();
 const getAllGeneticsController = new GetAllGeneticsController();
+const getGeneticController = new GetGeneticController();
+const updateGeneticController = new UpdateGeneticController();
 
 const createFaseCultivoController = new CreateFaseCultivoController();
 const getAllFasesCultivoController = new GetAllFasesCultivoController();
@@ -162,6 +166,8 @@ routes.get('/profile',ensureAuthenticate, getAllProfilesUseCase.handle);
 // genetic
 routes.post('/genetic', ensureAuthenticate, createGeneticController.handle);
 routes.get('/genetic',ensureAuthenticate, getAllGeneticsController.handle);
+routes.get('/genetic/:id', ensureAuthenticate , getGeneticController.handle);
+routes.put('/genetic', ensureAuthenticate , updateGeneticController.handle);
 
 // section
 routes.post('/section', ensureAuthenticate, createSectionController.handle);

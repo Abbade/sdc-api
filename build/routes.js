@@ -49,6 +49,8 @@ var MovePlantsController_1 = require("./modules/plants/useCase/movePlants/MovePl
 var ChangePlantStageController_1 = require("./modules/plants/useCase/changePlantStage/ChangePlantStageController");
 var GetFaseCultivoController_1 = require("./modules/params/faseCultivo/UseCases/get/GetFaseCultivoController");
 var UpdateFaseCultivoController_1 = require("./modules/params/faseCultivo/UseCases/update/UpdateFaseCultivoController");
+var GetGeneticController_1 = require("./modules/params/genetic/useCases/get/GetGeneticController");
+var UpdateGeneticController_1 = require("./modules/params/genetic/useCases/update/UpdateGeneticController");
 var routes = (0, express_1.Router)();
 exports.routes = routes;
 var createUserController = new CreateUserController_1.CreateUserController();
@@ -63,6 +65,8 @@ var createProfileController = new CreateProfileController_1.CreateProfileControl
 var getAllProfilesUseCase = new GetAllProfilesController_1.GetAllProfileController();
 var createGeneticController = new CreateGeneticController_1.CreateGeneticController();
 var getAllGeneticsController = new GetAllGeneticsController_1.GetAllGeneticsController();
+var getGeneticController = new GetGeneticController_1.GetGeneticController();
+var updateGeneticController = new UpdateGeneticController_1.UpdateGeneticController();
 var createFaseCultivoController = new CreateFaseCultivoController_1.CreateFaseCultivoController();
 var getAllFasesCultivoController = new getAllFasesCultivoController_1.GetAllFasesCultivoController();
 var getFaseCultivoController = new GetFaseCultivoController_1.GetFaseCultivoController();
@@ -123,6 +127,8 @@ routes.get('/profile', ensureAuthenticate_1.ensureAuthenticate, getAllProfilesUs
 // genetic
 routes.post('/genetic', ensureAuthenticate_1.ensureAuthenticate, createGeneticController.handle);
 routes.get('/genetic', ensureAuthenticate_1.ensureAuthenticate, getAllGeneticsController.handle);
+routes.get('/genetic/:id', ensureAuthenticate_1.ensureAuthenticate, getGeneticController.handle);
+routes.put('/genetic', ensureAuthenticate_1.ensureAuthenticate, updateGeneticController.handle);
 // section
 routes.post('/section', ensureAuthenticate_1.ensureAuthenticate, createSectionController.handle);
 routes.get('/section', ensureAuthenticate_1.ensureAuthenticate, getAllSectionsController.handle);

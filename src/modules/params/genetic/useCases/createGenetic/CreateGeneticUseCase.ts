@@ -30,15 +30,15 @@ export class CreateGeneticUseCase {
 
     const clientExists = await prisma.genetics.findFirst({
       where: {
-        name: {
-          equals: name,
+        nick: {
+          equals: nick,
           mode: 'insensitive'
         },
       },
     });
 
     if (clientExists) {
-      throw new Error('Client already exists');
+      throw new Error('Genética ja existente')
     }
 
     const client = await prisma.genetics.create({

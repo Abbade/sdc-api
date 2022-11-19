@@ -47,12 +47,12 @@ var GetAllGeneticsController = /** @class */ (function () {
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _a = request.body, name = _a.name, limit = _a.limit, page = _a.page;
+                        _a = request.query, name = _a.name, limit = _a.limit, page = _a.page;
                         getAllGeneticsUseCase = new GetAllGeneticsUseCase_1.GetAllGeneticsUseCase();
                         return [4 /*yield*/, getAllGeneticsUseCase.execute({
-                                name: name,
-                                limit: limit,
-                                page: page
+                                name: name === null || name === void 0 ? void 0 : name.toString(),
+                                limit: Number.parseInt(limit === null || limit === void 0 ? void 0 : limit.toString()),
+                                page: Number.parseInt(page === null || page === void 0 ? void 0 : page.toString())
                             })];
                     case 1:
                         result = _b.sent();

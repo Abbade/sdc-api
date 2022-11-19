@@ -59,8 +59,8 @@ var CreateGeneticUseCase = /** @class */ (function () {
                         }
                         return [4 /*yield*/, prismaClient_1.prisma.genetics.findFirst({
                                 where: {
-                                    name: {
-                                        equals: name,
+                                    nick: {
+                                        equals: nick,
                                         mode: 'insensitive'
                                     }
                                 }
@@ -68,7 +68,7 @@ var CreateGeneticUseCase = /** @class */ (function () {
                     case 2:
                         clientExists = _b.sent();
                         if (clientExists) {
-                            throw new Error('Client already exists');
+                            throw new Error('Genética ja existente');
                         }
                         return [4 /*yield*/, prismaClient_1.prisma.genetics.create({
                                 data: {

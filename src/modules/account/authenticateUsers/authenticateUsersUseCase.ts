@@ -44,11 +44,11 @@ export class AuthenticateUserUseCase {
       throw new Error('email or password invalid!');
     }
 
-    const token = sign({ email , roles: [user.role?.name], permissions: perms }, '739f8ebd49733117a132c34fe866bc09', {
+    const token = sign({ name: user.name , email , roles: [user.role?.name], permissions: perms }, '739f8ebd49733117a132c34fe866bc09', {
       subject: user.id.toString(),
       expiresIn: '1d',
     });
 
-    return { token, success: true, roles: [user.role?.name], permissions: perms };
+    return { token, success: true, roles: [user.role?.name], permissions: perms, name: user.name };
   }
 }

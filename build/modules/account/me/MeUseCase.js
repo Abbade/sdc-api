@@ -42,21 +42,29 @@ var MeUseCase = /** @class */ (function () {
     function MeUseCase() {
     }
     MeUseCase.prototype.execute = function (_a) {
+        var _b;
         var id = _a.id;
         return __awaiter(this, void 0, void 0, function () {
             var user;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0: return [4 /*yield*/, prismaClient_1.prisma.users.findFirst({
                             where: {
                                 id: {
                                     equals: id
                                 }
+                            },
+                            include: {
+                                role: {
+                                    include: {
+                                        permissions: true
+                                    }
+                                }
                             }
                         })];
                     case 1:
-                        user = _b.sent();
-                        return [2 /*return*/, { email: user === null || user === void 0 ? void 0 : user.email, roles: ["administrador"], permissions: ["lote.list", "lote.create"] }];
+                        user = _c.sent();
+                        return [2 /*return*/, { name: user === null || user === void 0 ? void 0 : user.name, email: user === null || user === void 0 ? void 0 : user.email, roles: [user === null || user === void 0 ? void 0 : user.role], permissions: (_b = user === null || user === void 0 ? void 0 : user.role) === null || _b === void 0 ? void 0 : _b.permissions }];
                 }
             });
         });

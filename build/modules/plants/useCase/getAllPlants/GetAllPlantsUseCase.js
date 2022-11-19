@@ -48,13 +48,11 @@ var GetAllPlantsUseCase = /** @class */ (function () {
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        console.log("filtro");
-                        console.log(filter);
                         id = id ? Number.parseInt(id) : undefined;
                         return [4 /*yield*/, prismaClient_1.prisma.plantas.count({
                                 where: {
                                     id_lote: {
-                                        equals: id
+                                        equals: (filter === null || filter === void 0 ? void 0 : filter.idLote) != undefined ? Number.parseInt(filter === null || filter === void 0 ? void 0 : filter.idLote.toString()) : filter === null || filter === void 0 ? void 0 : filter.idLote
                                     },
                                     id_location: {
                                         equals: (filter === null || filter === void 0 ? void 0 : filter.idLocation) != undefined ? Number.parseInt(filter === null || filter === void 0 ? void 0 : filter.idLocation.toString()) : filter === null || filter === void 0 ? void 0 : filter.idLocation
@@ -80,7 +78,7 @@ var GetAllPlantsUseCase = /** @class */ (function () {
                                 skip: (page - 1) * limit,
                                 where: {
                                     id_lote: {
-                                        equals: id
+                                        equals: (filter === null || filter === void 0 ? void 0 : filter.idLote) != undefined ? Number.parseInt(filter === null || filter === void 0 ? void 0 : filter.idLote.toString()) : filter === null || filter === void 0 ? void 0 : filter.idLote
                                     },
                                     id_location: {
                                         equals: (filter === null || filter === void 0 ? void 0 : filter.idLocation) != undefined ? Number.parseInt(filter === null || filter === void 0 ? void 0 : filter.idLocation.toString()) : filter === null || filter === void 0 ? void 0 : filter.idLocation

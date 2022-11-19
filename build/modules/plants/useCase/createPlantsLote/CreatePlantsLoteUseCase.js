@@ -49,7 +49,7 @@ var CreatePlantsLoteUseCase = /** @class */ (function () {
                 switch (_b.label) {
                     case 0:
                         if (qtPlant < 0) {
-                            throw new Error('Quantidade não deve ser negativa: ' + qtPlant);
+                            throw new Error("Quantidade não deve ser negativa: " + qtPlant);
                         }
                         return [4 /*yield*/, prismaClient_1.prisma.lotes.findFirst({
                                 where: {
@@ -59,7 +59,7 @@ var CreatePlantsLoteUseCase = /** @class */ (function () {
                     case 1:
                         selectedLote = _b.sent();
                         if (!selectedLote) {
-                            throw new Error('Lote não existente: ' + id_lote);
+                            throw new Error("Lote não existente: " + id_lote);
                         }
                         return [4 /*yield*/, prismaClient_1.prisma.genetics.findFirst({
                                 where: {
@@ -69,7 +69,7 @@ var CreatePlantsLoteUseCase = /** @class */ (function () {
                     case 2:
                         selectedGenetic = _b.sent();
                         if (!selectedGenetic) {
-                            throw new Error('Genética não existente: ' + selectedLote.id);
+                            throw new Error("Genética não existente: " + selectedLote.id);
                         }
                         return [4 /*yield*/, prismaClient_1.prisma.locations.findFirst({
                                 where: {
@@ -79,7 +79,7 @@ var CreatePlantsLoteUseCase = /** @class */ (function () {
                     case 3:
                         selectedLocation = _b.sent();
                         if (!selectedLocation) {
-                            throw new Error('Local não existente: ' + selectedLote.id);
+                            throw new Error("Local não existente: " + selectedLote.id);
                         }
                         return [4 /*yield*/, prismaClient_1.prisma.recipientes.findFirst({
                                 where: {
@@ -89,17 +89,18 @@ var CreatePlantsLoteUseCase = /** @class */ (function () {
                     case 4:
                         selectedRecipiente = _b.sent();
                         if (!selectedRecipiente) {
-                            throw new Error('Recipiente não existente: ' + selectedLote.id);
+                            throw new Error("Recipiente não existente: " + selectedLote.id);
                         }
                         //VALIDA QUANTIDADE DE ESTACAS/SEEDLINGS
                         if ((selectedLote === null || selectedLote === void 0 ? void 0 : selectedLote.qtProp) - qtPlant < 0) {
-                            throw new Error('Lote não tem estacas suficiente para transplante.: ' + selectedLote.qtProp);
+                            throw new Error("Lote não tem estacas suficiente para transplante.: " +
+                                selectedLote.qtProp);
                         }
                         newPlants = [];
                         plantIndex = selectedLote.qtPlant + 1;
                         for (i = selectedLote.qtPlant + 1; i < plantIndex + qtPlant; i++) {
                             newPlants.push({
-                                name: selectedLote.name + '#' + i,
+                                name: selectedLote.name + "#" + i,
                                 id_lote: id_lote,
                                 id_location: id_location,
                                 id_recipiente: id_recipiente,
@@ -114,7 +115,6 @@ var CreatePlantsLoteUseCase = /** @class */ (function () {
                                 id_propagationType: selectedLote.id_propagationType,
                                 id_faseCultivo: 2,
                                 obs: obs
-                                //id_mother: selectedLote.id_mother
                             });
                         }
                         return [4 /*yield*/, prismaClient_1.prisma.plantas.createMany({ data: newPlants })];

@@ -1,4 +1,4 @@
-import { prisma } from '../../../../database/prismaClient';
+import { prisma } from "../../../../database/prismaClient";
 
 interface ITrashLote {
   id_lote: number;
@@ -12,97 +12,94 @@ interface ITrashLote {
 
 interface INewPlant {
   id_lote: number;
-
   name: string;
-
   obs: string;
-
   id_location?: number;
   id_recipiente?: number;
-
   aclimatationDate: Date;
-
+  
   //GENERATED ABOVE
   aclimatationName: string;
 
   id_user_create: number;
   propDate: Date;
-  propName: string,
-  id_genetic: number,
+  propName: string;
+  id_genetic: number;
   id_propagationType: number;
 
   id_faseCultivo: number;
 }
 
 export class CreatePlantsLoteUseCase {
-
-
-  async execute({ id_lote, aclimatationDate, qtPlant, id_location, id_recipiente, obs, id_user_create }: ITrashLote) {
-
-
+  async execute({
+    id_lote,
+    aclimatationDate,
+    qtPlant,
+    id_location,
+    id_recipiente,
+    obs,
+    id_user_create,
+  }: ITrashLote) {
     if (qtPlant < 0) {
-      throw new Error('Quantidade não deve ser negativa: ' + qtPlant);
+      throw new Error("Quantidade não deve ser negativa: " + qtPlant);
     }
 
     //VALIDA EXISTENCIA DE CAMPOS
     const selectedLote = await prisma.lotes.findFirst({
       where: {
-        id: id_lote
-      }
-    })
+        id: id_lote,
+      },
+    });
 
     if (!selectedLote) {
-      throw new Error('Lote não existente: ' + id_lote);
+      throw new Error("Lote não existente: " + id_lote);
     }
 
     const selectedGenetic = await prisma.genetics.findFirst({
       where: {
-        id: selectedLote.id_genetic
-      }
-    })
+        id: selectedLote.id_genetic,
+      },
+    });
 
     if (!selectedGenetic) {
-      throw new Error('Genética não existente: ' + selectedLote.id);
+      throw new Error("Genética não existente: " + selectedLote.id);
     }
 
     const selectedLocation = await prisma.locations.findFirst({
       where: {
-        id: id_location
-      }
-    })
+        id: id_location,
+      },
+    });
 
     if (!selectedLocation) {
-      throw new Error('Local não existente: ' + selectedLote.id);
+      throw new Error("Local não existente: " + selectedLote.id);
     }
 
     const selectedRecipiente = await prisma.recipientes.findFirst({
       where: {
-        id: id_recipiente
-      }
-    })
+        id: id_recipiente,
+      },
+    });
 
     if (!selectedRecipiente) {
-      throw new Error('Recipiente não existente: ' + selectedLote.id);
+      throw new Error("Recipiente não existente: " + selectedLote.id);
     }
-
-
 
     //VALIDA QUANTIDADE DE ESTACAS/SEEDLINGS
     if (selectedLote?.qtProp - qtPlant < 0) {
-      throw new Error('Lote não tem estacas suficiente para transplante.: ' + selectedLote.qtProp);
+      throw new Error(
+        "Lote não tem estacas suficiente para transplante.: " +
+          selectedLote.qtProp
+      );
     }
 
-
     let newPlants = [] as any[];
-
-
-
 
     const plantIndex = selectedLote.qtPlant + 1;
 
     for (let i = selectedLote.qtPlant + 1; i < plantIndex + qtPlant; i++) {
       newPlants.push({
-        name: selectedLote.name + '#' + i,
+        name: selectedLote.name + "#" + i,
         id_lote: id_lote,
 
         id_location: id_location,
@@ -113,7 +110,6 @@ export class CreatePlantsLoteUseCase {
         aclimatationLocation: selectedLocation.name,
         lastTransplant: aclimatationDate,
 
-
         id_user_create: id_user_create,
         propDate: selectedLote.propDate,
         propName: selectedLote.name,
@@ -121,34 +117,23 @@ export class CreatePlantsLoteUseCase {
         id_propagationType: selectedLote.id_propagationType,
 
         id_faseCultivo: 2,
-        obs: obs
+        obs: obs,
 
         //id_mother: selectedLote.id_mother
-
-
-
-
-
-      })
+      });
     }
 
-
-
-
-
-
-
-    const trashedLote = await prisma.plantas.createMany({ data: newPlants })
+    const trashedLote = await prisma.plantas.createMany({ data: newPlants });
 
     const lote = await prisma.lotes.update({
       where: {
-        id: id_lote
+        id: id_lote,
       },
       data: {
         qtProp: selectedLote.qtProp - qtPlant,
-        qtPlant: selectedLote.qtPlant + qtPlant
-      }
-    })
+        qtPlant: selectedLote.qtPlant + qtPlant,
+      },
+    });
 
     return trashedLote;
   }

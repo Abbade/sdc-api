@@ -17,11 +17,18 @@ export class MeUseCase {
           equals: id
         }
       },
+      include: {
+        role: {
+          include: {
+            permissions: true
+          }
+        }
+      }
     });
 
 
 
 
-    return { email: user?.email, roles: ["administrador"], permissions: ["lote.list", "lote.create"] };
+    return { name: user?.name, email: user?.email, roles: [user?.role], permissions: user?.role?.permissions };
   }
 }

@@ -23,16 +23,14 @@ interface ILoteFilter {
 export class GetAllPlantsUseCase {
 
   async execute({ name, description, page, limit, id, isMother, isTrashed, filter }: ILoteFilter) {
-    console.log("filtro");
-    console.log(filter);
-    
+
     id = id ? Number.parseInt(id) : undefined
 
     const total = await prisma.plantas.count({
     
       where: {
         id_lote: {
-          equals: id
+          equals: filter?.idLote != undefined ?  Number.parseInt(filter?.idLote.toString()) : filter?.idLote
 
         }
         ,
@@ -61,7 +59,7 @@ export class GetAllPlantsUseCase {
       where: {
 
         id_lote: {
-          equals: id
+          equals: filter?.idLote != undefined ?  Number.parseInt(filter?.idLote.toString()) : filter?.idLote
         },
         id_location: {
           equals: filter?.idLocation != undefined ?  Number.parseInt(filter?.idLocation.toString()) : filter?.idLocation

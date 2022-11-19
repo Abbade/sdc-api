@@ -82,11 +82,11 @@ var AuthenticateUserUseCase = /** @class */ (function () {
                         if (!passwordMatch) {
                             throw new Error('email or password invalid!');
                         }
-                        token = (0, jsonwebtoken_1.sign)({ email: email, roles: [(_c = user.role) === null || _c === void 0 ? void 0 : _c.name], permissions: perms }, '739f8ebd49733117a132c34fe866bc09', {
+                        token = (0, jsonwebtoken_1.sign)({ name: user.name, email: email, roles: [(_c = user.role) === null || _c === void 0 ? void 0 : _c.name], permissions: perms }, '739f8ebd49733117a132c34fe866bc09', {
                             subject: user.id.toString(),
                             expiresIn: '1d'
                         });
-                        return [2 /*return*/, { token: token, success: true, roles: [(_d = user.role) === null || _d === void 0 ? void 0 : _d.name], permissions: perms }];
+                        return [2 /*return*/, { token: token, success: true, roles: [(_d = user.role) === null || _d === void 0 ? void 0 : _d.name], permissions: perms, name: user.name }];
                 }
             });
         });

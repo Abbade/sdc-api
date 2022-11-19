@@ -2,10 +2,11 @@ import { hash } from 'bcrypt';
 import { prisma } from '../../../../../database/prismaClient';
 
 export interface ICreateFaseCultivo {
+  id?: number;
   name: string;
   description: string;
   ordem: number;
-  id_user_create: number;
+  id_user_create?: number;
 }
 
 export class CreateFaseCultivoUseCase {
@@ -29,7 +30,7 @@ export class CreateFaseCultivoUseCase {
         name,
         description,
         ordem,
-        id_user_create
+        id_user_create: id_user_create != undefined ? Number.parseInt(id_user_create.toString())  : 0
       },
     });
 

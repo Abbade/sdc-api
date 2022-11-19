@@ -36,50 +36,28 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.GetAllGeneticsUseCase = void 0;
-var prismaClient_1 = require("../../../../../database/prismaClient");
-var GetAllGeneticsUseCase = /** @class */ (function () {
-    function GetAllGeneticsUseCase() {
+exports.GetFaseCultivoController = void 0;
+var GetFaseCultivoUseCase_1 = require("./GetFaseCultivoUseCase");
+var GetFaseCultivoController = /** @class */ (function () {
+    function GetFaseCultivoController() {
     }
-    GetAllGeneticsUseCase.prototype.execute = function (_a) {
-        var name = _a.name, limit = _a.limit, page = _a.page;
+    GetFaseCultivoController.prototype.handle = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var total, itens;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, prismaClient_1.prisma.roles.count({
-                            where: {
-                                name: {
-                                    contains: name
-                                }
-                            }
-                        })];
+            var id, get, result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        id = request.params.id;
+                        get = new GetFaseCultivoUseCase_1.GetFaseCultivoUseCase();
+                        return [4 /*yield*/, get.execute({ id: Number.parseInt(id === null || id === void 0 ? void 0 : id.toString()) })];
                     case 1:
-                        total = _b.sent();
-                        return [4 /*yield*/, prismaClient_1.prisma.genetics.findMany({
-                                take: !isNaN(limit) ? Number.parseInt(limit.toString()) : 9999,
-                                skip: !isNaN(page) ? (page - 1) * limit : 0,
-                                where: {
-                                    name: {
-                                        contains: name
-                                    }
-                                },
-                                include: { profile: true }
-                            })];
-                    case 2:
-                        itens = _b.sent();
-                        if (!itens) {
-                            throw new Error('Sem Geneticas');
-                        }
-                        return [2 /*return*/, {
-                                total: total,
-                                itens: itens
-                            }];
+                        result = _a.sent();
+                        return [2 /*return*/, response.json(result)];
                 }
             });
         });
     };
-    return GetAllGeneticsUseCase;
+    return GetFaseCultivoController;
 }());
-exports.GetAllGeneticsUseCase = GetAllGeneticsUseCase;
-//# sourceMappingURL=GetAllGeneticsUseCase.js.map
+exports.GetFaseCultivoController = GetFaseCultivoController;
+//# sourceMappingURL=GetFaseCultivoController.js.map

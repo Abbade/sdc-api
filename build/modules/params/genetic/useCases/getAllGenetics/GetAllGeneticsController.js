@@ -43,15 +43,16 @@ var GetAllGeneticsController = /** @class */ (function () {
     }
     GetAllGeneticsController.prototype.handle = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, name, description, getAllGeneticsUseCase, result;
+            var _a, name, limit, page, getAllGeneticsUseCase, result;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _a = request.body, name = _a.name, description = _a.description;
+                        _a = request.body, name = _a.name, limit = _a.limit, page = _a.page;
                         getAllGeneticsUseCase = new GetAllGeneticsUseCase_1.GetAllGeneticsUseCase();
                         return [4 /*yield*/, getAllGeneticsUseCase.execute({
                                 name: name,
-                                description: description
+                                limit: limit,
+                                page: page
                             })];
                     case 1:
                         result = _b.sent();

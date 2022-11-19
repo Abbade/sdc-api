@@ -47,6 +47,8 @@ var UpdateCompanyController_1 = require("./modules/company/useCase/update/Update
 var TransformPlantsIntoMotherController_1 = require("./modules/plants/useCase/transformPlantsIntoMother/TransformPlantsIntoMotherController");
 var MovePlantsController_1 = require("./modules/plants/useCase/movePlants/MovePlantsController");
 var ChangePlantStageController_1 = require("./modules/plants/useCase/changePlantStage/ChangePlantStageController");
+var GetFaseCultivoController_1 = require("./modules/params/faseCultivo/UseCases/get/GetFaseCultivoController");
+var UpdateFaseCultivoController_1 = require("./modules/params/faseCultivo/UseCases/update/UpdateFaseCultivoController");
 var routes = (0, express_1.Router)();
 exports.routes = routes;
 var createUserController = new CreateUserController_1.CreateUserController();
@@ -63,6 +65,8 @@ var createGeneticController = new CreateGeneticController_1.CreateGeneticControl
 var getAllGeneticsController = new GetAllGeneticsController_1.GetAllGeneticsController();
 var createFaseCultivoController = new CreateFaseCultivoController_1.CreateFaseCultivoController();
 var getAllFasesCultivoController = new getAllFasesCultivoController_1.GetAllFasesCultivoController();
+var getFaseCultivoController = new GetFaseCultivoController_1.GetFaseCultivoController();
+var updateFaseCultivoController = new UpdateFaseCultivoController_1.UpdateFaseCultivoController();
 var createRecipienteController = new CreateRecipienteController_1.CreateRecipienteController();
 var getAllRecipientesController = new getAllRecipientesController_1.GetAllRecipientesController();
 var createLocationController = new CreateLocationController_1.CreateLocationController();
@@ -108,6 +112,8 @@ routes.get('/organization', ensureAuthenticate_1.ensureAuthenticate, getAllOrgan
 // fase cultivo
 routes.post('/fase-cultivo', ensureAuthenticate_1.ensureAuthenticate, createFaseCultivoController.handle);
 routes.get('/fase-cultivo', ensureAuthenticate_1.ensureAuthenticate, getAllFasesCultivoController.handle);
+routes.get('/fase-cultivo/:id', ensureAuthenticate_1.ensureAuthenticate, getFaseCultivoController.handle);
+routes.put('/fase-cultivo', ensureAuthenticate_1.ensureAuthenticate, updateFaseCultivoController.handle);
 // recipiente
 routes.post('/recipiente', ensureAuthenticate_1.ensureAuthenticate, createRecipienteController.handle);
 routes.get('/recipiente', ensureAuthenticate_1.ensureAuthenticate, getAllRecipientesController.handle);

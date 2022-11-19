@@ -1,5 +1,6 @@
 import { hash } from 'bcrypt';
 import { prisma } from '../../../../../database/prismaClient';
+import { IFilter } from '../../../../../interfaces/IFilter';
 
 interface IGeneticFilter {
   name: string;
@@ -9,16 +10,38 @@ interface IGeneticFilter {
 
 export class GetAllGeneticsUseCase {
   
-  async execute({ name,description }: IGeneticFilter) {
-    const genetics = await prisma.genetics.findMany({
-      include: {profile: true},
-    });
+  async execute({ name, limit,page }: IFilter) {
 
-    if (!genetics) {
-      throw new Error('Sem Profiles Existentes.');
+    const total = await prisma.roles.count({
+      where: {
+        name: {
+          contains: name
+        },
+
+      }
+    })
+
+    const itens = await prisma.genetics.findMany({
+      take: !isNaN(limit) ? Number.parseInt(limit.toString()) : 9999,
+      skip: !isNaN(page) ?  (page - 1) * limit : 0,
+      where: {
+        name: {
+          contains: name
+        },
+
+      },
+      include: {profile: true},
+      
+    });
+    
+    if (!
+      itens) {
+      throw new Error('Sem Geneticas');
     }
 
-
-    return genetics;
+    return {
+      total,
+      itens
+    };
   }
 }

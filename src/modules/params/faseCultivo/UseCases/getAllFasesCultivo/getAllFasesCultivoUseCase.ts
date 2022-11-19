@@ -4,8 +4,8 @@ import { IFilter } from '../../../../../interfaces/IFilter';
 
 
 export class GetAllFasesCultivoUseCase {
-  
-  async execute({ name,limit, page }: IFilter) {
+
+  async execute({ name, limit, page }: IFilter) {
     const total = await prisma.fasesCultivo.count({
       where: {
         name: {
@@ -15,15 +15,18 @@ export class GetAllFasesCultivoUseCase {
     })
     const itens = await prisma.fasesCultivo.findMany(
       {
-      //take: Number.parseInt(limit.toString()),
-      //skip: (page - 1) * limit,
-      where: {
-        name: {
-          contains: name
-        },
+        take: !isNaN(limit) ? Number.parseInt(limit.toString()) : 9999,
+        skip: !isNaN(page) ? (page - 1) * limit : 0,
+        where: {
+          name: {
+            contains: name
+          },
 
+        },
+        orderBy: {
+          ordem: 'asc'
+        }
       }
-    }
     );
 
     if (!itens) {

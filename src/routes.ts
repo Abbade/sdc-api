@@ -53,6 +53,8 @@ import { UpdateCompanyController } from './modules/company/useCase/update/Update
 import { TransformPlantsIntoMotherController } from './modules/plants/useCase/transformPlantsIntoMother/TransformPlantsIntoMotherController';
 import { MovePlantsController } from './modules/plants/useCase/movePlants/MovePlantsController';
 import { ChangePlantStageController } from './modules/plants/useCase/changePlantStage/ChangePlantStageController';
+import { GetFaseCultivoController } from './modules/params/faseCultivo/UseCases/get/GetFaseCultivoController';
+import { UpdateFaseCultivoController } from './modules/params/faseCultivo/UseCases/update/UpdateFaseCultivoController';
 
 const routes = Router();
 
@@ -76,6 +78,8 @@ const getAllGeneticsController = new GetAllGeneticsController();
 
 const createFaseCultivoController = new CreateFaseCultivoController();
 const getAllFasesCultivoController = new GetAllFasesCultivoController();
+const getFaseCultivoController = new GetFaseCultivoController();
+const updateFaseCultivoController = new UpdateFaseCultivoController();
 
 const createRecipienteController = new CreateRecipienteController();
 const getAllRecipientesController = new GetAllRecipientesController();
@@ -142,6 +146,9 @@ routes.get('/organization', ensureAuthenticate , getAllOrganizationsController.h
 // fase cultivo
 routes.post('/fase-cultivo', ensureAuthenticate, createFaseCultivoController.handle);
 routes.get('/fase-cultivo',ensureAuthenticate, getAllFasesCultivoController.handle);
+routes.get('/fase-cultivo/:id', ensureAuthenticate , getFaseCultivoController.handle);
+routes.put('/fase-cultivo', ensureAuthenticate , updateFaseCultivoController.handle);
+
 
 // recipiente
 routes.post('/recipiente', ensureAuthenticate, createRecipienteController.handle);

@@ -64,7 +64,7 @@ var CreateFaseCultivoUseCase = /** @class */ (function () {
                                     name: name,
                                     description: description,
                                     ordem: ordem,
-                                    id_user_create: id_user_create
+                                    id_user_create: id_user_create != undefined ? Number.parseInt(id_user_create.toString()) : 0
                                 }
                             })];
                     case 2:

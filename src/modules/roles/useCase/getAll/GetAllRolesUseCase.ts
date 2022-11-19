@@ -12,6 +12,7 @@ export class GetAllRolesUseCase {
 
       }
     })
+
     const itens = await prisma.roles.findMany({
       take: !isNaN(limit) ? Number.parseInt(limit.toString()) : 9999,
       skip: !isNaN(page) ?  (page - 1) * limit : 0,
@@ -26,7 +27,9 @@ export class GetAllRolesUseCase {
       }
       
     });
-    if (!itens) {
+    
+    if (!
+      itens) {
       throw new Error('Sem Perfis');
     }
 

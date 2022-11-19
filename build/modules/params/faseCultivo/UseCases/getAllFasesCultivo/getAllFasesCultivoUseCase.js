@@ -57,12 +57,15 @@ var GetAllFasesCultivoUseCase = /** @class */ (function () {
                     case 1:
                         total = _b.sent();
                         return [4 /*yield*/, prismaClient_1.prisma.fasesCultivo.findMany({
-                                //take: Number.parseInt(limit.toString()),
-                                //skip: (page - 1) * limit,
+                                take: !isNaN(limit) ? Number.parseInt(limit.toString()) : 9999,
+                                skip: !isNaN(page) ? (page - 1) * limit : 0,
                                 where: {
                                     name: {
                                         contains: name
                                     }
+                                },
+                                orderBy: {
+                                    ordem: 'asc'
                                 }
                             })];
                     case 2:

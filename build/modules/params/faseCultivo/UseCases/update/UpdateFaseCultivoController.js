@@ -36,50 +36,33 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.GetAllGeneticsUseCase = void 0;
-var prismaClient_1 = require("../../../../../database/prismaClient");
-var GetAllGeneticsUseCase = /** @class */ (function () {
-    function GetAllGeneticsUseCase() {
+exports.UpdateFaseCultivoController = void 0;
+var UpdateFaseCultivoUseCase_1 = require("./UpdateFaseCultivoUseCase");
+var UpdateFaseCultivoController = /** @class */ (function () {
+    function UpdateFaseCultivoController() {
     }
-    GetAllGeneticsUseCase.prototype.execute = function (_a) {
-        var name = _a.name, limit = _a.limit, page = _a.page;
+    UpdateFaseCultivoController.prototype.handle = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var total, itens;
+            var _a, name, description, ordem, id, createSectionUseCase, result;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, prismaClient_1.prisma.roles.count({
-                            where: {
-                                name: {
-                                    contains: name
-                                }
-                            }
-                        })];
-                    case 1:
-                        total = _b.sent();
-                        return [4 /*yield*/, prismaClient_1.prisma.genetics.findMany({
-                                take: !isNaN(limit) ? Number.parseInt(limit.toString()) : 9999,
-                                skip: !isNaN(page) ? (page - 1) * limit : 0,
-                                where: {
-                                    name: {
-                                        contains: name
-                                    }
-                                },
-                                include: { profile: true }
+                    case 0:
+                        _a = request.body, name = _a.name, description = _a.description, ordem = _a.ordem, id = _a.id;
+                        createSectionUseCase = new UpdateFaseCultivoUseCase_1.UpdateFaseCultivoUseCase();
+                        return [4 /*yield*/, createSectionUseCase.execute({
+                                id: id,
+                                name: name,
+                                description: description,
+                                ordem: ordem
                             })];
-                    case 2:
-                        itens = _b.sent();
-                        if (!itens) {
-                            throw new Error('Sem Geneticas');
-                        }
-                        return [2 /*return*/, {
-                                total: total,
-                                itens: itens
-                            }];
+                    case 1:
+                        result = _b.sent();
+                        return [2 /*return*/, response.json(result)];
                 }
             });
         });
     };
-    return GetAllGeneticsUseCase;
+    return UpdateFaseCultivoController;
 }());
-exports.GetAllGeneticsUseCase = GetAllGeneticsUseCase;
-//# sourceMappingURL=GetAllGeneticsUseCase.js.map
+exports.UpdateFaseCultivoController = UpdateFaseCultivoController;
+//# sourceMappingURL=UpdateFaseCultivoController.js.map

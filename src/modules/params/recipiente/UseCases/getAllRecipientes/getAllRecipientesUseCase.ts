@@ -1,22 +1,39 @@
 import { hash } from 'bcrypt';
 import { prisma } from '../../../../../database/prismaClient';
-
-interface IRecipientesFilter {
-  name: string;
-  description: string;
-
-}
+import { IFilter } from '../../../../../interfaces/IFilter';
 
 export class GetAllRecipientesUseCase {
   
-  async execute({ name,description }: IRecipientesFilter) {
-    const trashReasons = await prisma.recipientes.findMany();
+  async execute({ name, limit,page }: IFilter) {
+    const total = await prisma.recipientes.count({
+      where: {
+        name: {
+          contains: name
+        },
 
-    if (!trashReasons) {
-      throw new Error('Sem Profiles Existentes.');
+      }
+    })
+
+    const itens = await prisma.recipientes.findMany({
+      take: !isNaN(limit) ? Number.parseInt(limit.toString()) : 9999,
+      skip: !isNaN(page) ?  (page - 1) * limit : 0,
+      where: {
+        name: {
+          contains: name
+        },
+
+      },
+      
+    });
+    
+    if (!
+      itens) {
+      throw new Error('Sem Recipientes');
     }
 
-
-    return trashReasons;
+    return {
+      total,
+      itens
+    };
   }
 }

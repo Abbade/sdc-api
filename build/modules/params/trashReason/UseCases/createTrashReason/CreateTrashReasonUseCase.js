@@ -44,30 +44,17 @@ var CreateTrashReasonUseCase = /** @class */ (function () {
     CreateTrashReasonUseCase.prototype.execute = function (_a) {
         var name = _a.name, description = _a.description, id_user_create = _a.id_user_create;
         return __awaiter(this, void 0, void 0, function () {
-            var clientExists, client;
+            var client;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, prismaClient_1.prisma.trashReasons.findFirst({
-                            where: {
-                                name: {
-                                    equals: name,
-                                    mode: 'insensitive'
-                                }
+                    case 0: return [4 /*yield*/, prismaClient_1.prisma.trashReasons.create({
+                            data: {
+                                name: name,
+                                description: description,
+                                id_user_create: id_user_create
                             }
                         })];
                     case 1:
-                        clientExists = _b.sent();
-                        if (clientExists) {
-                            throw new Error('Client already exists');
-                        }
-                        return [4 /*yield*/, prismaClient_1.prisma.trashReasons.create({
-                                data: {
-                                    name: name,
-                                    description: description,
-                                    id_user_create: id_user_create
-                                }
-                            })];
-                    case 2:
                         client = _b.sent();
                         return [2 /*return*/, client];
                 }

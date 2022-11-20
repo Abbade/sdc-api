@@ -1,7 +1,7 @@
-import { hash } from 'bcrypt';
 import { prisma } from '../../../../../database/prismaClient';
 
-interface ICreateProfile {
+export interface ICreateProfile {
+  id?: number;
   name: string;
   description: string;
   id_user_create: number;
@@ -9,21 +9,8 @@ interface ICreateProfile {
 }
 
 export class CreateProfileUseCase {
-  
-  
-  async execute({ name, description,id_user_create }: ICreateProfile) {
-    const clientExists = await prisma.profiles.findFirst({
-      where: {
-        name: {
-          equals: name,
-          mode: 'insensitive'
-        },
-      },
-    });
 
-    if (clientExists) {
-      throw new Error('Client already exists');
-    }
+  async execute({ name, description, id_user_create }: ICreateProfile) {
 
     const client = await prisma.profiles.create({
       data: {

@@ -1,7 +1,8 @@
 import { hash } from 'bcrypt';
 import { prisma } from '../../../../../database/prismaClient';
 
-interface ICreateRecipiente {
+export interface ICreateRecipiente {
+  id?: number;
   name: string;
   description: string;
   id_user_create: number;

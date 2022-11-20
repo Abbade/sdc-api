@@ -3,12 +3,13 @@ import { GetAllProfilesUseCase } from './GetAllProfilesUseCase';
 
 export class GetAllProfileController {
   async handle(request: Request, response: Response) {
-    const { name, description } = request.body;
+    const { name, limit,page} = request.query;
 
     const getAllProfilesUseCase = new GetAllProfilesUseCase();
     const result = await getAllProfilesUseCase.execute({
-      name,
-      description,
+      name : name?.toString(),
+      limit : Number.parseInt(limit?.toString() as string),
+      page : Number.parseInt(page?.toString() as string)
       
     });
 

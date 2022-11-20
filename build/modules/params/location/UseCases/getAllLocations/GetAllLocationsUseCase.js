@@ -42,18 +42,38 @@ var GetAllLocationsUseCase = /** @class */ (function () {
     function GetAllLocationsUseCase() {
     }
     GetAllLocationsUseCase.prototype.execute = function (_a) {
-        var name = _a.name, description = _a.description;
+        var name = _a.name, limit = _a.limit, page = _a.page;
         return __awaiter(this, void 0, void 0, function () {
-            var locations;
+            var total, itens;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, prismaClient_1.prisma.locations.findMany()];
+                    case 0: return [4 /*yield*/, prismaClient_1.prisma.locations.count({
+                            where: {
+                                name: {
+                                    contains: name
+                                }
+                            }
+                        })];
                     case 1:
-                        locations = _b.sent();
-                        if (!locations) {
-                            throw new Error('Sem Profiles Existentes.');
+                        total = _b.sent();
+                        return [4 /*yield*/, prismaClient_1.prisma.locations.findMany({
+                                take: !isNaN(limit) ? Number.parseInt(limit.toString()) : 9999,
+                                skip: !isNaN(page) ? (page - 1) * limit : 0,
+                                where: {
+                                    name: {
+                                        contains: name
+                                    }
+                                }
+                            })];
+                    case 2:
+                        itens = _b.sent();
+                        if (!itens) {
+                            throw new Error('Sem Geneticas');
                         }
-                        return [2 /*return*/, locations];
+                        return [2 /*return*/, {
+                                total: total,
+                                itens: itens
+                            }];
                 }
             });
         });

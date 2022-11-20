@@ -1,22 +1,42 @@
-import { hash } from 'bcrypt';
+
 import { prisma } from '../../../../../database/prismaClient';
+import { IFilter } from '../../../../../interfaces/IFilter';
 
-interface ITrashReasonFilter {
-  name: string;
-  description: string;
 
-}
 
 export class GetAllTrashReasonsUseCase {
   
-  async execute({ name,description }: ITrashReasonFilter) {
-    const trashReasons = await prisma.trashReasons.findMany();
+  async execute({ name, limit,page }: IFilter) {
+    
+    const total = await prisma.trashReasons.count({
+      where: {
+        name: {
+          contains: name
+        },
 
-    if (!trashReasons) {
-      throw new Error('Sem Profiles Existentes.');
+      }
+    })
+
+    const itens = await prisma.trashReasons.findMany({
+      take: !isNaN(limit) ? Number.parseInt(limit.toString()) : 9999,
+      skip: !isNaN(page) ?  (page - 1) * limit : 0,
+      where: {
+        name: {
+          contains: name
+        },
+
+      },
+      
+    });
+    
+    if (!
+      itens) {
+      throw new Error('Sem Motivo Descarte');
     }
 
-
-    return trashReasons;
+    return {
+      total,
+      itens
+    };
   }
 }

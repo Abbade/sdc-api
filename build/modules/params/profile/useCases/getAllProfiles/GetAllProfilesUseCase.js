@@ -42,20 +42,38 @@ var GetAllProfilesUseCase = /** @class */ (function () {
     function GetAllProfilesUseCase() {
     }
     GetAllProfilesUseCase.prototype.execute = function (_a) {
-        var name = _a.name, description = _a.description;
+        var name = _a.name, limit = _a.limit, page = _a.page;
         return __awaiter(this, void 0, void 0, function () {
-            var profiles;
+            var total, itens;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, prismaClient_1.prisma.profiles.findMany({
-                            include: { genetics: true }
+                    case 0: return [4 /*yield*/, prismaClient_1.prisma.profiles.count({
+                            where: {
+                                name: {
+                                    contains: name
+                                }
+                            }
                         })];
                     case 1:
-                        profiles = _b.sent();
-                        if (!profiles) {
-                            throw new Error('Sem Profiles Existentes.');
+                        total = _b.sent();
+                        return [4 /*yield*/, prismaClient_1.prisma.profiles.findMany({
+                                take: !isNaN(limit) ? Number.parseInt(limit.toString()) : 9999,
+                                skip: !isNaN(page) ? (page - 1) * limit : 0,
+                                where: {
+                                    name: {
+                                        contains: name
+                                    }
+                                }
+                            })];
+                    case 2:
+                        itens = _b.sent();
+                        if (!itens) {
+                            throw new Error('Sem perfil genético');
                         }
-                        return [2 /*return*/, profiles];
+                        return [2 /*return*/, {
+                                total: total,
+                                itens: itens
+                            }];
                 }
             });
         });

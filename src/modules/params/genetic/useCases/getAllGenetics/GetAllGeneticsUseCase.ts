@@ -1,12 +1,6 @@
-import { hash } from 'bcrypt';
 import { prisma } from '../../../../../database/prismaClient';
 import { IFilter } from '../../../../../interfaces/IFilter';
 
-interface IGeneticFilter {
-  name: string;
-  description: string;
-
-}
 
 export class GetAllGeneticsUseCase {
   

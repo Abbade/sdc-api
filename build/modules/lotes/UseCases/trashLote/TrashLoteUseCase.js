@@ -61,7 +61,7 @@ var TrashLoteUseCase = /** @class */ (function () {
                         if (!selectedLote) {
                             throw new Error('Lote não existente: ' + idLote);
                         }
-                        return [4 /*yield*/, prismaClient_1.prisma.lotes.findFirst({
+                        return [4 /*yield*/, prismaClient_1.prisma.trashReasons.findFirst({
                                 where: {
                                     id: id_trashReason
                                 }

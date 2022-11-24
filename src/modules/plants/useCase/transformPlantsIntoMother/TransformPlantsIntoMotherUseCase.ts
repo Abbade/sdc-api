@@ -64,6 +64,46 @@ export class TransformPlantsIntoMotherUseCase {
 
 
     })
+      
+    let actions = [] as any;
+
+    const newActionGroup = await (await prisma.actionGroups.create({
+      data: {
+        id_user_create: id_user_create,
+        obs: obs
+      }
+    })).id
+
+    const selectedAction = await prisma.actions.findFirst({
+      where: {
+        name: "Mover plantas"
+      }
+    })
+
+    if (!selectedAction) {
+      throw new Error('Action para log não existente: Mover plantas');
+    }
+
+    plantsToUpdate.forEach(plant => {
+      const newActionParams = {
+          id_planta: plant.id,
+          id_user_create: id_user_create,
+          obs: obs,
+          id_action: selectedAction.id,
+          id_actionGroup: newActionGroup,
+
+          status: "Completed",
+          isCompleted: true,
+          completionDate: actionDate,
+          
+          id_user_atribution: id_user_create,
+
+      }
+      actions.push(newActionParams)
+
+
+
+    })
 
       const updatePlantsParams = {
         where: {

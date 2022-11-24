@@ -31,7 +31,7 @@ export class TrashLoteUseCase {
       throw new Error('Lote não existente: ' + idLote);
     }
 
-    const selectedTrashReason = await prisma.lotes.findFirst({
+    const selectedTrashReason = await prisma.trashReasons.findFirst({
       where: {
         id: id_trashReason
       }

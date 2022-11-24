@@ -45,6 +45,17 @@ export class CreatePlantsLoteUseCase {
     }
 
     //VALIDA EXISTENCIA DE CAMPOS
+    const selectedFaseCultivo = await prisma.fasesCultivo.findFirst({
+      where: {
+        ordem: 2,
+      },
+    });
+
+    if (!selectedFaseCultivo) {
+      throw new Error("Fase de cultivo não existente: " + 2);
+    }
+
+
     const selectedLote = await prisma.lotes.findFirst({
       where: {
         id: id_lote,
@@ -116,7 +127,7 @@ export class CreatePlantsLoteUseCase {
         id_genetic: selectedLote.id_genetic,
         id_propagationType: selectedLote.id_propagationType,
 
-        id_faseCultivo: 2,
+        id_faseCultivo: selectedFaseCultivo.id,
         obs: obs,
 
         //id_mother: selectedLote.id_mother

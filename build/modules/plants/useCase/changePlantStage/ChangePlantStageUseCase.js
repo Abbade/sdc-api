@@ -52,7 +52,7 @@ var ChangePlantStageUseCase = /** @class */ (function () {
     ChangePlantStageUseCase.prototype.execute = function (_a) {
         var actionDate = _a.actionDate, plants = _a.plants, id_faseCultivo = _a.id_faseCultivo, id_user_create = _a.id_user_create, obs = _a.obs;
         return __awaiter(this, void 0, void 0, function () {
-            var selectedFaseCultivo, plantsToUpdate, updatePlantsParams, updatedDatePlants, updatePlantsParams, updatedDatePlants, actions, newActionGroup, createActionPlants;
+            var selectedFaseCultivo, plantsToUpdate, selectedAction, selectedAction_1, updatePlantsParams, updatedDatePlants, selectedAction_2, updatePlantsParams, updatedDatePlants, actions, newActionGroup, createActionPlants;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, prismaClient_1.prisma.fasesCultivo.findFirst({
@@ -69,12 +69,10 @@ var ChangePlantStageUseCase = /** @class */ (function () {
                                 where: {
                                     id: { "in": plants }
                                 }
-                            })
-                            //VALIDA VIABILIDADE DE TRANSPLANTE
-                            //DESCARTADA?
-                        ];
+                            })];
                     case 2:
                         plantsToUpdate = _b.sent();
+                        selectedAction = {};
                         //VALIDA VIABILIDADE DE TRANSPLANTE
                         //DESCARTADA?
                         plantsToUpdate.map(function (plant) {
@@ -88,7 +86,17 @@ var ChangePlantStageUseCase = /** @class */ (function () {
                                 throw new Error('Não é possivel alterar plantas colhidas.');
                             }
                         });
-                        if (!(selectedFaseCultivo.name == "Vegetação")) return [3 /*break*/, 4];
+                        if (!(selectedFaseCultivo.name == "Vegetação")) return [3 /*break*/, 5];
+                        return [4 /*yield*/, prismaClient_1.prisma.actions.findFirst({
+                                where: {
+                                    name: "Vegetar planta"
+                                }
+                            })];
+                    case 3:
+                        selectedAction_1 = _b.sent();
+                        if (!selectedAction_1) {
+                            throw new Error('Action para log não existente: Vegetar planta');
+                        }
                         updatePlantsParams = {
                             where: {
                                 id: { "in": plants }
@@ -99,11 +107,21 @@ var ChangePlantStageUseCase = /** @class */ (function () {
                             }
                         };
                         return [4 /*yield*/, prismaClient_1.prisma.plantas.updateMany(updatePlantsParams)];
-                    case 3:
-                        updatedDatePlants = _b.sent();
-                        _b.label = 4;
                     case 4:
-                        if (!(selectedFaseCultivo.name == "Floração")) return [3 /*break*/, 6];
+                        updatedDatePlants = _b.sent();
+                        _b.label = 5;
+                    case 5:
+                        if (!(selectedFaseCultivo.name == "Floração")) return [3 /*break*/, 8];
+                        return [4 /*yield*/, prismaClient_1.prisma.actions.findFirst({
+                                where: {
+                                    name: "Florir planta"
+                                }
+                            })];
+                    case 6:
+                        selectedAction_2 = _b.sent();
+                        if (!selectedAction_2) {
+                            throw new Error('Action para log não existente: Mover plantas');
+                        }
                         updatePlantsParams = {
                             where: {
                                 id: { "in": plants }
@@ -114,10 +132,10 @@ var ChangePlantStageUseCase = /** @class */ (function () {
                             }
                         };
                         return [4 /*yield*/, prismaClient_1.prisma.plantas.updateMany(updatePlantsParams)];
-                    case 5:
+                    case 7:
                         updatedDatePlants = _b.sent();
-                        _b.label = 6;
-                    case 6:
+                        _b.label = 8;
+                    case 8:
                         actions = [];
                         return [4 /*yield*/, prismaClient_1.prisma.actionGroups.create({
                                 data: {
@@ -125,8 +143,8 @@ var ChangePlantStageUseCase = /** @class */ (function () {
                                     obs: obs
                                 }
                             })];
-                    case 7: return [4 /*yield*/, (_b.sent()).id];
-                    case 8:
+                    case 9: return [4 /*yield*/, (_b.sent()).id];
+                    case 10:
                         newActionGroup = _b.sent();
                         plantsToUpdate.forEach(function (plant) {
                             var newActionParams = {
@@ -134,6 +152,7 @@ var ChangePlantStageUseCase = /** @class */ (function () {
                                 id_user_create: id_user_create,
                                 obs: obs,
                                 id_actionGroup: newActionGroup,
+                                id_action: selectedAction.id,
                                 status: "Completed",
                                 isCompleted: true,
                                 completionDate: actionDate,
@@ -144,7 +163,7 @@ var ChangePlantStageUseCase = /** @class */ (function () {
                             actions.push(newActionParams);
                         });
                         return [4 /*yield*/, prismaClient_1.prisma.actionPlants.createMany({ data: actions })];
-                    case 9:
+                    case 11:
                         createActionPlants = _b.sent();
                         return [2 /*return*/, actions];
                 }

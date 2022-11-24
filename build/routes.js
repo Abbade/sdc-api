@@ -61,6 +61,7 @@ var GetAllRolesController_1 = require("./modules/roles/useCase/getAll/GetAllRole
 var UpdateRolesController_1 = require("./modules/roles/useCase/update/UpdateRolesController");
 var GetUserController_1 = require("./modules/users/useCases/get/GetUserController");
 var UpdateUserController_1 = require("./modules/users/useCases/update/UpdateUserController");
+var GetAllActionPlantsController_1 = require("./modules/plants/useCase/getActionPlants/GetAllActionPlantsController");
 var routes = (0, express_1.Router)();
 exports.routes = routes;
 var createUserController = new CreateUserController_1.CreateUserController();
@@ -112,6 +113,7 @@ var trashPlantsController = new TrashPlantsController_1.TrashPlantsController();
 var transformPlantsIntoMotherController = new TransformPlantsIntoMotherController_1.TransformPlantsIntoMotherController();
 var movePlantsController = new MovePlantsController_1.MovePlantsController();
 var changePlantStageController = new ChangePlantStageController_1.ChangePlantStageController();
+var getAllActionPlantsController = new GetAllActionPlantsController_1.GetAllActionPlantsController();
 var getAllTrashedLotesController = new getAllTrashedLotesController_1.GetAllTrashedLotesController();
 var trashLoteController = new TrashLoteController_1.TrashLoteController();
 var createRolesController = new CreateRoleController_1.CreateRolesController();
@@ -183,6 +185,7 @@ routes.put('/trash-lote', ensureAuthenticate_1.ensureAuthenticate, trashLoteCont
 // lote - create plants
 routes.post('/plant', ensureAuthenticate_1.ensureAuthenticate, createPlantsLoteController.handle);
 routes.get('/plant', ensureAuthenticate_1.ensureAuthenticate, getAllPlantsController.handle);
+routes.get('/action-plants', ensureAuthenticate_1.ensureAuthenticate, getAllPlantsController.handle);
 //plant - transplant
 routes.post('/transplant-plant', ensureAuthenticate_1.ensureAuthenticate, transplantPlantsController.handle);
 routes.post('/trash-plant', ensureAuthenticate_1.ensureAuthenticate, trashPlantsController.handle);

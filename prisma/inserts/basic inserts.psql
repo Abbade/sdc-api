@@ -1,0 +1,714 @@
+truncate "lotes" cascade;
+
+truncate "plantas" cascade;
+
+truncate "actionPlants" cascade;
+
+truncate "fasesCultivo" cascade;
+
+insert into
+    public."fasesCultivo" (
+        created_at,
+        id_user_create,
+        "name",
+        description,
+        ordem
+    )
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Propagação',
+        'Plantas recém transplantadas ou germinadas, identificadas.',
+        1
+    );
+
+insert into
+    public."fasesCultivo" (
+        created_at,
+        id_user_create,
+        "name",
+        description,
+        ordem
+    )
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Aclimatação',
+        'Plantas recém transplantadas ou germinadas, identificadas.',
+        2
+    );
+
+insert into
+    public."fasesCultivo" (
+        created_at,
+        id_user_create,
+        "name",
+        description,
+        ordem
+    )
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Vegetação',
+        'Plantas recém transplantadas ou germinadas, identificadas.',
+        3
+    );
+
+insert into
+    public."fasesCultivo" (
+        created_at,
+        id_user_create,
+        "name",
+        description,
+        ordem
+    )
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Floração',
+        'Plantas recém transplantadas ou germinadas, identificadas.',
+        4
+    );
+
+insert into
+    public."fasesCultivo" (
+        created_at,
+        id_user_create,
+        "name",
+        description,
+        ordem
+    )
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Colheita',
+        'Plantas recém transplantadas ou germinadas, identificadas.',
+        5
+    );
+
+truncate "propagationType" cascade;
+
+insert into
+    public."propagationType" (created_at, id_user_create, "name", description)
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Estaquia',
+        'Plantas geradas pelo metodo de estaquia.'
+    );
+
+insert into
+    public."propagationType" (created_at, id_user_create, "name", description)
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Semente Feminilizada',
+        'Plantas geradas por semente.'
+    );
+
+insert into
+    public."propagationType" (created_at, id_user_create, "name", description)
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Semente Regular',
+        'Plantas geradas por semente.'
+    );
+
+truncate "profiles" cascade;
+
+insert into
+    public."profiles" (created_at, id_user_create, "name", description)
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Desconhecido',
+        'Plantas sem informações disponíveis.'
+    );
+
+insert into
+    public."profiles" (created_at, id_user_create, "name", description)
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Alto THC',
+        'Plantas de alto THC.'
+    );
+
+insert into
+    public."profiles" (created_at, id_user_create, "name", description)
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Alto CBD',
+        'Plantas de alto CBD.'
+    );
+
+insert into
+    public."profiles" (created_at, id_user_create, "name", description)
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Alto CBG',
+        'Plantas de alto CBG.'
+    );
+
+insert into
+    public."profiles" (created_at, id_user_create, "name", description)
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Alto THCV',
+        'Plantas de alto THCV.'
+    );
+insert into
+    public."profiles" (created_at, id_user_create, "name", description)
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Balanceadas THC:CBD',
+        'Plantas com THC:CBD em proporções aproximadas.'
+    );
+
+truncate "recipientes" cascade;
+
+insert into
+    public."recipientes" (created_at, id_user_create, "name", description)
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Desconhecido',
+        'Plantas sem informações disponíveis.'
+    );
+
+insert into
+    public."recipientes" (created_at, id_user_create, "name", description)
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Vaso 1L',
+        'Plantas de alto THC.'
+    );
+
+insert into
+    public."recipientes" (created_at, id_user_create, "name", description)
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Vaso 8L',
+        'Plantas de alto CBD.'
+    );
+
+insert into
+    public."recipientes" (created_at, id_user_create, "name", description)
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Vaso 15L',
+        'Plantas de alto CBD.'
+    );
+
+insert into
+    public."recipientes" (created_at, id_user_create, "name", description)
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Vaso 25L',
+        'Plantas de alto CBD.'
+    );
+
+insert into
+    public."recipientes" (created_at, id_user_create, "name", description)
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Vaso 50L',
+        'Plantas de alto CBD.'
+    );
+
+insert into
+    public."recipientes" (created_at, id_user_create, "name", description)
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Canteiro',
+        'Plantas de alto CBD.'
+    );
+
+insert into
+    public."recipientes" (created_at, id_user_create, "name", description)
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Solo',
+        'Plantas de alto CBD.'
+    );
+
+truncate "section" cascade;
+
+insert into
+    public."section" (id, created_at, id_user_create, "name", description)
+values
+    (
+        1,
+        CURRENT_TIMESTAMP,
+        2,
+        'Berçário',
+        'Ambiente de propagação de plantas.'
+    );
+
+insert into
+    public."section" (id, created_at, id_user_create, "name", description)
+values
+    (   
+        2,
+        CURRENT_TIMESTAMP,
+        2,
+        'Aclimatação',
+        'Ambiente de propagação de plantas.'
+    );
+
+insert into
+    public."section" (id, created_at, id_user_create, "name", description)
+values
+    (
+        3,
+        CURRENT_TIMESTAMP,
+        2,
+        'Vegetação',
+        'Ambiente de vegetação de plantas.'
+    );
+
+--APEPI
+-- insert into public."section" (created_at, id_user_create, "name", description) 
+-- values (CURRENT_TIMESTAMP, 2, "Vegetação 1", "Ambiente de vegetação de plantas.");
+-- insert into public."section" (created_at, id_user_create, "name", description) 
+-- values (CURRENT_TIMESTAMP, 2, "Vegetação 2", "Ambiente de vegetação de plantas.");
+-- insert into public."section" (created_at, id_user_create, "name", description) 
+-- values (CURRENT_TIMESTAMP, 2, "Vegetação 3", "Ambiente de vegetação de plantas.");
+-- insert into public."section" (created_at, id_user_create, "name", description) 
+-- values (CURRENT_TIMESTAMP, 2, "Vegetação 4", "Ambiente de vegetação de plantas.");
+insert into
+    public."section" (id, created_at, id_user_create, "name", description)
+values
+    (
+        4,
+        CURRENT_TIMESTAMP,
+        2,
+        'Floração',
+        'Ambiente de floração de plantas.'
+    );
+
+truncate "location" cascade;
+
+--PROPAGAÇÃO
+insert into
+    public."location" (
+        created_at,
+        id_user_create,
+        "name",
+        description,
+        id_section
+    )
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Estufa de Propagação',
+        'Ambiente de propagação de plantas.',
+        1
+    );
+
+--PROPAGAÇÃO APEPI
+-- insert into public."location" (created_at, id_user_create, "name", description, id_section) 
+-- values (CURRENT_TIMESTAMP, 2, "Estufa de Propagação 1", "Ambiente de propagação de plantas.",1);
+-- insert into public."location" (created_at, id_user_create, "name", description, id_section) 
+-- values (CURRENT_TIMESTAMP, 2, "Estufa de Propagação 2", "Ambiente de propagação de plantas.",1);
+-- insert into public."location" (created_at, id_user_create, "name", description, id_section) 
+-- values (CURRENT_TIMESTAMP, 2, "Estufa de Propagação 3", "Ambiente de propagação de plantas.",1);
+--ACLIMATAÇÃO
+--ACLIMATAÇÃO APEPI
+insert into
+    public."location" (
+        created_at,
+        id_user_create,
+        "name",
+        description,
+        id_section
+    )
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Aclimatação',
+        'Ambiente de aclimatação de plantas.',
+        2
+    );
+
+--VEGETAÇÃO
+--VEGETAÇÃO APEPI
+insert into
+    public."location" (
+        created_at,
+        id_user_create,
+        "name",
+        description,
+        id_section
+    )
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Área de Vegetação',
+        'Ambiente de vegetação de plantas.',
+        3
+    );
+
+--FLORAÇÃO
+--FLORAÇÃO APEPI
+insert into
+    public."location" (
+        created_at,
+        id_user_create,
+        "name",
+        description,
+        id_section
+    )
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Área de Floração',
+        'Ambiente de floração de plantas.',
+        4
+    );
+
+truncate "trashReason" cascade;
+
+insert into
+    public."trashReason" (created_at, id_user_create, "name", description)
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Fungo genérico',
+        'Fungos genéricos.'
+    );
+
+insert into
+    public."trashReason" (created_at, id_user_create, "name", description)
+values
+    (CURRENT_TIMESTAMP, 2, 'Chuva', 'Altera');
+
+insert into
+    public."trashReason" (created_at, id_user_create, "name", description)
+values
+    (CURRENT_TIMESTAMP, 2, 'Vento', 'Altera');
+
+insert into
+    public."trashReason" (created_at, id_user_create, "name", description)
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Podridão de raiz',
+        'Altera'
+    );
+
+insert into
+    public."trashReason" (created_at, id_user_create, "name", description)
+values
+    (CURRENT_TIMESTAMP, 2, 'Pragas', 'Altera');
+
+insert into
+    public."trashReason" (created_at, id_user_create, "name", description)
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Floração indevida',
+        'Altera'
+    );
+
+insert into
+    public."trashReason" (created_at, id_user_create, "name", description)
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Falta de raízes',
+        'Altera'
+    );
+
+truncate "actionTypes" cascade;
+
+truncate "actions" cascade;
+
+insert into
+    public."actionTypes" (id, created_at, id_user_create, "name", description)
+values
+    (   
+        1,
+        CURRENT_TIMESTAMP,
+        2,
+        'Transplantes',
+        'Atividades de transplante.'
+    );
+
+insert into
+    public."actions" (
+        created_at,
+        id_user_create,
+        "name",
+        description,
+        "id_actionType",
+        "isLote"
+    )
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Transplante de mudas',
+        'Atividades de transplante.',
+        1,
+        true
+    );
+
+insert into
+    public."actions" (
+        created_at,
+        id_user_create,
+        "name",
+        description,
+        "id_actionType",
+        "isPlant"
+    )
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Transplante de planta',
+        'Atividades de transplante.',
+        1,
+        true
+    );
+
+insert into
+    public."actionTypes" (id, created_at, id_user_create, "name", description)
+values
+    (
+        2,
+        CURRENT_TIMESTAMP,
+        2,
+        'Alteração de fase de cultivo',
+        'Altera'
+    );
+
+insert into
+    public."actions" (
+        created_at,
+        id_user_create,
+        "name",
+        description,
+        "id_actionType",
+        "isPlant"
+    )
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Vegetar planta',
+        'Altera',
+        2,
+        true
+    );
+
+insert into
+    public."actions" (
+        created_at,
+        id_user_create,
+        "name",
+        description,
+        "id_actionType",
+        "isPlant"
+    )
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Florir planta',
+        'Altera',
+        2,
+        true
+    );
+
+insert into
+    public."actionTypes" (id, created_at, id_user_create, "name", description)
+values
+    (3, CURRENT_TIMESTAMP, 2, 'Descartes', 'Altera');
+
+insert into
+    public."actions" (
+        created_at,
+        id_user_create,
+        "name",
+        description,
+        "id_actionType",
+        "isPlant"
+    )
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Descartar mudas',
+        'Altera',
+        3,
+        true
+    );
+
+insert into
+    public."actions" (
+        created_at,
+        id_user_create,
+        "name",
+        description,
+        "id_actionType",
+        "isPlant"
+    )
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Descartar planta',
+        'Altera',
+        3,
+        true
+    );
+
+insert into
+    public."actions" (
+        created_at,
+        id_user_create,
+        "name",
+        description,
+        "id_actionType",
+        "isCrop"
+    )
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Descartar colheita',
+        'Altera',
+        3,
+        true
+    );
+
+insert into
+    public."actions" (
+        created_at,
+        id_user_create,
+        "name",
+        description,
+        "id_actionType",
+        "isCrop"
+    )
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Descartar colheita - parcial',
+        'Altera',
+        3,
+        true
+    );
+
+insert into
+    public."actionTypes" (id, created_at, id_user_create, "name", description)
+values
+    (
+        4,
+        CURRENT_TIMESTAMP,
+        2,
+        'Alteração de local',
+        'Altera'
+    );
+
+insert into
+    public."actions" (
+        created_at,
+        id_user_create,
+        "name",
+        description,
+        "id_actionType",
+        "isPlant"
+    )
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Mover mudas',
+        'Altera',
+        4,
+        true
+    );
+
+insert into
+    public."actions" (
+        created_at,
+        id_user_create,
+        "name",
+        description,
+        "id_actionType",
+        "isPlant"
+    )
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Mover plantas',
+        'Altera',
+        4,
+        true
+    );
+
+insert into
+    public."actions" (
+        created_at,
+        id_user_create,
+        "name",
+        description,
+        "id_actionType",
+        "isPlant"
+    )
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Mover colheita',
+        'Altera',
+        4,
+        true
+    );

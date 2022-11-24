@@ -51,6 +51,9 @@ var GetAllPlantsUseCase = /** @class */ (function () {
                         id = id ? Number.parseInt(id) : undefined;
                         return [4 /*yield*/, prismaClient_1.prisma.plantas.count({
                                 where: {
+                                    id: {
+                                        equals: id != undefined ? Number.parseInt(id) : id
+                                    },
                                     id_lote: {
                                         equals: (filter === null || filter === void 0 ? void 0 : filter.idLote) != undefined ? Number.parseInt(filter === null || filter === void 0 ? void 0 : filter.idLote.toString()) : filter === null || filter === void 0 ? void 0 : filter.idLote
                                     },
@@ -74,9 +77,12 @@ var GetAllPlantsUseCase = /** @class */ (function () {
                     case 1:
                         total = _b.sent();
                         return [4 /*yield*/, prismaClient_1.prisma.plantas.findMany({
-                                take: Number.parseInt(limit.toString()),
-                                skip: (page - 1) * limit,
+                                take: (limit === null || limit === void 0 ? void 0 : limit.toString()) ? Number.parseInt(limit === null || limit === void 0 ? void 0 : limit.toString()) : 1,
+                                skip: limit ? ((page - 1) * limit) : 0,
                                 where: {
+                                    id: {
+                                        equals: id != undefined ? Number.parseInt(id) : id
+                                    },
                                     id_lote: {
                                         equals: (filter === null || filter === void 0 ? void 0 : filter.idLote) != undefined ? Number.parseInt(filter === null || filter === void 0 ? void 0 : filter.idLote.toString()) : filter === null || filter === void 0 ? void 0 : filter.idLote
                                     },
@@ -101,7 +107,13 @@ var GetAllPlantsUseCase = /** @class */ (function () {
                                     genetic: true,
                                     recipiente: true,
                                     propagationType: true,
-                                    faseCultivo: true
+                                    faseCultivo: true,
+                                    actionPlants: {
+                                        // id ? true:false
+                                        include: {
+                                            action: true
+                                        }
+                                    }
                                 }
                             })];
                     case 2:

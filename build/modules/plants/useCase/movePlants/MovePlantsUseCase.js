@@ -52,7 +52,7 @@ var MovePlantsUseCase = /** @class */ (function () {
     MovePlantsUseCase.prototype.execute = function (_a) {
         var moveDate = _a.moveDate, plants = _a.plants, id_location = _a.id_location, id_user_create = _a.id_user_create, obs = _a.obs;
         return __awaiter(this, void 0, void 0, function () {
-            var selectedLocation, plantsToUpdate, updatePlantsParams, updatedDatePlants, actions, newActionGroup, createActionPlants;
+            var selectedLocation, plantsToUpdate, updatePlantsParams, updatedDatePlants, actions, newActionGroup, selectedAction, createActionPlants;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, prismaClient_1.prisma.locations.findFirst({
@@ -109,11 +109,22 @@ var MovePlantsUseCase = /** @class */ (function () {
                     case 4: return [4 /*yield*/, (_b.sent()).id];
                     case 5:
                         newActionGroup = _b.sent();
+                        return [4 /*yield*/, prismaClient_1.prisma.actions.findFirst({
+                                where: {
+                                    name: "Mover plantas"
+                                }
+                            })];
+                    case 6:
+                        selectedAction = _b.sent();
+                        if (!selectedAction) {
+                            throw new Error('Action para log não existente: Mover plantas');
+                        }
                         plantsToUpdate.forEach(function (plant) {
                             var newActionParams = {
                                 id_planta: plant.id,
                                 id_user_create: id_user_create,
                                 obs: obs,
+                                id_action: selectedAction.id,
                                 id_actionGroup: newActionGroup,
                                 status: "Completed",
                                 isCompleted: true,
@@ -125,7 +136,7 @@ var MovePlantsUseCase = /** @class */ (function () {
                             actions.push(newActionParams);
                         });
                         return [4 /*yield*/, prismaClient_1.prisma.actionPlants.createMany({ data: actions })];
-                    case 6:
+                    case 7:
                         createActionPlants = _b.sent();
                         return [2 /*return*/, actions];
                 }

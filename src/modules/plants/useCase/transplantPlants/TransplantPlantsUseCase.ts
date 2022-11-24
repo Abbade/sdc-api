@@ -73,7 +73,7 @@ export class TransplantPlantsUseCase {
       }
     })
 
-
+    
 
     //VALIDA VIABILIDADE DE TRANSPLANTE
 
@@ -290,6 +290,17 @@ export class TransplantPlantsUseCase {
       }
     })).id
 
+    
+    const selectedAction = await prisma.actions.findFirst({
+      where: {
+        name: "Transplante de planta"
+      }
+    })
+
+    if (!selectedAction) {
+      throw new Error('Action para log não existente: ' + id_faseCultivo);
+    }
+
     plantsToUpdate.forEach(plant => {
       const newActionParams = {
           id_planta: plant.id,
@@ -302,6 +313,7 @@ export class TransplantPlantsUseCase {
           completionDate: transplantDate,
           
           id_user_atribution: id_user_create,
+          id_action: selectedAction.id,
 
           id_faseCultivo: id_faseCultivo,
           id_location: id_location,
@@ -312,8 +324,6 @@ export class TransplantPlantsUseCase {
           id_location_old: id_location ? plant.id_location : undefined
       }
       actions.push(newActionParams)
-
-
 
     })
     const createActionPlants = await prisma.actionPlants.createMany({data: actions})

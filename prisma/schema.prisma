@@ -34,9 +34,10 @@ model Permissions {
 }
 
 model Company {
-  id Int @id @default(autoincrement())
-  name String 
+  id    Int    @id @default(autoincrement())
+  name  String
   email String @unique
+
   @@map("company")
 }
 
@@ -55,25 +56,27 @@ model Users {
   email    String @unique
   password String
 
-  clones          Clones[]
-  profiles        Profiles[]
-  fasesCultivo    FasesCultivo[]
-  recipientes     Recipientes[]
-  genetics        Genetics[]
-  sections        Sections[]
-  locations       Locations[]
-  propagationType PropagationType[]
-  trashReasons    TrashReasons[]
-  lotes           Lotes[]
-  trashedLotes    TrashedLotes[]
-  plantas         Plantas[]
-  crops           Crops[]
-  organizations   Organizations?    @relation(name: "userCreate")
-  actionTypes ActionTypes[]
-  actions Actions[]
-  actionPlants ActionPlants[]
-  actionGroups ActionGroups[]
-  actionPlantsAtributions ActionPlants[] @relation(name: "userAtribution")
+  clones                  Clones[]
+  profiles                Profiles[]
+  fasesCultivo            FasesCultivo[]
+  recipientes             Recipientes[]
+  genetics                Genetics[]
+  sections                Sections[]
+  locations               Locations[]
+  propagationType         PropagationType[]
+  trashReasons            TrashReasons[]
+  lotes                   Lotes[]
+  trashedLotes            TrashedLotes[]
+  plantas                 Plantas[]
+  crops                   Crops[]
+  organizations           Organizations?    @relation(name: "userCreate")
+  actionTypes             ActionTypes[]
+  actions                 Actions[]
+  actionPlants            ActionPlants[]
+  actionLotes             ActionLotes[]
+  actionGroups            ActionGroups[]
+  actionPlantsAtributions ActionPlants[]    @relation(name: "userAtribution")
+  actionLotesAtributions  ActionLotes[]     @relation(name: "userAtributionActionLote")
 
   @@map("users")
 }
@@ -121,11 +124,10 @@ model FasesCultivo {
   description String
   ordem       Int    @unique
 
-  plantas   Plantas[]
-  locations Locations[]
-  actionPlants ActionPlants[]
-  actionPlantsOld ActionPlants[] @relation("faseCultivoOld") 
-
+  plantas         Plantas[]
+  locations       Locations[]
+  actionPlants    ActionPlants[]
+  actionPlantsOld ActionPlants[] @relation("faseCultivoOld")
 
   @@map("fasesCultivo")
 }
@@ -139,9 +141,9 @@ model Recipientes {
   name        String
   description String
 
-  plantas Plantas[]
-  actionPlants ActionPlants[]
-  actionPlantsOld ActionPlants[] @relation("recipienteOld") 
+  plantas         Plantas[]
+  actionPlants    ActionPlants[]
+  actionPlantsOld ActionPlants[] @relation("recipienteOld")
 
   @@map("recipientes")
 }
@@ -194,12 +196,13 @@ model Locations {
   id_faseCultivo Int?
   faseCultivo    FasesCultivo? @relation(fields: [id_faseCultivo], references: [id])
 
-  plantas Plantas[]
-  lotes   Lotes[]
-  crops Crops[]
-  actionPlants ActionPlants[]
-  actionPlantsOld ActionPlants[] @relation("locationOld") 
-
+  plantas         Plantas[]
+  lotes           Lotes[]
+  crops           Crops[]
+  actionPlants    ActionPlants[]
+  actionPlantsOld ActionPlants[] @relation("locationOld")
+  actionLotesNew    ActionLotes[] @relation("actionLotesNewLocation")
+  actionLotesOld    ActionLotes[] @relation("actionLotesOldLocation")
 
   @@map("location")
 }
@@ -256,16 +259,16 @@ model Lotes {
   id_location_init Int
   location         Locations @relation(fields: [id_location_init], references: [id])
 
-  id_mother Int?
-  motherPlant Plantas? @relation("MotherPlantLote",fields: [id_mother],references: [id])
-
+  id_mother     Int?
+  motherPlant   Plantas? @relation("MotherPlantLote", fields: [id_mother], references: [id])
   qtTotal       Int
   qtProp        Int
-  qtPropTrashed Int @default(0)
-  qtPlant       Int @default(0)
+  qtPropTrashed Int      @default(0)
+  qtPlant       Int      @default(0)
 
-  descartes TrashedLotes[]
-  plantas   Plantas[]
+  descartes           TrashedLotes[]
+  selectedLotesAction ActionLotes[]  @relation("selectedLotesAction")
+  plantas             Plantas[]
 
   @@map("lotes")
 }
@@ -299,17 +302,16 @@ model Plantas {
   faseCultivo    FasesCultivo @relation(fields: [id_faseCultivo], references: [id])
 
   isMotherPlant Boolean? @default(false)
-  isMalePlant Boolean? @default(false)
+  isMalePlant   Boolean? @default(false)
 
   isTrashed Boolean? @default(false)
   isCropped Boolean? @default(false)
 
+  id_mother   Int?
+  motherPlant Plantas? @relation("MotherPlants", fields: [id_mother], references: [id])
 
-  id_mother Int? 
-  motherPlant Plantas? @relation("MotherPlants",fields: [id_mother], references: [id])
-
-  lotes Lotes[] @relation("MotherPlantLote")
-  clones Plantas[] @relation("MotherPlants") 
+  lotes  Lotes[]   @relation("MotherPlantLote")
+  clones Plantas[] @relation("MotherPlants")
 
   lastTransplant DateTime?
 
@@ -340,8 +342,8 @@ model Plantas {
 
   cropDate DateTime?
   cropName String?
-  id_crop Int?
-  crop Crops? @relation(fields: [id_crop], references: [id])
+  id_crop  Int?
+  crop     Crops?    @relation(fields: [id_crop], references: [id])
 
   trashDate      DateTime?
   id_trashReason Int?
@@ -367,22 +369,21 @@ model Crops {
   name String
 
   isTrashed Boolean @default(false)
-  isStored Boolean @default(false)
+  isStored  Boolean @default(false)
 
-  cropDate DateTime
+  cropDate        DateTime
   dryingStartDate DateTime?
-  dryingEndDate DateTime?
-  storageDate DateTime?
+  dryingEndDate   DateTime?
+  storageDate     DateTime?
 
   plantsQuantity Int?
 
-  cropFullMass Float?
-  cropWetMass Float?
-  cropDriedMass Float?  
+  cropFullMass  Float?
+  cropWetMass   Float?
+  cropDriedMass Float?
 
   plantas Plantas[]
 }
-
 
 model TrashedLotes {
   id             Int      @id @default(autoincrement())
@@ -408,6 +409,8 @@ model TrashedLotes {
 
   qtPlantTrashed Int?
 
+  actionLotes ActionLotes[]
+
   @@map("trashedLotes")
 }
 
@@ -424,19 +427,16 @@ model Clones {
 }
 
 model ActionTypes {
-   id             Int      @id @default(autoincrement())
+  id             Int      @id @default(autoincrement())
   id_user_create Int
   userCreate     Users    @relation(fields: [id_user_create], references: [id])
   created_at     DateTime @default(now())
   name           String
   description    String?
 
-
-
   actions Actions[]
 
   @@map("actionTypes")
-
 }
 
 model Actions {
@@ -447,16 +447,17 @@ model Actions {
   name           String
   description    String?
 
-  isPlant       Boolean @default(true)
-  isLote        Boolean @default(true)
-  isCrop        Boolean @default(false)
-  
+  isPlant Boolean @default(true)
+  isLote  Boolean @default(true)
+  isCrop  Boolean @default(false)
+
   id_actionType Int
-  actionType ActionTypes @relation(fields: [id_actionType], references: [id])
+  actionType    ActionTypes @relation(fields: [id_actionType], references: [id])
 
-  // actionPlants ActionPlants[]
+  actionPlants ActionPlants[]
+  actionLotes  ActionLotes[]
+
   @@map("actions")
-
 }
 
 model ActionGroups {
@@ -468,11 +469,10 @@ model ActionGroups {
   obs String?
 
   actionPlants ActionPlants[]
-
+  actionLotes  ActionLotes[]
 }
 
-model ActionPlants {
-
+model ActionLotes {
   id             Int      @id @default(autoincrement())
   id_user_create Int
   userCreate     Users    @relation(fields: [id_user_create], references: [id])
@@ -483,45 +483,82 @@ model ActionPlants {
   status String
 
   id_actionGroup Int
-  actionGroup ActionGroups @relation(fields: [id_actionGroup], references: [id])
+  actionGroup    ActionGroups @relation(fields: [id_actionGroup], references: [id])
 
   id_user_atribution Int?
-  atribution Users? @relation("userAtribution", fields: [id_user_atribution], references: [id])
+  atribution         Users? @relation("userAtributionActionLote", fields: [id_user_atribution], references: [id])
 
-  isCanceled  Boolean? 
-  cancelationDate     DateTime?
+  isCanceled      Boolean?
+  cancelationDate DateTime?
 
-  isCompleted Boolean? 
-  completionDate     DateTime?
+  isCompleted    Boolean?
+  completionDate DateTime?
 
-  // id_action Int
-  // action Actions @relation(fields: [id_action], references: [id])
+  id_action Int
+  action    Actions @relation(fields: [id_action], references: [id])
 
-  id_planta Int
-  planta Plantas @relation(fields: [id_planta],references: [id])
-
-  id_recipiente Int?
-  recipiente Recipientes? @relation(fields: [id_recipiente],references: [id])
-
-  id_faseCultivo Int?
-  faseCultivo FasesCultivo? @relation(fields: [id_faseCultivo],references: [id])
+  id_lote Int
+  lote    Lotes @relation("selectedLotesAction", fields: [id_lote], references: [id])
 
   id_location Int?
-  location Locations? @relation(fields: [id_location],references: [id])
-
-  id_trashReason Int?
-  trashReason TrashReasons? @relation(fields: [id_trashReason],references: [id])
-
-  id_recipiente_old Int?
-  recipienteOld Recipientes? @relation("recipienteOld",fields: [id_recipiente_old],references: [id])
-
-  id_faseCultivo_old Int?
-  faseCultivoOld FasesCultivo? @relation("faseCultivoOld",fields: [id_faseCultivo_old],references: [id])
+  location    Locations? @relation("actionLotesNewLocation",fields: [id_location], references: [id])
 
   id_location_old Int?
-  locationOld Locations? @relation("locationOld",fields: [id_location_old],references: [id])
+  location_old    Locations? @relation("actionLotesOldLocation", fields: [id_location_old], references: [id])
+  
+  id_trashedLote Int?
+  trashedLote    TrashedLotes? @relation(fields: [id_trashedLote], references: [id])
 
-
-	@@map("actionPlants")
 }
 
+model ActionPlants {
+  id             Int      @id @default(autoincrement())
+  id_user_create Int
+  userCreate     Users    @relation(fields: [id_user_create], references: [id])
+  created_at     DateTime @default(now())
+
+  obs String?
+
+  status String
+
+  id_actionGroup Int
+  actionGroup    ActionGroups @relation(fields: [id_actionGroup], references: [id])
+
+  id_user_atribution Int?
+  atribution         Users? @relation("userAtribution", fields: [id_user_atribution], references: [id])
+
+  isCanceled      Boolean?
+  cancelationDate DateTime?
+
+  isCompleted    Boolean?
+  completionDate DateTime?
+
+  id_action Int
+  action    Actions @relation(fields: [id_action], references: [id])
+
+  id_planta Int
+  planta    Plantas @relation(fields: [id_planta], references: [id])
+
+  id_recipiente Int?
+  recipiente    Recipientes? @relation(fields: [id_recipiente], references: [id])
+
+  id_faseCultivo Int?
+  faseCultivo    FasesCultivo? @relation(fields: [id_faseCultivo], references: [id])
+
+  id_location Int?
+  location    Locations? @relation(fields: [id_location], references: [id])
+
+  id_trashReason Int?
+  trashReason    TrashReasons? @relation(fields: [id_trashReason], references: [id])
+
+  id_recipiente_old Int?
+  recipienteOld     Recipientes? @relation("recipienteOld", fields: [id_recipiente_old], references: [id])
+
+  id_faseCultivo_old Int?
+  faseCultivoOld     FasesCultivo? @relation("faseCultivoOld", fields: [id_faseCultivo_old], references: [id])
+
+  id_location_old Int?
+  locationOld     Locations? @relation("locationOld", fields: [id_location_old], references: [id])
+
+  @@map("actionPlants")
+}

@@ -44,19 +44,29 @@ var CreatePlantsLoteUseCase = /** @class */ (function () {
     CreatePlantsLoteUseCase.prototype.execute = function (_a) {
         var id_lote = _a.id_lote, aclimatationDate = _a.aclimatationDate, qtPlant = _a.qtPlant, id_location = _a.id_location, id_recipiente = _a.id_recipiente, obs = _a.obs, id_user_create = _a.id_user_create;
         return __awaiter(this, void 0, void 0, function () {
-            var selectedLote, selectedGenetic, selectedLocation, selectedRecipiente, newPlants, plantIndex, i, trashedLote, lote;
+            var selectedFaseCultivo, selectedLote, selectedGenetic, selectedLocation, selectedRecipiente, newPlants, plantIndex, i, trashedLote, lote;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
                         if (qtPlant < 0) {
                             throw new Error("Quantidade não deve ser negativa: " + qtPlant);
                         }
+                        return [4 /*yield*/, prismaClient_1.prisma.fasesCultivo.findFirst({
+                                where: {
+                                    ordem: 2
+                                }
+                            })];
+                    case 1:
+                        selectedFaseCultivo = _b.sent();
+                        if (!selectedFaseCultivo) {
+                            throw new Error("Fase de cultivo não existente: " + 2);
+                        }
                         return [4 /*yield*/, prismaClient_1.prisma.lotes.findFirst({
                                 where: {
                                     id: id_lote
                                 }
                             })];
-                    case 1:
+                    case 2:
                         selectedLote = _b.sent();
                         if (!selectedLote) {
                             throw new Error("Lote não existente: " + id_lote);
@@ -66,7 +76,7 @@ var CreatePlantsLoteUseCase = /** @class */ (function () {
                                     id: selectedLote.id_genetic
                                 }
                             })];
-                    case 2:
+                    case 3:
                         selectedGenetic = _b.sent();
                         if (!selectedGenetic) {
                             throw new Error("Genética não existente: " + selectedLote.id);
@@ -76,7 +86,7 @@ var CreatePlantsLoteUseCase = /** @class */ (function () {
                                     id: id_location
                                 }
                             })];
-                    case 3:
+                    case 4:
                         selectedLocation = _b.sent();
                         if (!selectedLocation) {
                             throw new Error("Local não existente: " + selectedLote.id);
@@ -86,7 +96,7 @@ var CreatePlantsLoteUseCase = /** @class */ (function () {
                                     id: id_recipiente
                                 }
                             })];
-                    case 4:
+                    case 5:
                         selectedRecipiente = _b.sent();
                         if (!selectedRecipiente) {
                             throw new Error("Recipiente não existente: " + selectedLote.id);
@@ -113,12 +123,12 @@ var CreatePlantsLoteUseCase = /** @class */ (function () {
                                 propName: selectedLote.name,
                                 id_genetic: selectedLote.id_genetic,
                                 id_propagationType: selectedLote.id_propagationType,
-                                id_faseCultivo: 2,
+                                id_faseCultivo: selectedFaseCultivo.id,
                                 obs: obs
                             });
                         }
                         return [4 /*yield*/, prismaClient_1.prisma.plantas.createMany({ data: newPlants })];
-                    case 5:
+                    case 6:
                         trashedLote = _b.sent();
                         return [4 /*yield*/, prismaClient_1.prisma.lotes.update({
                                 where: {
@@ -129,7 +139,7 @@ var CreatePlantsLoteUseCase = /** @class */ (function () {
                                     qtPlant: selectedLote.qtPlant + qtPlant
                                 }
                             })];
-                    case 6:
+                    case 7:
                         lote = _b.sent();
                         return [2 /*return*/, trashedLote];
                 }

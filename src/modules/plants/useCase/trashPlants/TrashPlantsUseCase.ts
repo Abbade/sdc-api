@@ -102,6 +102,16 @@ export class TrashPlantsUseCase {
           obs: obs
         }
       })).id
+
+      const selectedAction = await prisma.actions.findFirst({
+        where: {
+          name: "Descartar planta"
+        }
+      })
+  
+      if (!selectedAction) {
+        throw new Error('Action para log não existente: Descartar planta');
+      }
   
       plantsToUpdate.forEach(plant => {
         const newActionParams = {
@@ -109,7 +119,7 @@ export class TrashPlantsUseCase {
             id_user_create: id_user_create,
             obs: obs,
             id_actionGroup: newActionGroup,
-  
+            id_action: selectedAction.id,
             status: "Completed",
             isCompleted: true,
             completionDate: trashDate,

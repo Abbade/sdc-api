@@ -52,7 +52,7 @@ var TrashPlantsUseCase = /** @class */ (function () {
     TrashPlantsUseCase.prototype.execute = function (_a) {
         var trashDate = _a.trashDate, plants = _a.plants, id_location = _a.id_location, id_trashReason = _a.id_trashReason, id_user_create = _a.id_user_create, obs = _a.obs;
         return __awaiter(this, void 0, void 0, function () {
-            var selectedTrashReason, plantsToUpdate, updatePlantsParams, updatedDatePlants, actions, newActionGroup, createActionPlants;
+            var selectedTrashReason, plantsToUpdate, updatePlantsParams, updatedDatePlants, actions, newActionGroup, selectedAction, createActionPlants;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, prismaClient_1.prisma.trashReasons.findFirst({
@@ -108,12 +108,23 @@ var TrashPlantsUseCase = /** @class */ (function () {
                     case 4: return [4 /*yield*/, (_b.sent()).id];
                     case 5:
                         newActionGroup = _b.sent();
+                        return [4 /*yield*/, prismaClient_1.prisma.actions.findFirst({
+                                where: {
+                                    name: "Descartar planta"
+                                }
+                            })];
+                    case 6:
+                        selectedAction = _b.sent();
+                        if (!selectedAction) {
+                            throw new Error('Action para log não existente: Descartar planta');
+                        }
                         plantsToUpdate.forEach(function (plant) {
                             var newActionParams = {
                                 id_planta: plant.id,
                                 id_user_create: id_user_create,
                                 obs: obs,
                                 id_actionGroup: newActionGroup,
+                                id_action: selectedAction.id,
                                 status: "Completed",
                                 isCompleted: true,
                                 completionDate: trashDate,
@@ -123,7 +134,7 @@ var TrashPlantsUseCase = /** @class */ (function () {
                             actions.push(newActionParams);
                         });
                         return [4 /*yield*/, prismaClient_1.prisma.actionPlants.createMany({ data: actions })];
-                    case 6:
+                    case 7:
                         createActionPlants = _b.sent();
                         return [2 /*return*/, actions];
                 }

@@ -29,6 +29,10 @@ export class GetAllPlantsUseCase {
     const total = await prisma.plantas.count({
     
       where: {
+        id: {
+          equals: id != undefined ?  Number.parseInt(id) : id
+
+        },
         id_lote: {
           equals: filter?.idLote != undefined ?  Number.parseInt(filter?.idLote.toString()) : filter?.idLote
 
@@ -54,10 +58,13 @@ export class GetAllPlantsUseCase {
       }
     })
     const lotes = await prisma.plantas.findMany({
-      take: Number.parseInt(limit.toString()),
-      skip: (page - 1) * limit,
+      take: limit?.toString() ? Number.parseInt(limit?.toString()):1,
+      skip: limit? ((page - 1) * limit):0, 
       where: {
+        id: {
+          equals: id != undefined ?  Number.parseInt(id) : id
 
+        },
         id_lote: {
           equals: filter?.idLote != undefined ?  Number.parseInt(filter?.idLote.toString()) : filter?.idLote
         },
@@ -84,7 +91,13 @@ export class GetAllPlantsUseCase {
         genetic: true,
         recipiente: true,
         propagationType: true,
-        faseCultivo: true
+        faseCultivo: true,
+        actionPlants: {
+          // id ? true:false
+        include: {
+          action: true
+        }
+      }
 
       }
     });

@@ -52,7 +52,7 @@ var TransformPlantsIntoMotherUseCase = /** @class */ (function () {
     TransformPlantsIntoMotherUseCase.prototype.execute = function (_a) {
         var actionDate = _a.actionDate, plants = _a.plants, id_user_create = _a.id_user_create, obs = _a.obs;
         return __awaiter(this, void 0, void 0, function () {
-            var plantsToUpdate, updatePlantsParams, updatedDatePlants;
+            var plantsToUpdate, actions, newActionGroup, selectedAction, updatePlantsParams, updatedDatePlants;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, prismaClient_1.prisma.plantas.findMany({
@@ -81,6 +81,40 @@ var TransformPlantsIntoMotherUseCase = /** @class */ (function () {
                                 throw new Error('Não é possivel transformar plantas colhidas em matrizes.');
                             }
                         });
+                        actions = [];
+                        return [4 /*yield*/, prismaClient_1.prisma.actionGroups.create({
+                                data: {
+                                    id_user_create: id_user_create,
+                                    obs: obs
+                                }
+                            })];
+                    case 2: return [4 /*yield*/, (_b.sent()).id];
+                    case 3:
+                        newActionGroup = _b.sent();
+                        return [4 /*yield*/, prismaClient_1.prisma.actions.findFirst({
+                                where: {
+                                    name: "Mover plantas"
+                                }
+                            })];
+                    case 4:
+                        selectedAction = _b.sent();
+                        if (!selectedAction) {
+                            throw new Error('Action para log não existente: Mover plantas');
+                        }
+                        plantsToUpdate.forEach(function (plant) {
+                            var newActionParams = {
+                                id_planta: plant.id,
+                                id_user_create: id_user_create,
+                                obs: obs,
+                                id_action: selectedAction.id,
+                                id_actionGroup: newActionGroup,
+                                status: "Completed",
+                                isCompleted: true,
+                                completionDate: actionDate,
+                                id_user_atribution: id_user_create
+                            };
+                            actions.push(newActionParams);
+                        });
                         updatePlantsParams = {
                             where: {
                                 id: { "in": plants }
@@ -90,7 +124,7 @@ var TransformPlantsIntoMotherUseCase = /** @class */ (function () {
                             }
                         };
                         return [4 /*yield*/, prismaClient_1.prisma.plantas.updateMany(updatePlantsParams)];
-                    case 2:
+                    case 5:
                         updatedDatePlants = _b.sent();
                         return [2 /*return*/];
                 }

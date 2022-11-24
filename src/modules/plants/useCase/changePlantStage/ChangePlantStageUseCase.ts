@@ -51,7 +51,7 @@ export class ChangePlantStageUseCase {
     })
 
 
-
+    let selectedAction = {} as any
     //VALIDA VIABILIDADE DE TRANSPLANTE
 
     //DESCARTADA?
@@ -74,6 +74,16 @@ export class ChangePlantStageUseCase {
 
 
     if (selectedFaseCultivo.name == "Vegetação") {
+
+      const selectedAction = await prisma.actions.findFirst({
+        where: {
+          name: "Vegetar planta"
+        }
+      })
+  
+      if (!selectedAction) {
+        throw new Error('Action para log não existente: Vegetar planta');
+      }
       const updatePlantsParams = {
         where: {
           id: { in: plants },
@@ -88,6 +98,17 @@ export class ChangePlantStageUseCase {
     }
 
     if (selectedFaseCultivo.name == "Floração") {
+
+      const selectedAction = await prisma.actions.findFirst({
+        where: {
+          name: "Florir planta"
+        }
+      })
+  
+      if (!selectedAction) {
+        throw new Error('Action para log não existente: Mover plantas');
+      }
+
       const updatePlantsParams = {
         where: {
           id: { in: plants },
@@ -111,13 +132,15 @@ export class ChangePlantStageUseCase {
       }
     })).id
 
+    
+
     plantsToUpdate.forEach(plant => {
       const newActionParams = {
           id_planta: plant.id,
           id_user_create: id_user_create,
           obs: obs,
           id_actionGroup: newActionGroup,
-
+          id_action: selectedAction.id,
           status: "Completed",
           isCompleted: true,
           completionDate: actionDate,

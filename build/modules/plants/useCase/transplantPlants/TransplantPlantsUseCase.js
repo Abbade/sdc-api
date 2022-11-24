@@ -52,7 +52,7 @@ var TransplantPlantsUseCase = /** @class */ (function () {
     TransplantPlantsUseCase.prototype.execute = function (_a) {
         var transplantDate = _a.transplantDate, plants = _a.plants, id_recipiente = _a.id_recipiente, id_location = _a.id_location, id_faseCultivo = _a.id_faseCultivo, id_user_create = _a.id_user_create, obs = _a.obs;
         return __awaiter(this, void 0, void 0, function () {
-            var selectedFaseCultivo, selectedLocation, selectedRecipiente, plantsToUpdate, param, updatedPlants, plantsWithEmptyDate, updateDateParams, updatedDatePlants, param_1, updatedPlants, plantsWithEmptyDateV1, updateDateParamsV1, updatedDatePlantsV1, plantsWithEmptyDateV2, updateDateParamsV2, updatedDatePlantsV2, plantsWithEmptyDateV3, updateDateParamsV3, updatedDatePlantsV3, param_2, updatedPlants, plantsWithEmptyDate, updateDateParams, actions, newActionGroup, createActionPlants;
+            var selectedFaseCultivo, selectedLocation, selectedRecipiente, plantsToUpdate, param, updatedPlants, plantsWithEmptyDate, updateDateParams, updatedDatePlants, param_1, updatedPlants, plantsWithEmptyDateV1, updateDateParamsV1, updatedDatePlantsV1, plantsWithEmptyDateV2, updateDateParamsV2, updatedDatePlantsV2, plantsWithEmptyDateV3, updateDateParamsV3, updatedDatePlantsV3, param_2, updatedPlants, plantsWithEmptyDate, updateDateParams, actions, newActionGroup, selectedAction, createActionPlants;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, prismaClient_1.prisma.fasesCultivo.findFirst({
@@ -262,6 +262,16 @@ var TransplantPlantsUseCase = /** @class */ (function () {
                     case 15: return [4 /*yield*/, (_b.sent()).id];
                     case 16:
                         newActionGroup = _b.sent();
+                        return [4 /*yield*/, prismaClient_1.prisma.actions.findFirst({
+                                where: {
+                                    name: "Transplante de planta"
+                                }
+                            })];
+                    case 17:
+                        selectedAction = _b.sent();
+                        if (!selectedAction) {
+                            throw new Error('Action para log não existente: ' + id_faseCultivo);
+                        }
                         plantsToUpdate.forEach(function (plant) {
                             var newActionParams = {
                                 id_planta: plant.id,
@@ -272,6 +282,7 @@ var TransplantPlantsUseCase = /** @class */ (function () {
                                 isCompleted: true,
                                 completionDate: transplantDate,
                                 id_user_atribution: id_user_create,
+                                id_action: selectedAction.id,
                                 id_faseCultivo: id_faseCultivo,
                                 id_location: id_location,
                                 id_recipiente: id_recipiente,
@@ -282,7 +293,7 @@ var TransplantPlantsUseCase = /** @class */ (function () {
                             actions.push(newActionParams);
                         });
                         return [4 /*yield*/, prismaClient_1.prisma.actionPlants.createMany({ data: actions })];
-                    case 17:
+                    case 18:
                         createActionPlants = _b.sent();
                         return [2 /*return*/, actions];
                 }

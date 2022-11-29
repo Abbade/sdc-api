@@ -470,6 +470,8 @@ model ActionGroups {
 
   actionPlants ActionPlants[]
   actionLotes  ActionLotes[]
+
+  
 }
 
 model ActionLotes {

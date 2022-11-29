@@ -8,6 +8,8 @@ export type FilterProp = {
   idRecipiente?: number;
   idFaseCultivo?: number;
   idLocation?: number;
+  isMother?: boolean;
+  isTrashed?: boolean;
 }
 
 export class GetAllPlantsController {

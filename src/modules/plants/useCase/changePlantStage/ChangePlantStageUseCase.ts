@@ -31,7 +31,7 @@ export class ChangePlantStageUseCase {
   async execute({ actionDate, plants, id_faseCultivo, id_user_create, obs }: IChangePlantStage) {
 
     //VALIDA EXISTENCIA DE CAMPOS
-
+    let selectedAction = {} as any;
 
     const selectedFaseCultivo = await prisma.fasesCultivo.findFirst({
       where: {
@@ -75,7 +75,7 @@ export class ChangePlantStageUseCase {
 
     if (selectedFaseCultivo.name == "Vegetação") {
 
-      const selectedAction = await prisma.actions.findFirst({
+      selectedAction = await prisma.actions.findFirst({
         where: {
           name: "Vegetar planta"
         }
@@ -99,7 +99,7 @@ export class ChangePlantStageUseCase {
 
     if (selectedFaseCultivo.name == "Floração") {
 
-      const selectedAction = await prisma.actions.findFirst({
+      selectedAction = await prisma.actions.findFirst({
         where: {
           name: "Florir planta"
         }

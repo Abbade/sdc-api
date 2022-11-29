@@ -80,6 +80,12 @@ export class GetAllPlantsUseCase {
         id_faseCultivo: {
           equals: filter?.idFaseCultivo != undefined ?  Number.parseInt(filter?.idFaseCultivo.toString()) : filter?.idFaseCultivo  
         },
+        isMotherPlant: {
+          equals: filter?.isMother  
+        },
+        isTrashed: {
+          equals: filter?.isTrashed  
+        },
         name: {
           contains: name
         },

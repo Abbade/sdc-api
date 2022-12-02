@@ -50,6 +50,18 @@ export class GetAllPlantsUseCase {
         id_faseCultivo: {
           equals: filter?.idFaseCultivo != undefined ?  Number.parseInt(filter?.idFaseCultivo.toString()) : filter?.idFaseCultivo  
         },
+        propDate: {
+          equals: filter?.propagationDate != undefined ?  filter?.propagationDate : filter?.propagationDate  
+        },
+        aclimatationDate: {
+          equals: filter?.aclimatationDate != undefined ?  filter?.aclimatationDate : filter?.aclimatationDate  
+        },
+        vegetationDate: {
+          equals: filter?.vegetationDate != undefined ?  filter?.vegetationDate : filter?.vegetationDate  
+        },
+        floweringDate: {
+          equals: filter?.floweringDate != undefined ?  filter?.floweringDate : filter?.floweringDate  
+        },
 
 
         name: {

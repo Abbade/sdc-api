@@ -10,6 +10,10 @@ export type FilterProp = {
   idLocation?: number;
   isMother?: boolean;
   isTrashed?: boolean;
+  propagationDate?: Date;
+  aclimatationDate?: Date;
+  vegetationDate?: Date;
+  floweringDate?: Date;
 }
 
 export class GetAllPlantsController {

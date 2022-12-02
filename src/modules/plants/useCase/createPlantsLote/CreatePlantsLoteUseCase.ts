@@ -134,8 +134,7 @@ export class CreatePlantsLoteUseCase {
       });
     }
 
-    const trashedLote = await prisma.plantas.createMany({ data: newPlants });
-
+ 
     const lote = await prisma.lotes.update({
       where: {
         id: id_lote,
@@ -146,6 +145,69 @@ export class CreatePlantsLoteUseCase {
       },
     });
 
-    return trashedLote;
+
+   
+
+    
+   
+
+    const plantsCount = await prisma.plantas.createMany({ data: newPlants });
+    const plantNames = newPlants.map(plant => {
+      return plant.name;
+    })
+
+    const createdPlants = await prisma.plantas.findMany({
+      where: {
+        name: {
+          in: plantNames
+        }
+      }
+    })
+    
+    let actions = [] as any;
+
+    const newActionGroup = await (await prisma.actionGroups.create({
+      data: {
+        id_user_create: id_user_create,
+        obs: obs
+      }
+    })).id
+
+    
+    const selectedAction = await prisma.actions.findFirst({
+      where: {
+        name: "Transplante de planta"
+      }
+    })
+
+    if (!selectedAction) {
+      throw new Error('Action para log não existente: ');
+    }
+
+    createdPlants.forEach(plant => {
+      const newActionParams = {
+          id_planta: plant.id,
+          id_user_create: id_user_create,
+          obs: obs,
+          id_actionGroup: newActionGroup,
+
+          status: "Completed",
+          isCompleted: true,
+          completionDate: aclimatationDate,
+          
+          id_user_atribution: id_user_create,
+          id_action: selectedAction.id,
+
+          id_faseCultivo: plant.id_faseCultivo,
+          id_location: id_location,
+          id_recipiente: id_recipiente,
+
+      }
+      actions.push(newActionParams)
+
+    })
+    const createActionPlants = await prisma.actionPlants.createMany({data: actions})
+
+    return plantsCount;
   }
 }

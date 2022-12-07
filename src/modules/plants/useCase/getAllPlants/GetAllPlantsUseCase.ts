@@ -67,7 +67,8 @@ export class GetAllPlantsUseCase {
 
 
         name: {
-          in: filter?.ids != undefined ? ids : filter?.ids
+          in: filter?.ids != undefined ? ids : filter?.ids,
+          contains: name
         },
       }
     })
@@ -103,7 +104,9 @@ export class GetAllPlantsUseCase {
         },
          
         name: {
-          in: filter?.ids != undefined ? ids : filter?.ids
+          in: filter?.ids != undefined ? ids : filter?.ids,
+          contains: name
+
         },
        
 

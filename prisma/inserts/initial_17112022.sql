@@ -13,4 +13,4 @@ insert into "_PermissionsToRoles" values (2,1);
 
 INSERT INTO public.users
 ("name", email, "password", created_at, id_role)
-VALUES('admin', 'admin@sdc.com', '$2b$10$qfU1RGFXQ9FZOAL.s/rGF.jR3jcL8hYpXPslrRPFMo46KXMjBxKv2', CURRENT_TIMESTAMP, 1);
+VALUES('admin', 'gabrielbroitmanpinheiro@gmail.com', '$2b$10$qfU1RGFXQ9FZOAL.s/rGF.jR3jcL8hYpXPslrRPFMo46KXMjBxKv2', CURRENT_TIMESTAMP, 1);

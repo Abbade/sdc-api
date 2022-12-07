@@ -1,30 +1,24 @@
+
 import { Request, Response } from 'express';
-import { GetAllPlantsUseCase } from './GetAllPlantsUseCase';
+import { GetAllActionLotesUseCase } from './GetAllActionLotesUseCase';
 
 export type FilterProp = {
   totalFilter: number;
   idLote?: number;
-  ids?: string;
   idGenetic?: number;
   idRecipiente?: number;
   idFaseCultivo?: number;
   idLocation?: number;
-  isMother?: boolean;
-  isTrashed?: boolean;
-  propagationDate?: Date;
-  aclimatationDate?: Date;
-  vegetationDate?: Date;
-  floweringDate?: Date;
 }
 
-export class GetAllPlantsController {
+export class GetAllActionLotesController {
   async handle(request: Request, response: Response) {
     const { id, name, page, limit, isTrashed, isMother, filter } = request.query as any
 
     let filterValue = filter as FilterProp;
     console.log(filterValue);
-    const getAllPlantsUseCase = new GetAllPlantsUseCase();
-    const result = await getAllPlantsUseCase.execute({
+    const getAllActionLotesUseCase = new GetAllActionLotesUseCase();
+    const result = await getAllActionLotesUseCase.execute({
       id,
       name,
       page,

@@ -26,6 +26,8 @@ export class GetAllPlantsUseCase {
 
     id = id ? Number.parseInt(id) : undefined
 
+    let ids = filter?.ids?.split("\n").map(ids => {return ids.trim()})
+
     const total = await prisma.plantas.count({
     
       where: {
@@ -65,6 +67,7 @@ export class GetAllPlantsUseCase {
 
 
         name: {
+          in: filter?.ids != undefined ? ids : filter?.ids,
           contains: name
         },
       }
@@ -77,6 +80,7 @@ export class GetAllPlantsUseCase {
           equals: id != undefined ?  Number.parseInt(id) : id
 
         },
+        
         id_lote: {
           equals: filter?.idLote != undefined ?  Number.parseInt(filter?.idLote.toString()) : filter?.idLote
         },
@@ -98,8 +102,11 @@ export class GetAllPlantsUseCase {
         isTrashed: {
           equals: filter?.isTrashed  
         },
+         
         name: {
+          in: filter?.ids != undefined ? ids : filter?.ids,
           contains: name
+
         },
        
 

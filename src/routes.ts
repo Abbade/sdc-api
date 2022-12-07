@@ -67,6 +67,7 @@ import { UpdateUserController } from './modules/users/useCases/update/UpdateUser
 import { GetAllActionPlantsController } from './modules/plants/useCase/getActionPlants/GetAllActionPlantsController';
 import { QtdPerLoteController } from './modules/lotes/UseCases/QtdPerLote/QtdPerLoteController';
 import { CreateTimeSeriesController } from './modules/lotes/UseCases/createTimeSeries/createTimeSeriesController';
+import { GetAllActionLotesController } from './modules/lotes/UseCases/getActionLotes/GetAllActionLotesController';
 
 const routes = Router();
 
@@ -137,6 +138,7 @@ const movePlantsController = new MovePlantsController()
 const changePlantStageController = new ChangePlantStageController()
 
 const getAllActionPlantsController = new GetAllActionPlantsController();
+const getAllActionLotesController = new GetAllActionLotesController();
 
 const getAllTrashedLotesController = new GetAllTrashedLotesController();
 
@@ -227,6 +229,7 @@ routes.post('/lote', ensureAuthenticate, createLoteController.handle);
 routes.get('/lote',ensureAuthenticate, getAllLotesController.handle);
 routes.get('/loteQtdStats',ensureAuthenticate, qtdPerLoteController.handle);
 routes.get('/createTimeSeries',ensureAuthenticate, createTimeSeriesController.handle);
+routes.get('/action-lotes', ensureAuthenticate, getAllActionLotesController.handle);
 
 createTimeSeriesController
 

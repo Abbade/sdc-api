@@ -48,6 +48,8 @@ export class TrashLoteUseCase {
     }
 
 
+
+
     const lote = await prisma.lotes.update({
       where: {
         id: idLote
@@ -58,18 +60,58 @@ export class TrashLoteUseCase {
       }
     })
 
-    const trashedLote = await prisma.trashedLotes.create({
-      data: {
-        trashDate,
-        id_lote: idLote,
-        id_trashReason,
-        qtPropTrashed: qtTrash,
-        obs,
-        id_user_create
-
+    const selectedAction = await prisma.actions.findFirst({
+      where: {
+        name: "Descartar mudas"
       }
     })
 
-    return lote;
+    if (!selectedAction) {
+      throw new Error('Action para log não existente: ');
+    }
+
+    const newActionGroup = await (await prisma.actionGroups.create({
+      data: {
+        id_user_create: id_user_create,
+        obs: obs
+      }
+    })).id
+
+    const actionLote = await prisma.actionLotes.create({
+      data: {
+        id_lote: idLote,
+        id_user_create: id_user_create,
+        obs: obs,
+        id_actionGroup: newActionGroup,
+
+        status: "Completed",
+        isCompleted: true,
+        completionDate: trashDate,
+        
+        id_user_atribution: id_user_create,
+        id_action: selectedAction.id,
+
+        qt: qtTrash,
+        id_trashReason: id_trashReason
+      }
+    })
+
+    
+
+    // const trashedLote = await prisma.actionLotes.create({
+    //   data: {
+    //     trashDate,
+    //     id_lote: idLote,
+    //     id_trashReason,
+    //     qtPropTrashed: qtTrash,
+    //     obs,
+    //     id_user_create
+
+    //   }
+    // })
+
+  
+
+    return actionLote;
   }
 }

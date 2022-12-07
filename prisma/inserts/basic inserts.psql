@@ -576,7 +576,7 @@ insert into
         "name",
         description,
         "id_actionType",
-        "isPlant"
+        "isLote"
     )
 values
     (

@@ -65,6 +65,7 @@ import { UpdateRolesController } from './modules/roles/useCase/update/UpdateRole
 import { GetUserController } from './modules/users/useCases/get/GetUserController';
 import { UpdateUserController } from './modules/users/useCases/update/UpdateUserController';
 import { GetAllActionPlantsController } from './modules/plants/useCase/getActionPlants/GetAllActionPlantsController';
+import { GetAllActionLotesController } from './modules/lotes/UseCases/getActionLotes/GetAllActionLotesController';
 
 const routes = Router();
 
@@ -133,6 +134,7 @@ const movePlantsController = new MovePlantsController()
 const changePlantStageController = new ChangePlantStageController()
 
 const getAllActionPlantsController = new GetAllActionPlantsController();
+const getAllActionLotesController = new GetAllActionLotesController();
 
 const getAllTrashedLotesController = new GetAllTrashedLotesController();
 
@@ -221,6 +223,7 @@ routes.put('/trash-reason', ensureAuthenticate , updateTrashReasonController.han
 // lote
 routes.post('/lote', ensureAuthenticate, createLoteController.handle);
 routes.get('/lote',ensureAuthenticate, getAllLotesController.handle);
+routes.get('/action-lotes', ensureAuthenticate, getAllActionLotesController.handle);
 
 
 

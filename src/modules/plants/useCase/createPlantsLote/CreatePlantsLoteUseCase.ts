@@ -174,7 +174,7 @@ export class CreatePlantsLoteUseCase {
     })).id
 
     
-    const selectedAction = await prisma.actions.findFirst({
+    let selectedAction = await prisma.actions.findFirst({
       where: {
         name: "Transplante de planta"
       }
@@ -196,7 +196,7 @@ export class CreatePlantsLoteUseCase {
           completionDate: aclimatationDate,
           
           id_user_atribution: id_user_create,
-          id_action: selectedAction.id,
+          id_action: selectedAction?.id,
 
           id_faseCultivo: plant.id_faseCultivo,
           id_location: id_location,
@@ -207,6 +207,39 @@ export class CreatePlantsLoteUseCase {
 
     })
     const createActionPlants = await prisma.actionPlants.createMany({data: actions})
+
+    
+
+    selectedAction = await prisma.actions.findFirst({
+      where: {
+        name: "Transplante de mudas"
+      }
+    })
+
+    if (!selectedAction) {
+      throw new Error('Action para log não existente: ');
+    }
+
+
+
+    const actionLote = await prisma.actionLotes.create({
+      data: {
+        id_lote: selectedLote.id,
+        id_user_create: id_user_create,
+        obs: obs,
+        id_actionGroup: newActionGroup,
+
+        status: "Completed",
+        isCompleted: true,
+        completionDate: aclimatationDate,
+        
+        id_user_atribution: id_user_create,
+        id_action: selectedAction.id,
+        
+        id_location: id_location,
+        qt: qtPlant
+      }
+    })
 
     return plantsCount;
   }

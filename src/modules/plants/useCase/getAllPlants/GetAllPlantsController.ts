@@ -4,6 +4,7 @@ import { GetAllPlantsUseCase } from './GetAllPlantsUseCase';
 export type FilterProp = {
   totalFilter: number;
   idLote?: number;
+  ids?: string;
   idGenetic?: number;
   idRecipiente?: number;
   idFaseCultivo?: number;

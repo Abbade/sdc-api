@@ -66,7 +66,7 @@ import { GetUserController } from './modules/users/useCases/get/GetUserControlle
 import { UpdateUserController } from './modules/users/useCases/update/UpdateUserController';
 import { GetAllActionPlantsController } from './modules/plants/useCase/getActionPlants/GetAllActionPlantsController';
 import { QtdPerLoteController } from './modules/lotes/UseCases/QtdPerLote/QtdPerLoteController';
-import { CreateTimeSeriesController } from './modules/lotes/UseCases/createTimeSeries/createTimeSeriesController';
+import { CreateTimeSeriesController } from './modules/lotes/UseCases/createTimeSeries/CreateTimeSeriesController';
 import { GetAllActionLotesController } from './modules/lotes/UseCases/getActionLotes/GetAllActionLotesController';
 
 const routes = Router();

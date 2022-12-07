@@ -51,7 +51,7 @@ export class ChangePlantStageUseCase {
     })
 
 
-    let selectedAction = {} as any
+
     //VALIDA VIABILIDADE DE TRANSPLANTE
 
     //DESCARTADA?

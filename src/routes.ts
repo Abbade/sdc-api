@@ -83,6 +83,7 @@ const getAllOrganizationsController = new GetAllOrganizationsController();
 
 const meController = new MeController();
 
+
 const createProfileController = new CreateProfileController();
 const getAllProfilesUseCase = new GetAllProfileController();
 const getProfileController = new GetProfileController();

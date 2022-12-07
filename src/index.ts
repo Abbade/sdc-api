@@ -10,6 +10,7 @@ app.use(cors())
 app.use(routes);
 
 app.use((err: Error, request: Request, response: Response, next: NextFunction) => {
+  response.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
   if (err instanceof Error) {
     console.log(err);
     return response?.status(400)?.json({

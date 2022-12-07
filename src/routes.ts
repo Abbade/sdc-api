@@ -65,6 +65,8 @@ import { UpdateRolesController } from './modules/roles/useCase/update/UpdateRole
 import { GetUserController } from './modules/users/useCases/get/GetUserController';
 import { UpdateUserController } from './modules/users/useCases/update/UpdateUserController';
 import { GetAllActionPlantsController } from './modules/plants/useCase/getActionPlants/GetAllActionPlantsController';
+import { QtdPerLoteController } from './modules/lotes/UseCases/QtdPerLote/QtdPerLoteController';
+import { CreateTimeSeriesController } from './modules/lotes/UseCases/createTimeSeries/createTimeSeriesController';
 
 const routes = Router();
 
@@ -123,6 +125,8 @@ const updatePropagationTypeUseCase = new UpdatePropagationTypeController();
 
 const createLoteController = new CreateLoteController();
 const getAllLotesController = new GetAllLotesController();
+const qtdPerLoteController = new QtdPerLoteController();
+const createTimeSeriesController = new CreateTimeSeriesController();
 
 const createPlantsLoteController = new CreatePlantsLoteController()
 const getAllPlantsController = new GetAllPlantsController()
@@ -221,7 +225,10 @@ routes.put('/trash-reason', ensureAuthenticate , updateTrashReasonController.han
 // lote
 routes.post('/lote', ensureAuthenticate, createLoteController.handle);
 routes.get('/lote',ensureAuthenticate, getAllLotesController.handle);
+routes.get('/loteQtdStats',ensureAuthenticate, qtdPerLoteController.handle);
+routes.get('/createTimeSeries',ensureAuthenticate, createTimeSeriesController.handle);
 
+createTimeSeriesController
 
 
 //lote - descarte

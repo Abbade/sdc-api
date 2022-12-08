@@ -385,7 +385,7 @@ model Crops {
 
   name String
 
-  isTrashed Boolean @default(false)
+
   isStored  Boolean @default(false)
 
   cropDate        DateTime
@@ -393,7 +393,9 @@ model Crops {
   dryingEndDate   DateTime?
   storageDate     DateTime?
 
-  plantsQuantity Int?
+  qtPlants Int?
+
+
 
   cropFullMass  Float?
   cropWetMass   Float?

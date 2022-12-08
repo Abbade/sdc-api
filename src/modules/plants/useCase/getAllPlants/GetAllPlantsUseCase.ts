@@ -102,6 +102,18 @@ export class GetAllPlantsUseCase {
         isTrashed: {
           equals: filter?.isTrashed  
         },
+        propDate: {
+          equals: filter?.propagationDate != undefined ?  filter?.propagationDate : filter?.propagationDate  
+        },
+        aclimatationDate: {
+          equals: filter?.aclimatationDate != undefined ?  filter?.aclimatationDate : filter?.aclimatationDate  
+        },
+        vegetationDate: {
+          equals: filter?.vegetationDate != undefined ?  filter?.vegetationDate : filter?.vegetationDate  
+        },
+        floweringDate: {
+          equals: filter?.floweringDate != undefined ?  filter?.floweringDate : filter?.floweringDate  
+        },
          
         name: {
           in: filter?.ids != undefined ? ids : filter?.ids,

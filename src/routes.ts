@@ -65,9 +65,11 @@ import { UpdateRolesController } from './modules/roles/useCase/update/UpdateRole
 import { GetUserController } from './modules/users/useCases/get/GetUserController';
 import { UpdateUserController } from './modules/users/useCases/update/UpdateUserController';
 import { GetAllActionPlantsController } from './modules/plants/useCase/getActionPlants/GetAllActionPlantsController';
-import { QtdPerLoteController } from './modules/lotes/UseCases/QtdPerLote/QtdPerLoteController';
-import { CreateTimeSeriesController } from './modules/lotes/UseCases/createTimeSeries/CreateTimeSeriesController';
+import { QtdPerLoteController } from './modules/charts/UseCases/QtdPerLote/QtdPerLoteController';
+import { CreateTimeSeriesController } from './modules/charts/UseCases/createTimeSeries/CreateTimeSeriesController';
 import { GetAllActionLotesController } from './modules/lotes/UseCases/getActionLotes/GetAllActionLotesController';
+import { QtdPerPropagationController } from './modules/charts/UseCases/QtdPerPropagation/QtdPerPropagationController';
+import { QtdPerTrashReasonController } from './modules/charts/UseCases/QtdPerTrashReason/QtdPerTrashReasonController';
 
 const routes = Router();
 
@@ -127,8 +129,11 @@ const updatePropagationTypeUseCase = new UpdatePropagationTypeController();
 
 const createLoteController = new CreateLoteController();
 const getAllLotesController = new GetAllLotesController();
+
 const qtdPerLoteController = new QtdPerLoteController();
 const createTimeSeriesController = new CreateTimeSeriesController();
+const qtdPerPropagationController = new QtdPerPropagationController();
+const qtdPerTrashReasonController = new QtdPerTrashReasonController();
 
 const createPlantsLoteController = new CreatePlantsLoteController()
 const getAllPlantsController = new GetAllPlantsController()
@@ -231,6 +236,10 @@ routes.get('/lote',ensureAuthenticate, getAllLotesController.handle);
 routes.get('/loteQtdStats',ensureAuthenticate, qtdPerLoteController.handle);
 routes.get('/createTimeSeries',ensureAuthenticate, createTimeSeriesController.handle);
 routes.get('/action-lotes', ensureAuthenticate, getAllActionLotesController.handle);
+
+routes.get('/charts/propagation', ensureAuthenticate, qtdPerPropagationController.handle);
+routes.get('/charts/trashreason', ensureAuthenticate, qtdPerTrashReasonController.handle);
+
 
 createTimeSeriesController
 

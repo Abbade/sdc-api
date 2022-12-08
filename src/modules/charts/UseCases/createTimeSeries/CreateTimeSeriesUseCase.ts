@@ -1,7 +1,7 @@
 import { hash } from "bcrypt";
 import { Stats } from "../../../../constants/Stats";
 import { prisma } from "../../../../database/prismaClient";
-import { GetAllLotesController } from "../getAllLotes/GetAllLotesController";
+import { GetAllLotesController } from "../../../lotes/UseCases/getAllLotes/GetAllLotesController";
 
 export class CreateTimeSeriesUseCase {
   async execute({ filterType }: any) {

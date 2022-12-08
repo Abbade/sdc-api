@@ -4,7 +4,93 @@ truncate "plantas" cascade;
 
 truncate "actionPlants" cascade;
 
-truncate "fasesCultivo" cascade;
+truncate "fasesCrop" cascade;
+
+insert into
+    public."fasesCrop" (
+        created_at,
+        id_user_create,
+        "name",
+        description,
+        ordem
+    )
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Iniciada',
+        'Plantas recém transplantadas ou germinadas, identificadas.',
+        1
+    );
+
+    insert into
+    public."fasesCrop" (
+        created_at,
+        id_user_create,
+        "name",
+        description,
+        ordem
+    )
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Primeiro Beneficiamento',
+        'Plantas recém transplantadas ou germinadas, identificadas.',
+        2
+    );
+    insert into
+    public."fasesCrop" (
+        created_at,
+        id_user_create,
+        "name",
+        description,
+        ordem
+    )
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Secagem',
+        'Plantas recém transplantadas ou germinadas, identificadas.',
+        3
+    );
+
+    insert into
+    public."fasesCrop" (
+        created_at,
+        id_user_create,
+        "name",
+        description,
+        ordem
+    )
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Segundo Beneficiamento',
+        'Plantas recém transplantadas ou germinadas, identificadas.',
+        4
+    );
+
+
+    insert into
+    public."fasesCrop" (
+        created_at,
+        id_user_create,
+        "name",
+        description,
+        ordem
+    )
+values
+    (
+        CURRENT_TIMESTAMP,
+        2,
+        'Finalizada',
+        'Plantas recém transplantadas ou germinadas, identificadas.',
+        5
+    );
+
 
 insert into
     public."fasesCultivo" (

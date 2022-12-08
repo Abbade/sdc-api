@@ -69,6 +69,8 @@ model Users {
   lotes                   Lotes[]
   trashedLotes            TrashedLotes[]
   plantas                 Plantas[]
+
+  fasesCrop               FasesCrop[]
   crops                   Crops[]
   organizations           Organizations?    @relation(name: "userCreate")
   actionTypes             ActionTypes[]
@@ -372,6 +374,22 @@ model Plantas {
   @@map("plantas")
 }
 
+model FasesCrop {
+  id             Int      @id @default(autoincrement())
+  id_user_create Int
+  userCreate     Users    @relation(fields: [id_user_create], references: [id])
+  created_at     DateTime @default(now())
+
+  description String?
+
+  name String
+  ordem Int?
+
+  crops Crops[]
+
+  @@map("fasesCrop")
+ }
+
 model Crops {
   id             Int      @id @default(autoincrement())
   id_user_create Int
@@ -382,6 +400,9 @@ model Crops {
 
   id_location Int
   location    Locations @relation(fields: [id_location], references: [id])
+
+  id_fasesCrop Int
+  fasesCrop    FasesCrop @relation(fields: [id_fasesCrop], references: [id])
 
   name String
 
@@ -395,11 +416,13 @@ model Crops {
 
   qtPlants Int?
 
+  cropFullWetMass  Float?
+  cropWetTrimMass Float?
+  cropFlowerWetMass   Float?
 
-
-  cropFullMass  Float?
-  cropWetMass   Float?
-  cropDriedMass Float?
+  cropFullDriedMass Float?
+  cropDriedTrimMass Float?
+  cropDriedFlowerMass Float?
 
   plantas Plantas[]
 }

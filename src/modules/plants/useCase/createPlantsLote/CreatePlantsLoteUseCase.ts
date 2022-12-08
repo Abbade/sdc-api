@@ -110,6 +110,10 @@ export class CreatePlantsLoteUseCase {
     for (let i = selectedLote.qtPlant + 1; i < plantIndex + qtPlant; i++) {
       newPlants.push({
         name: selectedLote.name + "#" + i,
+        id_user_create: id_user_create,
+        obs: obs,
+
+
         id_lote: id_lote,
 
         id_location: id_location,
@@ -120,14 +124,12 @@ export class CreatePlantsLoteUseCase {
         aclimatationLocation: selectedLocation.name,
         lastTransplant: aclimatationDate,
 
-        id_user_create: id_user_create,
         propDate: selectedLote.propDate,
         propName: selectedLote.name,
         id_genetic: selectedLote.id_genetic,
         id_propagationType: selectedLote.id_propagationType,
 
         id_faseCultivo: selectedFaseCultivo.id,
-        obs: obs,
 
         //id_mother: selectedLote.id_mother
       });
@@ -200,6 +202,37 @@ export class CreatePlantsLoteUseCase {
     const createActionPlants = await prisma.actionPlants.createMany({
       data: actions,
     });
+
+    const selectedActionLote = await prisma.actions.findFirst({
+      where: {
+        name: "Transplante de mudas",
+      },
+    });
+
+    if (!selectedActionLote) {
+      throw new Error('Action para log não existente: ');
+    }
+
+
+
+    const actionLote = await prisma.actionLotes.create({
+      data: {
+        id_lote: selectedLote.id,
+        id_user_create: id_user_create,
+        obs: obs,
+        id_actionGroup: newActionGroup,
+
+        status: "Completed",
+        isCompleted: true,
+        completionDate: aclimatationDate,
+
+        id_user_atribution: id_user_create,
+        id_action: selectedActionLote.id,
+
+        id_location: id_location,
+        qt: qtPlant
+      }
+    })
 
     
     return plantsCount;

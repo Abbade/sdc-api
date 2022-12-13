@@ -166,6 +166,7 @@ model Genetics {
 
   plantas Plantas[]
   lotes   Lotes[]
+  crops Crops[]
 
   @@map("genetics")
 }
@@ -403,6 +404,9 @@ model Crops {
 
   id_fasesCrop Int
   fasesCrop    FasesCrop @relation(fields: [id_fasesCrop], references: [id])
+
+  id_genetic Int
+  genetics    Genetics @relation(fields: [id_genetic], references: [id])
 
   name String
 

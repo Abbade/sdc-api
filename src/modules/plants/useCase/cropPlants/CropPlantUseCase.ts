@@ -105,12 +105,13 @@ export class CropPlantUseCase {
         },
         data: {
           id_faseCultivo: selectedFaseCultivo.id,
+
           cropDate: actionDate,
+          isCropped: true
 
         }
       }
       const updatedPlants = await prisma.plantas.updateMany(updatePlantsParams)
-
 
 
     // let actions = [] as any;

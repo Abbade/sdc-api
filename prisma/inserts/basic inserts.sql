@@ -547,21 +547,20 @@ values
         'Falta de raízes',
         'Altera'
     );
-
-truncate "actionTypes" cascade;
+-- actiontype
+truncate "action_types" cascade;
 
 truncate "actions" cascade;
 
-insert into
-    public."actionTypes" (id, created_at, id_user_create, "name", description)
-values
-    (   
-        1,
-        CURRENT_TIMESTAMP,
-        2,
-        'Transplantes',
-        'Atividades de transplante.'
-    );
+INSERT INTO action_types (id_user_create,created_at,"name",code) VALUES
+	 (2,now(),'Atividades de transplante.','TRANSPLANTE'),
+	 (2,now(),'Alteração de fase de cultivo','ALTERA_FASE_CULTIVO'),
+	 (2,now(),'Descartes','DESCARTE'),
+	 (2,now(),'Alteração de local','ALTERA_LOCAL')
+     (2,now(),'Matriz','MATRIZ');
+
+
+
 
 insert into
     public."actions" (
@@ -601,16 +600,7 @@ values
         true
     );
 
-insert into
-    public."actionTypes" (id, created_at, id_user_create, "name", description)
-values
-    (
-        2,
-        CURRENT_TIMESTAMP,
-        2,
-        'Alteração de fase de cultivo',
-        'Altera'
-    );
+
 
 insert into
     public."actions" (
@@ -650,10 +640,6 @@ values
         true
     );
 
-insert into
-    public."actionTypes" (id, created_at, id_user_create, "name", description)
-values
-    (3, CURRENT_TIMESTAMP, 2, 'Descartes', 'Altera');
 
 insert into
     public."actions" (
@@ -731,16 +717,7 @@ values
         true
     );
 
-insert into
-    public."actionTypes" (id, created_at, id_user_create, "name", description)
-values
-    (
-        4,
-        CURRENT_TIMESTAMP,
-        2,
-        'Alteração de local',
-        'Altera'
-    );
+
 
 insert into
     public."actions" (

@@ -477,11 +477,11 @@ model ActionTypes {
   userCreate     Users    @relation(fields: [id_user_create], references: [id])
   created_at     DateTime @default(now())
   name           String
-  description    String?
+  code    String @unique 
 
   actions Actions[]
 
-  @@map("actionTypes")
+  @@map("action_types")
 }
 
 model Actions {

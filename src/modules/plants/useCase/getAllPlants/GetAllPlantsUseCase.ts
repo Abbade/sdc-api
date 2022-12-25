@@ -132,8 +132,15 @@ export class GetAllPlantsUseCase {
         actionPlants: {
           // id ? true:false
         include: {
-          action: true
+          action: id ? true: false,
+          faseCultivo: id ? true: false,
+          faseCultivoOld: id ? true: false,
+          location: id ? true: false,
+          locationOld: id ? true: false,
+          recipiente: id ? true: false,
+          recipienteOld: id ? true: false
         }
+        
       }
 
       }

@@ -84,7 +84,12 @@ export class GetAllActionPlantsUseCase {
 
       },
       include: {
-
+        faseCultivo: true,
+        faseCultivoOld: true,
+        location: true,
+        locationOld: true,
+        recipiente: true,
+        recipienteOld: true
       }
     });
 

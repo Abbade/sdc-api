@@ -1,3 +1,4 @@
+import { FasesCultivo, Locations } from '@prisma/client';
 import { hash } from 'bcrypt';
 import { prisma } from '../../../../database/prismaClient';
 
@@ -73,8 +74,88 @@ export class TransplantPlantsUseCase {
       }
     })
 
-    
 
+    let selectedFaseCultivoChangeAction: any;
+    let selectedLocationChangeAction: any;
+    let selectedFaseCultivo: FasesCultivo | null | undefined;
+    let selectedLocation: Locations | null | undefined;
+
+    let actions = [] as any;
+
+    const newActionGroup = await (await prisma.actionGroups.create({
+      data: {
+        id_user_create: id_user_create,
+        obs: obs
+      }
+    })).id
+
+
+    const selectedRecipientChangeAction = await prisma.actions.findFirst({
+      where: {
+        name: "Transplante de planta"
+      }
+    })
+
+
+    if (!selectedRecipientChangeAction) {
+      throw new Error('Action para log não existente: ' + id_faseCultivo);
+    }
+
+    if (id_location) {
+
+      selectedLocationChangeAction = await prisma.actions.findFirst({
+        where: {
+          name: "Mover plantas"
+        }
+      })
+
+
+
+      if (!selectedLocationChangeAction) {
+        throw new Error('Action para log não existente: ' + id_faseCultivo);
+      }
+    }
+
+
+    if (id_faseCultivo) {
+
+      selectedFaseCultivo = await prisma.fasesCultivo.findFirst({
+        where: {
+          id: id_faseCultivo
+        }
+      })
+
+      if (!selectedFaseCultivo) {
+        throw new Error('Fase de cultivo não existente: ' + id_faseCultivo);
+      }
+
+      if (selectedFaseCultivo?.name === "Vegetação") {
+        selectedFaseCultivoChangeAction = await prisma.actions.findFirst({
+          where: {
+            name: "Vegetar planta"
+          }
+        })
+        if (!selectedFaseCultivoChangeAction) {
+          throw new Error('Action para log não existente: ' + id_faseCultivo);
+        }
+      }
+
+
+      if (selectedFaseCultivo?.name === "Floração") {
+        selectedFaseCultivoChangeAction = await prisma.actions.findFirst({
+          where: {
+            name: "Florir planta"
+          }
+        })
+        if (!selectedFaseCultivoChangeAction) {
+          throw new Error('Action para log não existente: ' + id_faseCultivo);
+        }
+      }
+
+
+
+
+    }
     //VALIDA VIABILIDADE DE TRANSPLANTE
 
     //DESCARTADA?
@@ -97,212 +178,42 @@ export class TransplantPlantsUseCase {
 
       }
 
-      // if (plant.id_faseCultivo > selectedFaseCultivo.id) {
-      //   throw new Error('Não é possivel voltar com plantas para fase anterior.')
-
-      // }
+      if (plant.id_faseCultivo > id_faseCultivo) {
+        throw new Error('Não é possivel voltar com plantas para fase anterior.')
+      }
 
 
 
 
     })
 
-    // ACLIMATAÇÃO
-    // if (selectedFaseCultivo.ordem == 2) {
-
-
-
-    //   var param = {
-    //     where: {
-    //       id: { in: plants }
-    //     },
-    //     data: {
-    //       id_faseCultivo: id_faseCultivo,
-    //       id_recipiente: id_recipiente,
-    //       id_location: id_location,
-
-    //       lastTransplant: transplantDate,
-
-
-
-    //     }
-    //   }
-    //   const updatedPlants = await prisma.plantas.updateMany(param)
-
-
-    //   const plantsWithEmptyDate = plantsToUpdate.filter(plant => {
-    //     return !plant.aclimatationDate
-    //   }).map(plant => {
-    //     return plant.id
-    //   })
-
-    //   const updateDateParams = {
-    //     where: {
-    //       id: { in: plantsWithEmptyDate },
-
-    //     },
-    //     data: {
-    //       aclimatationDate: transplantDate,
-    //       aclimatationLocation: selectedLocation.name,
-    //       aclimatationRecipient: selectedRecipiente.name,
-
-    //     }
-    //   }
-
-    //   const updatedDatePlants = await prisma.plantas.updateMany(updateDateParams)
-
-
-    // }
-
-    // VEGETAÇÃO
-    // if (selectedFaseCultivo.ordem == 3) {
-    //   const param = {
-    //     where: {
-    //       id: { in: plants }
-    //     },
-    //     data: {
-    //       id_faseCultivo: id_faseCultivo,
-    //       id_recipiente: id_recipiente,
-    //       id_location: id_location,
-    //       lastTransplant: transplantDate
-
-    //     }
-    //   }
-    //   const updatedPlants = await prisma.plantas.updateMany(param)
-
-    //   const plantsWithEmptyDateV1 = plantsToUpdate.filter(plant => {
-    //     return !plant.vegetationDate
-    //   }).map(plant => {
-    //     return plant.id
-    //   })
-
-
-    //   const updateDateParamsV1 = {
-    //     where: {
-    //       id: { in: plantsWithEmptyDateV1 },
-
-    //     },
-    //     data: {
-    //       vegetationDate: transplantDate,
-    //       vegetationRecipient: selectedRecipiente.name,
-    //       vegetationLocation: selectedLocation.name
-
-    //     }
-    //   }
-
-    //   const updatedDatePlantsV1 = await prisma.plantas.updateMany(updateDateParamsV1)
-
-    //   const plantsWithEmptyDateV2 = plantsToUpdate.filter(plant => {
-    //     return plant.vegetationDate && !plant.vegetation2Date
-    //   }).map(plant => {
-    //     return plant.id
-    //   })
-
-
-    //   const updateDateParamsV2 = {
-    //     where: {
-    //       id: { in: plantsWithEmptyDateV2 },
-
-    //     },
-    //     data: {
-    //       vegetation2Date: transplantDate,
-    //       vegetation2Recipient: selectedRecipiente.name,
-    //       vegetation2Location: selectedLocation.name
-
-    //     }
-    //   }
-
-    //   const updatedDatePlantsV2 = await prisma.plantas.updateMany(updateDateParamsV2)
-
-    //   const plantsWithEmptyDateV3 = plantsToUpdate.filter(plant => {
-    //     return plant.vegetationDate && plant.vegetation2Date && !plant.vegetation3Date
-    //   }).map(plant => {
-    //     return plant.id
-    //   })
-
-
-    //   const updateDateParamsV3 = {
-    //     where: {
-    //       id: { in: plantsWithEmptyDateV3 },
-
-    //     },
-    //     data: {
-    //       vegetation3Date: transplantDate,
-    //       vegetation3Recipient: selectedRecipiente.name,
-    //       vegetation3Location: selectedLocation.name
-
-    //     }
-    //   }
-
-    //   const updatedDatePlantsV3 = await prisma.plantas.updateMany(updateDateParamsV3)
 
 
 
 
-    // }
-
-    // FLORACAO
-    // if (selectedFaseCultivo.ordem == 4) {
-    //   const param = {
-    //     where: {
-    //       id: { in: plants }
-    //     },
-    //     data: {
-    //       id_faseCultivo: id_faseCultivo,
-    //       id_recipiente: id_recipiente,
-    //       id_location: id_location,
-    //       lastTransplant: transplantDate
-    //     }
-    //   }
-    //   const updatedPlants = await prisma.plantas.updateMany(param)
-
-    //   const plantsWithEmptyDate = plantsToUpdate.filter(plant => {
-    //     return !plant.floweringDate
-    //   }).map(plant => {
-    //     return plant.id
-    //   })
-
-
-    //   const updateDateParams = {
-    //     where: {
-    //       id: { in: plantsWithEmptyDate },
-
-    //     },
-    //     data: {
-    //       floweringDate: transplantDate,
-    //       floweringLocation: selectedLocation.name,
-    //       floweringRecipient: selectedRecipiente.name,
-
-    //     }
-    //   }
-
-    //   // const updatedDatePlants = await prisma.plantas.updateMany(updateDateParams)
-
-
-    // }
-
-    let actions = [] as any;
-
-    const newActionGroup = await (await prisma.actionGroups.create({
-      data: {
-        id_user_create: id_user_create,
-        obs: obs
-      }
-    })).id
-
-    
-    const selectedAction = await prisma.actions.findFirst({
-      where: {
-        name: "Transplante de planta"
-      }
-    })
-
-    if (!selectedAction) {
-      throw new Error('Action para log não existente: ' + id_faseCultivo);
-    }
 
     plantsToUpdate.forEach(plant => {
       const newActionParams = {
+        id_planta: plant.id,
+        id_user_create: id_user_create,
+        obs: obs,
+        id_actionGroup: newActionGroup,
+
+        status: "Completed",
+        isCompleted: true,
+        completionDate: transplantDate,
+
+        id_user_atribution: id_user_create,
+        id_action: selectedRecipientChangeAction.id,
+
+        id_recipiente: id_recipiente,
+
+        id_recipiente_old: id_recipiente ? plant.id_recipiente : undefined,
+      }
+      actions.push(newActionParams)
+
+      if (selectedLocationChangeAction) {
+        const newActionLocationParams = {
           id_planta: plant.id,
           id_user_create: id_user_create,
           obs: obs,
@@ -311,22 +222,64 @@ export class TransplantPlantsUseCase {
           status: "Completed",
           isCompleted: true,
           completionDate: transplantDate,
-          
+
           id_user_atribution: id_user_create,
-          id_action: selectedAction.id,
+          id_action: selectedLocationChangeAction?.id,
+
+          id_location: id_location,
+
+          id_location_old: id_location ? plant.id_location : undefined
+        }
+        actions.push(newActionLocationParams)
+
+      }
+      if (selectedFaseCultivoChangeAction) {
+
+        const newActionChangeStageParams = {
+          id_planta: plant.id,
+          id_user_create: id_user_create,
+          obs: obs,
+          id_actionGroup: newActionGroup,
+
+          status: "Completed",
+          isCompleted: true,
+          completionDate: transplantDate,
+
+          id_user_atribution: id_user_create,
+          id_action: selectedFaseCultivoChangeAction?.id,
 
           id_faseCultivo: id_faseCultivo,
-          id_location: id_location,
-          id_recipiente: id_recipiente,
 
           id_faseCultivo_old: id_faseCultivo ? plant.id_faseCultivo : undefined,
-          id_recipiente_old: id_recipiente ? plant.id_recipiente : undefined,
-          id_location_old: id_location ? plant.id_location : undefined
+        }
+        actions.push(newActionChangeStageParams)
+
       }
-      actions.push(newActionParams)
 
     })
-    const createActionPlants = await prisma.actionPlants.createMany({data: actions})
+
+    let updatePlantsParams = {
+      where: {
+        id: { in: plants },
+
+      },
+      data: {
+        id_recipiente: id_recipiente,
+      }
+    } as any
+
+    if (id_location)
+      updatePlantsParams.data.id_location = id_location
+    if (id_faseCultivo)
+      updatePlantsParams.data.id_faseCultivo = id_faseCultivo
+    if (selectedFaseCultivo?.name == "Vegetação")
+      updatePlantsParams.data.vegetationDate = transplantDate
+    if (selectedFaseCultivo?.name == "Floração")
+      updatePlantsParams.data.floweringDate = transplantDate
+
+
+    const updatedPlants = await prisma.plantas.updateMany(updatePlantsParams)
+    const createActionPlants = await prisma.actionPlants.createMany({ data: actions })
     return actions
   }
 }

@@ -99,7 +99,7 @@ export class CreatePlantsLoteUseCase {
     if (selectedLote?.qtProp - qtPlant < 0) {
       throw new Error(
         "Lote não tem estacas suficiente para transplante.: " +
-          selectedLote.qtProp
+        selectedLote.qtProp
       );
     }
 
@@ -179,7 +179,29 @@ export class CreatePlantsLoteUseCase {
       throw new Error("Action para log não existente: ");
     }
 
+    const selectedLocationChangeAction = await prisma.actions.findFirst({
+      where: {
+        name: "Mover plantas"
+      }
+    })
+
+
+
+    if (!selectedLocationChangeAction) {
+      throw new Error('Action para log não existente: ' );
+    }
+
+    const selectedFaseCultivoChangeAction = await prisma.actions.findFirst({
+      where: {
+        name: "Vegetar planta"
+      }
+    })
+    if (!selectedFaseCultivoChangeAction) {
+      throw new Error('Action para log não existente: Vegetar planta');
+    }
+
     createdPlants.forEach((plant) => {
+
       const newActionParams = {
         id_planta: plant.id,
         id_user_create: id_user_create,
@@ -193,11 +215,49 @@ export class CreatePlantsLoteUseCase {
         id_user_atribution: id_user_create,
         id_action: selectedAction.id,
 
-        id_faseCultivo: plant.id_faseCultivo,
-        id_location: id_location,
         id_recipiente: id_recipiente,
       };
       actions.push(newActionParams);
+
+      const newActionLocationParams = {
+        id_planta: plant.id,
+        id_user_create: id_user_create,
+        obs: obs,
+        id_actionGroup: newActionGroup,
+
+        status: "Completed",
+        isCompleted: true,
+        completionDate: aclimatationDate,
+
+        id_user_atribution: id_user_create,
+        id_action: selectedLocationChangeAction?.id,
+
+        id_location: id_location,
+
+        id_location_old: id_location ? selectedLote.id_location_init : undefined
+      }
+      actions.push(newActionLocationParams)
+
+
+      const newActionChangeStageParams = {
+        id_planta: plant.id,
+        id_user_create: id_user_create,
+        obs: obs,
+        id_actionGroup: newActionGroup,
+
+        status: "Completed",
+        isCompleted: true,
+        completionDate: aclimatationDate,
+
+        id_user_atribution: id_user_create,
+        id_action: selectedFaseCultivoChangeAction?.id,
+
+        id_faseCultivo: plant.id_faseCultivo,
+
+        id_faseCultivo_old: 1,
+      }
+      actions.push(newActionChangeStageParams)
+
     });
     const createActionPlants = await prisma.actionPlants.createMany({
       data: actions,
@@ -234,7 +294,7 @@ export class CreatePlantsLoteUseCase {
       }
     })
 
-    
+
     return plantsCount;
   }
 }

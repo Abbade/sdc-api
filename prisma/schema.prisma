@@ -56,19 +56,19 @@ model Users {
   email    String @unique
   password String
 
-  clones                  Clones[]
-  profiles                Profiles[]
-  fasesCultivo            FasesCultivo[]
-  fertilizer              Fertilizers[]
-  recipientes             Recipientes[]
-  genetics                Genetics[]
-  sections                Sections[]
-  locations               Locations[]
-  propagationType         PropagationType[]
-  trashReasons            TrashReasons[]
-  lotes                   Lotes[]
-  trashedLotes            TrashedLotes[]
-  plantas                 Plantas[]
+  clones          Clones[]
+  profiles        Profiles[]
+  fasesCultivo    FasesCultivo[]
+  fertilizer      Fertilizers[]
+  recipientes     Recipientes[]
+  genetics        Genetics[]
+  sections        Sections[]
+  locations       Locations[]
+  propagationType PropagationType[]
+  trashReasons    TrashReasons[]
+  lotes           Lotes[]
+  trashedLotes    TrashedLotes[]
+  plantas         Plantas[]
 
   fasesCrop               FasesCrop[]
   crops                   Crops[]
@@ -80,6 +80,7 @@ model Users {
   actionGroups            ActionGroups[]
   actionPlantsAtributions ActionPlants[]    @relation(name: "userAtribution")
   actionLotesAtributions  ActionLotes[]     @relation(name: "userAtributionActionLote")
+  TipoFaseCultivo         TipoFaseCultivo[]
 
   @@map("users")
 }
@@ -127,12 +128,27 @@ model FasesCultivo {
   description String
   ordem       Int    @unique
 
+  id_tipo_fase_cultivo Int
+  TipoFaseCultivo      TipoFaseCultivo @relation(fields: [id_tipo_fase_cultivo], references: [id])
+
   plantas         Plantas[]
   locations       Locations[]
   actionPlants    ActionPlants[]
   actionPlantsOld ActionPlants[] @relation("faseCultivoOld")
 
   @@map("fasesCultivo")
+}
+
+model TipoFaseCultivo {
+  id             Int      @id @default(autoincrement())
+  created_at     DateTime @default(now())
+  id_user_create Int
+  userCreate     Users    @relation(fields: [id_user_create], references: [id])
+
+  name         String
+  FasesCultivo FasesCultivo[]
+
+  @@map("tipo_fase_cultivo")
 }
 
 model Recipientes {
@@ -166,7 +182,7 @@ model Genetics {
 
   plantas Plantas[]
   lotes   Lotes[]
-  crops Crops[]
+  crops   Crops[]
 
   @@map("genetics")
 }
@@ -185,8 +201,6 @@ model Sections {
   @@map("section")
 }
 
-
-
 model Fertilizers {
   id             Int      @id @default(autoincrement())
   created_at     DateTime @default(now())
@@ -195,7 +209,6 @@ model Fertilizers {
 
   name        String
   description String
-
 
   @@map("fertilizer")
 }
@@ -220,8 +233,8 @@ model Locations {
   crops           Crops[]
   actionPlants    ActionPlants[]
   actionPlantsOld ActionPlants[] @relation("locationOld")
-  actionLotesNew    ActionLotes[] @relation("actionLotesNewLocation")
-  actionLotesOld    ActionLotes[] @relation("actionLotesOldLocation")
+  actionLotesNew  ActionLotes[]  @relation("actionLotesNewLocation")
+  actionLotesOld  ActionLotes[]  @relation("actionLotesOldLocation")
 
   @@map("location")
 }
@@ -253,7 +266,7 @@ model TrashReasons {
   trashedLotes TrashedLotes[]
   plantas      Plantas[]
   actionPlants ActionPlants[]
-  actionLotes ActionLotes[]
+  actionLotes  ActionLotes[]
 
   @@map("trashReason")
 }
@@ -383,13 +396,13 @@ model FasesCrop {
 
   description String?
 
-  name String
+  name  String
   ordem Int?
 
   crops Crops[]
 
   @@map("fasesCrop")
- }
+}
 
 model Crops {
   id             Int      @id @default(autoincrement())
@@ -406,12 +419,11 @@ model Crops {
   fasesCrop    FasesCrop @relation(fields: [id_fasesCrop], references: [id])
 
   id_genetic Int
-  genetics    Genetics @relation(fields: [id_genetic], references: [id])
+  genetics   Genetics @relation(fields: [id_genetic], references: [id])
 
   name String
 
-
-  isStored  Boolean @default(false)
+  isStored Boolean @default(false)
 
   cropDate        DateTime
   dryingStartDate DateTime?
@@ -420,12 +432,12 @@ model Crops {
 
   qtPlants Int?
 
-  cropFullWetMass  Float?
-  cropWetTrimMass Float?
-  cropFlowerWetMass   Float?
+  cropFullWetMass   Float?
+  cropWetTrimMass   Float?
+  cropFlowerWetMass Float?
 
-  cropFullDriedMass Float?
-  cropDriedTrimMass Float?
+  cropFullDriedMass   Float?
+  cropDriedTrimMass   Float?
   cropDriedFlowerMass Float?
 
   plantas Plantas[]
@@ -455,7 +467,6 @@ model TrashedLotes {
 
   qtPlantTrashed Int?
 
-
   @@map("trashedLotes")
 }
 
@@ -477,7 +488,7 @@ model ActionTypes {
   userCreate     Users    @relation(fields: [id_user_create], references: [id])
   created_at     DateTime @default(now())
   name           String
-  code    String @unique 
+  code           String   @unique
 
   actions Actions[]
 
@@ -490,7 +501,6 @@ model Actions {
   userCreate     Users    @relation(fields: [id_user_create], references: [id])
   created_at     DateTime @default(now())
   name           String?
-
 
   isPlant Boolean @default(true)
   isLote  Boolean @default(true)
@@ -519,7 +529,6 @@ model ActionGroups {
   actionLotes  ActionLotes[]
 
   @@map("actionGroups")
-  
 }
 
 model ActionLotes {
@@ -551,17 +560,17 @@ model ActionLotes {
   lote    Lotes @relation("selectedLotesAction", fields: [id_lote], references: [id])
 
   id_location Int?
-  location    Locations? @relation("actionLotesNewLocation",fields: [id_location], references: [id])
+  location    Locations? @relation("actionLotesNewLocation", fields: [id_location], references: [id])
 
   id_location_old Int?
   location_old    Locations? @relation("actionLotesOldLocation", fields: [id_location_old], references: [id])
 
   qt Int
-  
+
   id_trashReason Int?
   trashReason    TrashReasons? @relation(fields: [id_trashReason], references: [id])
-  @@map("actionLotes")
 
+  @@map("actionLotes")
 }
 
 model ActionPlants {

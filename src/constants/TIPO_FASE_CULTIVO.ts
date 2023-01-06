@@ -1,0 +1,7 @@
+export const TIPO_FASE_CULTIVO = {
+  PROPAGACAO: 1,
+  ACLIMATACAO: 2,
+  VEGETACAO: 3,
+  FLORACAO: 4,
+  COLHEITA: 5
+};

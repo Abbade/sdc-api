@@ -1,5 +1,6 @@
 import { hash } from 'bcrypt';
 import { prisma } from '../../../../database/prismaClient';
+import { ACTION_TYPE } from '../../../../constants/ACTION_TYPE';
 
 const postmanJson = {
   "transplantDate": "2012-04-30T18:25:43.511Z",
@@ -94,11 +95,22 @@ export class MovePlantsUseCase {
         }
       })).id
   
-      const selectedAction = await prisma.actions.findFirst({
-        where: {
-          name: "Mover plantas"
+   
+
+      const selectedAction = await prisma.actions.create({
+        data: {
+          id_user_create: id_user_create,
+          isLote: false,
+          isPlant: true,
+          isCrop: false,
+          name: "Mover plantas",
+          id_actionType: ACTION_TYPE.ALTERA_LOCAL,
+          created_at: new Date(),
+          qtd: plantsToUpdate.length
         }
       })
+
+      
   
       if (!selectedAction) {
         throw new Error('Action para log não existente: Mover plantas');

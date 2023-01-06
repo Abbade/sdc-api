@@ -92,90 +92,6 @@ values
     );
 
 
-insert into
-    public."fasesCultivo" (
-        created_at,
-        id_user_create,
-        "name",
-        description,
-        ordem
-    )
-values
-    (
-        CURRENT_TIMESTAMP,
-        2,
-        'Propagação',
-        'Plantas recém transplantadas ou germinadas, identificadas.',
-        1
-    );
-
-insert into
-    public."fasesCultivo" (
-        created_at,
-        id_user_create,
-        "name",
-        description,
-        ordem
-    )
-values
-    (
-        CURRENT_TIMESTAMP,
-        2,
-        'Aclimatação',
-        'Plantas recém transplantadas ou germinadas, identificadas.',
-        2
-    );
-
-insert into
-    public."fasesCultivo" (
-        created_at,
-        id_user_create,
-        "name",
-        description,
-        ordem
-    )
-values
-    (
-        CURRENT_TIMESTAMP,
-        2,
-        'Vegetação',
-        'Plantas recém transplantadas ou germinadas, identificadas.',
-        3
-    );
-
-insert into
-    public."fasesCultivo" (
-        created_at,
-        id_user_create,
-        "name",
-        description,
-        ordem
-    )
-values
-    (
-        CURRENT_TIMESTAMP,
-        2,
-        'Floração',
-        'Plantas recém transplantadas ou germinadas, identificadas.',
-        4
-    );
-
-insert into
-    public."fasesCultivo" (
-        created_at,
-        id_user_create,
-        "name",
-        description,
-        ordem
-    )
-values
-    (
-        CURRENT_TIMESTAMP,
-        2,
-        'Colheita',
-        'Plantas recém transplantadas ou germinadas, identificadas.',
-        5
-    );
 
 truncate "propagationType" cascade;
 
@@ -562,4 +478,25 @@ INSERT INTO action_types (id_user_create,created_at,"name",code) VALUES
      (2,now(),'Criação de Muda','CREATE_MUDA'),
      (2,now(),'Matriz','MATRIZ'),
      (2,now(),'Colheita','COLHEITA');
+
+
+     
+truncate tipo_fase_cultivo cascade;
+
+INSERT INTO tipo_fase_cultivo ("name",created_at,id_user_create) VALUES
+	 ('Propagação',now(),2),
+	 ('Aclimatação',now(),2),
+	 ('Vegetação',now(),2),
+	 ('Floração',now(),2),
+	 ('Colheita',now(),2);
+
+
+truncate "fasesCultivo" cascade;
+
+INSERT INTO "fasesCultivo" ("name",description,ordem,created_at,id_user_create, id_tipo_fase_cultivo) VALUES
+	 ('Propagação','Plantas recém transplantadas ou germinadas, identificadas.',1,now(),2, 1),
+	 ('Aclimatação','Plantas recém transplantadas ou germinadas, identificadas.',2,now(),2, 2),
+	 ('Vegetação','Plantas recém transplantadas ou germinadas, identificadas.',3,now(),2, 3),
+	 ('Floração','Plantas recém transplantadas ou germinadas, identificadas.',4,now(),2, 4),
+	 ('Colheita','Plantas recém transplantadas ou germinadas, identificadas.',5,now(),2, 5);
 

@@ -1,5 +1,6 @@
 import { hash } from 'bcrypt';
 import { prisma } from '../../../../database/prismaClient';
+import { ACTION_TYPE } from '../../../../constants/ACTION_TYPE';
 
 interface ITrashLote {
   idLote: number;
@@ -48,8 +49,6 @@ export class TrashLoteUseCase {
     }
 
 
-
-
     const lote = await prisma.lotes.update({
       where: {
         id: idLote
@@ -60,15 +59,6 @@ export class TrashLoteUseCase {
       }
     })
 
-    const selectedAction = await prisma.actions.findFirst({
-      where: {
-        name: "Descartar mudas"
-      }
-    })
-
-    if (!selectedAction) {
-      throw new Error('Action para log não existente: ');
-    }
 
     const newActionGroup = await (await prisma.actionGroups.create({
       data: {
@@ -76,6 +66,17 @@ export class TrashLoteUseCase {
         obs: obs
       }
     })).id
+
+    const newAction = await prisma.actions.create({
+      data: {
+        id_user_create: id_user_create,
+        isLote: true,
+        name: "Descarte de muda",
+        id_actionType: ACTION_TYPE.DESCARTE_MUDA,
+        created_at: trashDate,
+        qtd: qtTrash
+      }
+    })
 
     const actionLote = await prisma.actionLotes.create({
       data: {
@@ -89,7 +90,7 @@ export class TrashLoteUseCase {
         completionDate: trashDate,
         
         id_user_atribution: id_user_create,
-        id_action: selectedAction.id,
+        id_action: newAction.id,
 
         qt: qtTrash,
         id_trashReason: id_trashReason

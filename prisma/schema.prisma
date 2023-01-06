@@ -489,12 +489,14 @@ model Actions {
   id_user_create Int
   userCreate     Users    @relation(fields: [id_user_create], references: [id])
   created_at     DateTime @default(now())
-  name           String
-  description    String?
+  name           String?
+
 
   isPlant Boolean @default(true)
   isLote  Boolean @default(true)
   isCrop  Boolean @default(false)
+
+  qtd Int
 
   id_actionType Int
   actionType    ActionTypes @relation(fields: [id_actionType], references: [id])

@@ -1,5 +1,6 @@
 import { hash } from 'bcrypt';
 import { prisma } from '../../../../database/prismaClient';
+import { ACTION_TYPE } from '../../../../constants/ACTION_TYPE';
 
 interface ICreateLote {
   propDate: Date
@@ -123,6 +124,44 @@ export class CreateLoteUseCase {
 
       },
     });
+
+    const newActionGroup = await (await prisma.actionGroups.create({
+      data: {
+        id_user_create: id_user_create,
+        obs: obs
+      }
+    })).id
+
+    const newAction = await prisma.actions.create({
+      data: {
+        id_user_create: id_user_create,
+        isLote: true,
+        isPlant: false,
+        isCrop: false,
+        name: "Criação de muda",
+        id_actionType: ACTION_TYPE.CREATE_MUDA,
+        created_at: new Date(),
+        qtd: qtTotal
+      }
+    })
+
+    const actionLote = await prisma.actionLotes.create({
+      data: {
+        id_lote: lote.id,
+        id_user_create: id_user_create,
+        obs: obs,
+        id_actionGroup: newActionGroup,
+
+        status: "Completed",
+        isCompleted: true,
+        completionDate: new Date(),
+        
+        id_user_atribution: id_user_create,
+        id_action: newAction.id,
+
+        qt: qtTotal
+      }
+    })
 
     return lote;
   }

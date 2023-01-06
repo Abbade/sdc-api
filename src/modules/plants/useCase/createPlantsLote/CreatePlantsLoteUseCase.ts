@@ -1,3 +1,4 @@
+import { ACTION_TYPE } from "../../../../constants/ACTION_TYPE";
 import { prisma } from "../../../../database/prismaClient";
 
 interface ITrashLote {
@@ -169,36 +170,19 @@ export class CreatePlantsLoteUseCase {
       })
     ).id;
 
-    const selectedAction = await prisma.actions.findFirst({
-      where: {
-        name: "Transplante de planta",
-      },
-    });
-
-    if (!selectedAction) {
-      throw new Error("Action para log não existente: ");
-    }
-
-    const selectedLocationChangeAction = await prisma.actions.findFirst({
-      where: {
-        name: "Mover plantas"
+    
+    
+    const newAction = await prisma.actions.create({
+      data: {
+        id_user_create: id_user_create,
+        isLote: true,
+        isPlant: true,
+        name: "Criação de Planta",
+        id_actionType: ACTION_TYPE.CREATE_PLANT,
+        created_at: new Date(),
+        qtd: qtPlant
       }
     })
-
-
-
-    if (!selectedLocationChangeAction) {
-      throw new Error('Action para log não existente: ' );
-    }
-
-    const selectedFaseCultivoChangeAction = await prisma.actions.findFirst({
-      where: {
-        name: "Vegetar planta"
-      }
-    })
-    if (!selectedFaseCultivoChangeAction) {
-      throw new Error('Action para log não existente: Vegetar planta');
-    }
 
     createdPlants.forEach((plant) => {
 
@@ -213,66 +197,16 @@ export class CreatePlantsLoteUseCase {
         completionDate: aclimatationDate,
 
         id_user_atribution: id_user_create,
-        id_action: selectedAction.id,
+        id_action: newAction.id,
 
         id_recipiente: id_recipiente,
       };
       actions.push(newActionParams);
 
-      const newActionLocationParams = {
-        id_planta: plant.id,
-        id_user_create: id_user_create,
-        obs: obs,
-        id_actionGroup: newActionGroup,
-
-        status: "Completed",
-        isCompleted: true,
-        completionDate: aclimatationDate,
-
-        id_user_atribution: id_user_create,
-        id_action: selectedLocationChangeAction?.id,
-
-        id_location: id_location,
-
-        id_location_old: id_location ? selectedLote.id_location_init : undefined
-      }
-      actions.push(newActionLocationParams)
-
-
-      const newActionChangeStageParams = {
-        id_planta: plant.id,
-        id_user_create: id_user_create,
-        obs: obs,
-        id_actionGroup: newActionGroup,
-
-        status: "Completed",
-        isCompleted: true,
-        completionDate: aclimatationDate,
-
-        id_user_atribution: id_user_create,
-        id_action: selectedFaseCultivoChangeAction?.id,
-
-        id_faseCultivo: plant.id_faseCultivo,
-
-        id_faseCultivo_old: 1,
-      }
-      actions.push(newActionChangeStageParams)
-
     });
     const createActionPlants = await prisma.actionPlants.createMany({
       data: actions,
     });
-
-    const selectedActionLote = await prisma.actions.findFirst({
-      where: {
-        name: "Transplante de mudas",
-      },
-    });
-
-    if (!selectedActionLote) {
-      throw new Error('Action para log não existente: ');
-    }
-
 
 
     const actionLote = await prisma.actionLotes.create({
@@ -287,7 +221,7 @@ export class CreatePlantsLoteUseCase {
         completionDate: aclimatationDate,
 
         id_user_atribution: id_user_create,
-        id_action: selectedActionLote.id,
+        id_action: newAction.id,
 
         id_location: id_location,
         qt: qtPlant

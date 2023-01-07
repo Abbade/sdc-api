@@ -1,0 +1,7 @@
+-- AlterTable
+ALTER TABLE "plantas" ADD COLUMN     "driedTrimMass" DOUBLE PRECISION,
+ADD COLUMN     "flowersDriedMass" DOUBLE PRECISION,
+ADD COLUMN     "flowersWetMass" DOUBLE PRECISION,
+ADD COLUMN     "fullDriedMass" DOUBLE PRECISION,
+ADD COLUMN     "fullWetMass" DOUBLE PRECISION,
+ADD COLUMN     "wetTrimMass" DOUBLE PRECISION;

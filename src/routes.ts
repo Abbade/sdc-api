@@ -70,6 +70,9 @@ import { CreateTimeSeriesController } from './modules/charts/UseCases/createTime
 import { GetAllActionLotesController } from './modules/lotes/UseCases/getActionLotes/GetAllActionLotesController';
 import { QtdPerPropagationController } from './modules/charts/UseCases/QtdPerPropagation/QtdPerPropagationController';
 import { QtdPerTrashReasonController } from './modules/charts/UseCases/QtdPerTrashReason/QtdPerTrashReasonController';
+import { CropPlantController } from './modules/plants/useCase/cropPlants/CropPlantController';
+import { GetAllCropsController } from './modules/crops/useCase/getAllCrops/GetAllCropsController';
+import { FinishCropController } from './modules/crops/useCase/finishCrop/FinishCropController';
 
 const routes = Router();
 
@@ -142,6 +145,9 @@ const trashPlantsController = new TrashPlantsController()
 const transformPlantsIntoMotherController = new TransformPlantsIntoMotherController()
 const movePlantsController = new MovePlantsController()
 const changePlantStageController = new ChangePlantStageController()
+const cropPlantController = new CropPlantController()
+const getAllCropsController = new GetAllCropsController()
+const finishCropController = new FinishCropController()
 
 const getAllActionPlantsController = new GetAllActionPlantsController();
 const getAllActionLotesController = new GetAllActionLotesController();
@@ -259,6 +265,15 @@ routes.post('/trash-plant', ensureAuthenticate, trashPlantsController.handle);
 routes.post('/move-plant', ensureAuthenticate, movePlantsController.handle);
 routes.post('/plant-mother', ensureAuthenticate, transformPlantsIntoMotherController.handle);
 routes.post('/plant-stage', ensureAuthenticate, changePlantStageController.handle);
+
+
+// crops
+routes.post('/create-crop', ensureAuthenticate, cropPlantController.handle);
+routes.get('/crops', ensureAuthenticate, getAllCropsController.handle);
+routes.post('/finish-crop', ensureAuthenticate, finishCropController.handle);
+
+
+
 
 // roles
 routes.post('/roles', ensureAuthenticate, createRolesController.handle);

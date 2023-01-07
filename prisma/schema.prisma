@@ -382,6 +382,14 @@ model Plantas {
   id_trashReason Int?
   trashReason    TrashReasons? @relation(fields: [id_trashReason], references: [id])
 
+  fullWetMass Float?
+  flowersWetMass Float?
+  wetTrimMass Float?
+
+  fullDriedMass Float?
+  flowersDriedMass Float?
+  driedTrimMass Float?
+
   trashedLotes TrashedLotes[]
   actionPlants ActionPlants[]
 

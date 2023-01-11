@@ -17,18 +17,25 @@ export class MeUseCase {
           equals: id
         }
       },
-      include: {
+      select: {
+        name: true,
+        email: true,
         role: {
-          include: {
-            permissions: true
+          select: {
+            name: true,
+            permissions: {
+              select: {
+                code: true
+              }
+            }
           }
         }
       }
     });
 
+    let perms = user?.role?.permissions?.map((item) => item.code)
 
 
-
-    return { name: user?.name, email: user?.email, roles: [user?.role], permissions: user?.role?.permissions };
+    return { name: user?.name, email: user?.email, roles: [user?.role?.name], permissions: perms};
   }
 }

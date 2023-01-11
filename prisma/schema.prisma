@@ -77,9 +77,11 @@ model Users {
   actions                 Actions[]
   actionPlants            ActionPlants[]
   actionLotes             ActionLotes[]
+  actionCrops             ActionCrops[]
   actionGroups            ActionGroups[]
   actionPlantsAtributions ActionPlants[]    @relation(name: "userAtribution")
   actionLotesAtributions  ActionLotes[]     @relation(name: "userAtributionActionLote")
+  actionCropsAtributions  ActionCrops[]     @relation(name: "userAtributionActionCrops")
   TipoFaseCultivo         TipoFaseCultivo[]
 
   @@map("users")
@@ -235,6 +237,8 @@ model Locations {
   actionPlantsOld ActionPlants[] @relation("locationOld")
   actionLotesNew  ActionLotes[]  @relation("actionLotesNewLocation")
   actionLotesOld  ActionLotes[]  @relation("actionLotesOldLocation")
+  actionCrops ActionCrops[]@relation("actionCropsNewLocation")
+  actionCropsOld ActionCrops[]  @relation("actionCropsOldLocation")
 
   @@map("location")
 }
@@ -449,6 +453,7 @@ model Crops {
   cropDriedFlowerMass Float?
 
   plantas Plantas[]
+  actionCrops ActionCrops[]
 }
 
 model TrashedLotes {
@@ -521,6 +526,7 @@ model Actions {
 
   actionPlants ActionPlants[]
   actionLotes  ActionLotes[]
+  actionCrops  ActionCrops[]
 
   @@map("actions")
 }
@@ -535,6 +541,7 @@ model ActionGroups {
 
   actionPlants ActionPlants[]
   actionLotes  ActionLotes[]
+  actionCrops  ActionCrops[]
 
   @@map("actionGroups")
 }
@@ -631,4 +638,39 @@ model ActionPlants {
   locationOld     Locations? @relation("locationOld", fields: [id_location_old], references: [id])
 
   @@map("actionPlants")
+}
+
+model ActionCrops {
+  id             Int      @id @default(autoincrement())
+  id_user_create Int
+  userCreate     Users    @relation(fields: [id_user_create], references: [id])
+  created_at     DateTime @default(now())
+
+  obs String?
+
+  status String
+
+  id_actionGroup Int
+  actionGroup    ActionGroups @relation(fields: [id_actionGroup], references: [id])
+
+  id_user_atribution Int?
+  atribution         Users? @relation("userAtributionActionCrops", fields: [id_user_atribution], references: [id])
+  isCanceled      Boolean?
+  cancelationDate DateTime?
+
+  isCompleted    Boolean?
+  completionDate DateTime?
+
+  id_action Int
+  action    Actions @relation(fields: [id_action], references: [id])
+
+  id_crop Int
+  crop    Crops @relation(fields: [id_crop], references: [id])
+
+  id_location Int? 
+  location    Locations? @relation("actionCropsNewLocation",fields: [id_location], references: [id])
+
+  id_location_old Int? 
+  locationOld     Locations? @relation("actionCropsOldLocation", fields: [id_location_old], references: [id])
+  @@map("actionCrop")
 }

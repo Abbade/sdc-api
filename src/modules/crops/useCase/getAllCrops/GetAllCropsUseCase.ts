@@ -26,34 +26,44 @@ export class GetAllCropsUseCase {
 
     id = id ? Number.parseInt(id) : undefined
 
-    let ids = filter?.ids?.split("\n").map(ids => {return ids.trim()})
+    let ids = filter?.ids?.split("\n").map(ids => { return ids.trim() })
 
     const total = await prisma.crops.count(
-    
-      )
+
+    )
     const lotes = await prisma.crops.findMany({
-      take: limit?.toString() ? Number.parseInt(limit?.toString()):1,
-      skip: limit? ((page - 1) * limit):0, 
-     
+      take: limit?.toString() ? Number.parseInt(limit?.toString()) : 1,
+      skip: limit ? ((page - 1) * limit) : 0,
+      where: {
+        id: id
+      },
+
       include: {
         location: true,
         genetics: true,
-        fasesCrop: true
-        
-      }
+        fasesCrop: true,
+        plantas: id ? true : false,
+        actionCrops: {
+          include: {
+      action: id ? true : false,
+      location: id ? true : false,
+      locationOld: id ? true : false,
+    }}
+
+}
 
       }
     );
 
-    if (!lotes) {
-      throw new Error('Sem Profiles Existentes.');
-    }
+if (!lotes) {
+  throw new Error('Sem Profiles Existentes.');
+}
 
 
-    return {
-      total,
-      itens: lotes
-    }
-      ;
+return {
+  total,
+  itens: lotes
+}
+  ;
   }
 }

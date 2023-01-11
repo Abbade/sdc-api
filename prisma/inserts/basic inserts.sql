@@ -477,8 +477,9 @@ INSERT INTO action_types (id_user_create,created_at,"name",code) VALUES
      (2,now(),'Criação de Planta','CREATE_PLANTA'),
      (2,now(),'Criação de Muda','CREATE_MUDA'),
      (2,now(),'Matriz','MATRIZ'),
-     (2,now(),'Colheita','COLHEITA');
-     (2,now(),'Colheita Finalizada','FINALIZA_COLHEITA');
+     (2,now(),'Colheita de Plantas','COLHEITA');
+     
+     (2,now(),'Finalização de Colheita','FINISH_CROP');
 
 
      

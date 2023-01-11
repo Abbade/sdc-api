@@ -111,6 +111,71 @@ export class FinishCropUseCase {
       }
     )
 
+    let plantsToUpdate = await prisma.plantas.findMany({
+      where: {
+        id_crop: id_crop
+      }
+    })
+    
+    plantsToUpdate.forEach(async (plant) => {
+     
+    const updatedPlants = await prisma.plantas.updateMany({
+      where: {
+        id: plant.id 
+      },
+      data: {
+flowersDriedMass: cropDriedFlowerMass/plantsToUpdate?.length
+      },
+    });
+  })
+
+
+    let actions = [] as [];
+
+    const newActionGroup = await (
+      await prisma.actionGroups.create({
+        data: {
+          id_user_create: id_user_create,
+          obs: obs,
+        },
+      })
+    ).id;
+
+    const selectedCropAction = await prisma.actions.create({
+      data: {
+        id_user_create: id_user_create,
+        isLote: false,
+        isPlant: false,
+        isCrop: true,
+        name: "Finalização de Colheita",
+        id_actionType: ACTION_TYPE.FINISH_CROP,
+        created_at: new Date(),
+        qtd: 1,
+      },
+    });
+
+    const newActionCrop = {
+      id_crop: cropToUpdate.id,
+        id_user_create: id_user_create,
+        obs: obs,
+        id_actionGroup: newActionGroup,
+
+        status: "Completed",
+        isCompleted: true,
+        completionDate: actionDate,
+
+        id_user_atribution: id_user_create,
+        id_action: selectedCropAction.id,
+
+        id_location: newCrop.id_location,
+        id_location_old: cropToUpdate.id_location,
+
+    }
+    const createActionCrop = await prisma.actionCrops.create({
+      data: newActionCrop,
+    });
+
+
     }
 
 

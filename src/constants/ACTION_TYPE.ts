@@ -7,5 +7,6 @@ export const ACTION_TYPE = {
   CREATE_PLANT: 6,
   CREATE_MUDA: 7,
   MATRIZ: 8,
-  COLHEITA: 9
+  COLHEITA: 9,
+  FINISH_CROP: 10
 };

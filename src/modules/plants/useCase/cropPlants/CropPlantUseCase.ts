@@ -167,6 +167,25 @@ export class CropPlantUseCase {
         },
       });
 
+      const newActionCrop = {
+        id_crop: newCrop.id,
+          id_user_create: id_user_create,
+          obs: obs,
+          id_actionGroup: newActionGroup,
+  
+          status: "Completed",
+          isCompleted: true,
+          completionDate: actionDate,
+  
+          id_user_atribution: id_user_create,
+          id_action: selectedCropAction.id,
+  
+          id_location: newCrop.id_location,
+  
+      }
+      const createActionCrop = await prisma.actionCrops.create({
+        data: newActionCrop,
+      });
 
       plantsToUpdate.forEach((plant) => {
         const newActionParams = {

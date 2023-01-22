@@ -1,0 +1,7 @@
+Project number: 627294585419
+
+Calendar ID
+ab144f34d852078f8da48f3d2f6f4ef10144bf6cc95cb68709d89de688980dcb@group.calendar.google.com
+
+Calendar user email:
+sdc-app@sdc-0420.iam.gserviceaccount.com    

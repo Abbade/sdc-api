@@ -129,6 +129,7 @@ model FasesCultivo {
   name        String
   description String
   ordem       Int    @unique
+  duration Int?
 
   id_tipo_fase_cultivo Int
   TipoFaseCultivo      TipoFaseCultivo @relation(fields: [id_tipo_fase_cultivo], references: [id])
@@ -520,6 +521,7 @@ model Actions {
   isCrop  Boolean @default(false)
 
   qtd Int
+  actionDuration Int?
 
   id_actionType Int
   actionType    ActionTypes @relation(fields: [id_actionType], references: [id])
@@ -634,7 +636,7 @@ model ActionPlants {
   id_faseCultivo_old Int?
   faseCultivoOld     FasesCultivo? @relation("faseCultivoOld", fields: [id_faseCultivo_old], references: [id])
 
-  id_location_old Int?
+  id_location_old Int?  
   locationOld     Locations? @relation("locationOld", fields: [id_location_old], references: [id])
 
   @@map("actionPlants")

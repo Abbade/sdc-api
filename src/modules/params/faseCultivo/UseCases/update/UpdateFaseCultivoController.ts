@@ -3,13 +3,14 @@ import { UpdateFaseCultivoUseCase } from './UpdateFaseCultivoUseCase';
 
 export class UpdateFaseCultivoController {
   async handle(request: Request, response: Response) {
-    const {name, description, ordem, id } = request.body;
+    const {name, description, ordem, id, duration} = request.body;
 
     const createSectionUseCase = new UpdateFaseCultivoUseCase();
     const result = await createSectionUseCase.execute({
       id,
       name,
       description,
+      duration,
       ordem
     });
 

@@ -6,13 +6,14 @@ export interface ICreateFaseCultivo {
   name: string;
   description: string;
   ordem: number;
+  duration?: number | undefined | null;
   id_user_create?: number;
 }
 
 export class CreateFaseCultivoUseCase {
   
   
-  async execute({ name,description, ordem, id_user_create }: ICreateFaseCultivo) {
+  async execute({ name,description, ordem, id_user_create, duration }: ICreateFaseCultivo) {
     const clientExists = await prisma.fasesCultivo.findFirst({
       where: {
         ordem: {
@@ -30,6 +31,11 @@ export class CreateFaseCultivoUseCase {
         name,
         description,
         ordem,
+        duration: duration,
+
+        //ajustar crud
+        id_tipo_fase_cultivo: 1,
+
         id_user_create: id_user_create != undefined ? Number.parseInt(id_user_create.toString())  : 0
       },
     });

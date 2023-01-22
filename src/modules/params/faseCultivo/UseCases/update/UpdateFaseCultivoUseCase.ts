@@ -3,7 +3,7 @@ import { ICreateFaseCultivo } from '../createFaseCultivo/CreateFaseCultivoUseCas
 
 export class UpdateFaseCultivoUseCase {
   
-  async execute({ name, description, ordem, id}: ICreateFaseCultivo) {
+  async execute({ name, description, ordem, id, duration}: ICreateFaseCultivo) {
 
     const updated = await prisma.fasesCultivo.update({
       where: {
@@ -13,7 +13,8 @@ export class UpdateFaseCultivoUseCase {
       data: {
         name: name,
         description: description,
-        ordem: ordem
+        ordem: ordem,
+        duration: duration,
       }
     })
 

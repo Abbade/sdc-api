@@ -19,6 +19,8 @@ interface IChangePlantStage {
   plants: number[];
 
   id_faseCultivo: number;
+  scheduled: boolean;
+  id_user_atribution: number;
 
   obs: string;
 }
@@ -30,6 +32,8 @@ export class ChangePlantStageUseCase {
     id_faseCultivo,
     id_user_create,
     obs,
+    id_user_atribution,
+    scheduled
   }: IChangePlantStage) {
     //VALIDA EXISTENCIA DE CAMPOS
 
@@ -64,7 +68,7 @@ export class ChangePlantStageUseCase {
         throw new Error("Não é possivel alterar plantas colhidas.");
       }
     });
-
+    if (!scheduled) { 
     if (
       selectedFaseCultivo.id_tipo_fase_cultivo == TIPO_FASE_CULTIVO.VEGETACAO
     ) {
@@ -98,7 +102,7 @@ export class ChangePlantStageUseCase {
         updatePlantsParams
       );
     }
-
+  }
     let actions = [] as any;
 
     const newActionGroup = await (
@@ -119,6 +123,9 @@ export class ChangePlantStageUseCase {
         name: "Alteração fase de cultivo",
         id_actionType: ACTION_TYPE.ALTERA_FASE_CULTIVO,
         created_at: new Date(),
+        id_user_completion: id_user_create,
+        isCompleted: true,
+        completionDate: actionDate,
         qtd: plantsToUpdate.length,
       },
     });
@@ -130,11 +137,12 @@ export class ChangePlantStageUseCase {
         obs: obs,
         id_actionGroup: newActionGroup,
         id_action: selectedAction.id,
-        status: "Completed",
-        isCompleted: true,
-        completionDate: actionDate,
-
-        id_user_atribution: id_user_create,
+        status: scheduled ? "Agendada" : "Completed",
+        isCompleted: scheduled ? false : true,
+        completionDate: scheduled ? undefined : actionDate,    
+        id_user_completion: scheduled ? undefined: id_user_create,
+      
+        id_user_atribution: id_user_atribution ? id_user_atribution : id_user_create,
 
         id_faseCultivo: id_faseCultivo,
 

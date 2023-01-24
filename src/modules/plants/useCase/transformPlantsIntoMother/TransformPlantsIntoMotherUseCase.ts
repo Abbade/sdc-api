@@ -85,7 +85,10 @@ export class TransformPlantsIntoMotherUseCase {
         isCrop: false,
         name: "Altera para Planta Matriz",
         id_actionType: ACTION_TYPE.MATRIZ,
-        created_at: new Date(),
+        created_at: new Date(),   
+        id_user_completion: id_user_create,
+        isCompleted: true,
+        completionDate: actionDate,
         qtd: plantsToUpdate.length
       }
     })
@@ -105,6 +108,8 @@ export class TransformPlantsIntoMotherUseCase {
           status: "Completed",
           isCompleted: true,
           completionDate: actionDate,
+          id_user_completion: id_user_create,
+        
           
           id_user_atribution: id_user_create,
 

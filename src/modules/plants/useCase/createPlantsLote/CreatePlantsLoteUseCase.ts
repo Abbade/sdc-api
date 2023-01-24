@@ -9,6 +9,8 @@ interface ITrashLote {
   id_recipiente: number;
   obs: string;
   id_user_create: number;
+  id_user_atribution: number;
+  scheduled: boolean
 }
 
 interface INewPlant {
@@ -38,6 +40,8 @@ export class CreatePlantsLoteUseCase {
     qtPlant,
     id_location,
     id_recipiente,
+    id_user_atribution,
+    scheduled,
     obs,
     id_user_create,
   }: ITrashLote) {
@@ -108,6 +112,36 @@ export class CreatePlantsLoteUseCase {
 
     const plantIndex = selectedLote.qtPlant + 1;
 
+
+    let actions = [] as any;
+
+    const newActionGroup = await (
+      await prisma.actionGroups.create({
+        data: {
+          id_user_create: id_user_create,
+          obs: obs,
+        },
+      })
+    ).id;
+
+    
+    
+    const newAction = await prisma.actions.create({
+      data: {
+        id_user_create: id_user_create,
+        isLote: true,
+        isPlant: true,
+        name: "Criação de Planta",
+        id_actionType: ACTION_TYPE.CREATE_PLANT,
+        created_at: new Date(),
+        id_user_completion: id_user_create,
+        isCompleted: true,
+        completionDate: aclimatationDate,
+        qtd: qtPlant
+      }
+    })
+
+    if (!scheduled) {
     for (let i = selectedLote.qtPlant + 1; i < plantIndex + qtPlant; i++) {
       newPlants.push({
         name: selectedLote.name + "#" + i,
@@ -159,31 +193,7 @@ export class CreatePlantsLoteUseCase {
       },
     });
 
-    let actions = [] as any;
-
-    const newActionGroup = await (
-      await prisma.actionGroups.create({
-        data: {
-          id_user_create: id_user_create,
-          obs: obs,
-        },
-      })
-    ).id;
-
-    
-    
-    const newAction = await prisma.actions.create({
-      data: {
-        id_user_create: id_user_create,
-        isLote: true,
-        isPlant: true,
-        name: "Criação de Planta",
-        id_actionType: ACTION_TYPE.CREATE_PLANT,
-        created_at: new Date(),
-        qtd: qtPlant
-      }
-    })
-
+   
     createdPlants.forEach((plant) => {
 
       const newActionParams = {
@@ -192,11 +202,12 @@ export class CreatePlantsLoteUseCase {
         obs: obs,
         id_actionGroup: newActionGroup,
 
-        status: "Completed",
-        isCompleted: true,
-        completionDate: aclimatationDate,
-
-        id_user_atribution: id_user_create,
+         status: scheduled ? "Agendada" : "Completed",
+        isCompleted: scheduled ? false : true,
+        completionDate: scheduled ? undefined : aclimatationDate,    
+        id_user_completion: scheduled ? undefined: id_user_create,
+      
+        id_user_atribution: id_user_atribution ? id_user_atribution : id_user_create,
         id_action: newAction.id,
 
         id_recipiente: id_recipiente,
@@ -207,6 +218,7 @@ export class CreatePlantsLoteUseCase {
     const createActionPlants = await prisma.actionPlants.createMany({
       data: actions,
     });
+  }
 
 
     const actionLote = await prisma.actionLotes.create({
@@ -216,11 +228,12 @@ export class CreatePlantsLoteUseCase {
         obs: obs,
         id_actionGroup: newActionGroup,
 
-        status: "Completed",
-        isCompleted: true,
-        completionDate: aclimatationDate,
-
-        id_user_atribution: id_user_create,
+        status: scheduled ? "Agendada" : "Completed",
+        isCompleted: scheduled ? false : true,
+        completionDate: scheduled ? undefined : aclimatationDate,    
+        id_user_completion: scheduled ? undefined: id_user_create,
+      
+        id_user_atribution: scheduled ? id_user_atribution : id_user_create,
         id_action: newAction.id,
 
         id_location: id_location,
@@ -229,6 +242,6 @@ export class CreatePlantsLoteUseCase {
     })
 
 
-    return plantsCount;
+    return 200;
   }
 }

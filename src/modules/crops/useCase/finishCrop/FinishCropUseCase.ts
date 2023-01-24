@@ -150,6 +150,9 @@ flowersDriedMass: cropDriedFlowerMass/plantsToUpdate?.length
         name: "Finalização de Colheita",
         id_actionType: ACTION_TYPE.FINISH_CROP,
         created_at: new Date(),
+        id_user_completion: id_user_create,
+        isCompleted: true,
+        completionDate: actionDate,
         qtd: 1,
       },
     });
@@ -163,6 +166,7 @@ flowersDriedMass: cropDriedFlowerMass/plantsToUpdate?.length
         status: "Completed",
         isCompleted: true,
         completionDate: actionDate,
+        id_user_completion: id_user_create,
 
         id_user_atribution: id_user_create,
         id_action: selectedCropAction.id,

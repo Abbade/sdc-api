@@ -141,6 +141,9 @@ export class CreateLoteUseCase {
         name: "Criação de muda",
         id_actionType: ACTION_TYPE.CREATE_MUDA,
         created_at: new Date(),
+        id_user_completion: id_user_create,
+        isCompleted: true,
+        completionDate: propDate,
         qtd: qtTotal
       }
     })
@@ -154,9 +157,12 @@ export class CreateLoteUseCase {
 
         status: "Completed",
         isCompleted: true,
-        completionDate: new Date(),
-        
+
         id_user_atribution: id_user_create,
+
+        id_user_completion: id_user_create,
+ 
+        completionDate: propDate,
         id_action: newAction.id,
 
         qt: qtTotal

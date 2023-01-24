@@ -23,6 +23,8 @@ interface ITransplantPlants {
   id_location: number;
   id_faseCultivo: number;
 
+  id_user_atribution: number;
+  scheduled: boolean;
   obs: string;
 }
 
@@ -37,6 +39,8 @@ export class TransplantPlantsUseCase {
     id_faseCultivo,
     id_user_create,
     obs,
+    id_user_atribution,
+    scheduled
   }: ITransplantPlants) {
     let selectedFaseCultivoChangeAction: Actions | undefined | null;
     let selectedLocationChangeAction: Actions | undefined | null;
@@ -122,6 +126,12 @@ export class TransplantPlantsUseCase {
         name: "Alteração de recipiente",
         id_actionType: ACTION_TYPE.TRANSPLANTE,
         created_at: new Date(),
+
+          isCompleted: scheduled ? false : true,
+          completionDate: scheduled ? undefined : transplantDate,    
+          id_user_completion: scheduled ? undefined: id_user_create,
+        
+          id_user_atribution: id_user_atribution ? id_user_atribution : id_user_create,
         qtd: plantsToUpdate.length,
       },
     });
@@ -138,6 +148,12 @@ export class TransplantPlantsUseCase {
           name: "Mover plantas",
           id_actionType: ACTION_TYPE.ALTERA_LOCAL,
           created_at: new Date(),
+
+          isCompleted: scheduled ? false : true,
+          completionDate: scheduled ? undefined : transplantDate,    
+          id_user_completion: scheduled ? undefined: id_user_create,
+        
+          id_user_atribution: id_user_atribution ? id_user_atribution : id_user_create,
           qtd: plantsToUpdate.length,
         },
       });
@@ -163,6 +179,12 @@ export class TransplantPlantsUseCase {
           name: "Alteração de fase",
           id_actionType: ACTION_TYPE.ALTERA_FASE_CULTIVO,
           created_at: new Date(),
+
+          isCompleted: scheduled ? false : true,
+          completionDate: scheduled ? undefined : transplantDate,    
+          id_user_completion: scheduled ? undefined: id_user_create,
+        
+          id_user_atribution: id_user_atribution ? id_user_atribution : id_user_create,
           qtd: plantsToUpdate.length,
         },
       });
@@ -178,11 +200,12 @@ export class TransplantPlantsUseCase {
         obs: obs,
         id_actionGroup: newActionGroup,
 
-        status: "Completed",
-        isCompleted: true,
-        completionDate: transplantDate,
-
-        id_user_atribution: id_user_create,
+        status: scheduled ? "Agendada" : "Completed",
+          isCompleted: scheduled ? false : true,
+          completionDate: scheduled ? undefined : transplantDate,    
+          id_user_completion: scheduled ? undefined: id_user_create,
+        
+          id_user_atribution: id_user_atribution ? id_user_atribution : id_user_create,
         id_action: selectedRecipientChangeAction.id,
 
         id_recipiente: id_recipiente,
@@ -198,11 +221,12 @@ export class TransplantPlantsUseCase {
           obs: obs,
           id_actionGroup: newActionGroup,
 
-          status: "Completed",
-          isCompleted: true,
-          completionDate: transplantDate,
-
-          id_user_atribution: id_user_create,
+          status: scheduled ? "Agendada" : "Completed",
+          isCompleted: scheduled ? false : true,
+          completionDate: scheduled ? undefined : transplantDate,    
+          id_user_completion: scheduled ? undefined: id_user_create,
+        
+          id_user_atribution: id_user_atribution ? id_user_atribution : id_user_create,
           id_action: selectedLocationChangeAction?.id,
 
           id_location: id_location,
@@ -219,11 +243,12 @@ export class TransplantPlantsUseCase {
           obs: obs,
           id_actionGroup: newActionGroup,
 
-          status: "Completed",
-          isCompleted: true,
-          completionDate: transplantDate,
-
-          id_user_atribution: id_user_create,
+          status: scheduled ? "Agendada" : "Completed",
+          isCompleted: scheduled ? false : true,
+          completionDate: scheduled ? undefined : transplantDate,    
+          id_user_completion: scheduled ? undefined: id_user_create,
+        
+          id_user_atribution: id_user_atribution ? id_user_atribution : id_user_create,
           id_action: selectedFaseCultivoChangeAction?.id,
 
           id_faseCultivo: id_faseCultivo,
@@ -251,8 +276,9 @@ export class TransplantPlantsUseCase {
       updatePlantsParams.data.vegetationDate = transplantDate;
     if (selectedFaseCultivo?.id_tipo_fase_cultivo == TIPO_FASE_CULTIVO.FLORACAO)
       updatePlantsParams.data.floweringDate = transplantDate;
-
+    if (!scheduled) { 
     const updatedPlants = await prisma.plantas.updateMany(updatePlantsParams);
+    }
     const createActionPlants = await prisma.actionPlants.createMany({
       data: actions,
     });

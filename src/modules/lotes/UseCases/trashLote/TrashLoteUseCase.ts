@@ -70,6 +70,9 @@ export class TrashLoteUseCase {
     const newAction = await prisma.actions.create({
       data: {
         id_user_create: id_user_create,
+        id_user_completion: id_user_create,
+        isCompleted: true,
+        completionDate: trashDate,
         isLote: true,
         name: "Descarte de muda",
         id_actionType: ACTION_TYPE.DESCARTE_MUDA,
@@ -89,6 +92,7 @@ export class TrashLoteUseCase {
         isCompleted: true,
         completionDate: trashDate,
         
+        id_user_completion: id_user_create,
         id_user_atribution: id_user_create,
         id_action: newAction.id,
 

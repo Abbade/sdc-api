@@ -1,3 +1,8 @@
+
+
+
+
+
 export const ACTION_TYPE = {
   TRANSPLANTE: 1,
   ALTERA_FASE_CULTIVO: 2,

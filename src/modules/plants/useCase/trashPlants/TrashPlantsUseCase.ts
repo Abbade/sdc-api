@@ -114,7 +114,10 @@ export class TrashPlantsUseCase {
           isCrop: false,
           name: "Descarte de Planta",
           id_actionType: ACTION_TYPE.DESCARTE_PLANTA,
-          created_at: new Date(),
+          created_at: new Date(),   
+          id_user_completion: id_user_create,
+          isCompleted: true,
+          completionDate: trashDate,
           qtd: plantsToUpdate.length
         }
       })
@@ -133,7 +136,8 @@ export class TrashPlantsUseCase {
             status: "Completed",
             isCompleted: true,
             completionDate: trashDate,
-            
+            id_user_completion: id_user_create,
+
             id_user_atribution: id_user_create,
   
             id_trashReason: id_trashReason,

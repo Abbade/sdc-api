@@ -74,7 +74,8 @@ model Users {
   crops                   Crops[]
   organizations           Organizations?    @relation(name: "userCreate")
   actionTypes             ActionTypes[]
-  actions                 Actions[]
+  actionsAtribution                 Actions[] @relation(name: "userAtributionAction")
+  actions                 Actions[] 
   actionPlants            ActionPlants[]
   actionLotes             ActionLotes[]
   actionCrops             ActionCrops[]
@@ -82,6 +83,11 @@ model Users {
   actionPlantsAtributions ActionPlants[]    @relation(name: "userAtribution")
   actionLotesAtributions  ActionLotes[]     @relation(name: "userAtributionActionLote")
   actionCropsAtributions  ActionCrops[]     @relation(name: "userAtributionActionCrops")
+  actionCompletion Actions[]    @relation(name: "userCompletionAction")
+  actionCompletionLote ActionLotes[]    @relation(name: "userCompletionActionLote")
+  actionCompletionPlant ActionPlants[]    @relation(name: "userCompletionActionPlant")
+  actionCompletionCrop ActionCrops[]    @relation(name: "userCompletionActionCrop")
+
   TipoFaseCultivo         TipoFaseCultivo[]
 
   @@map("users")
@@ -520,6 +526,22 @@ model Actions {
   isLote  Boolean @default(true)
   isCrop  Boolean @default(false)
 
+  id_user_atribution Int?
+  atribution         Users? @relation("userAtributionAction", fields: [id_user_atribution], references: [id])
+
+  id_user_completion Int?
+  completion Users? @relation("userCompletionAction", fields: [id_user_completion], references: [id])
+
+  scheduledDate DateTime?
+
+  
+  isCanceled      Boolean?
+  cancelationDate DateTime?
+
+  isCompleted    Boolean?
+  completionDate DateTime?
+
+
   qtd Int
   actionDuration Int?
 
@@ -564,6 +586,12 @@ model ActionLotes {
   id_user_atribution Int?
   atribution         Users? @relation("userAtributionActionLote", fields: [id_user_atribution], references: [id])
 
+    id_user_completion Int?
+  completion Users? @relation("userCompletionActionLote", fields: [id_user_completion], references: [id])
+
+
+  scheduledDate DateTime?
+
   isCanceled      Boolean?
   cancelationDate DateTime?
 
@@ -605,6 +633,12 @@ model ActionPlants {
 
   id_user_atribution Int?
   atribution         Users? @relation("userAtribution", fields: [id_user_atribution], references: [id])
+
+    id_user_completion Int?
+  completion Users? @relation("userCompletionActionPlant", fields: [id_user_completion], references: [id])
+
+
+  scheduledDate DateTime?
 
   isCanceled      Boolean?
   cancelationDate DateTime?
@@ -657,6 +691,13 @@ model ActionCrops {
 
   id_user_atribution Int?
   atribution         Users? @relation("userAtributionActionCrops", fields: [id_user_atribution], references: [id])
+
+    id_user_completion Int?
+  completion Users? @relation("userCompletionActionCrop", fields: [id_user_completion], references: [id])
+
+
+  scheduledDate DateTime?
+
   isCanceled      Boolean?
   cancelationDate DateTime?
 

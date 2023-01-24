@@ -19,6 +19,8 @@ interface ICropPlant {
   actionDate: Date;
   plants: number[];
   id_location: number;
+  id_user_atribution: number;
+  scheduled: boolean;
 
   cropFullWetMass:  number;
   cropWetTrimMass: number;
@@ -32,7 +34,7 @@ interface ICropPlant {
 export class CropPlantUseCase {
 
 
-  async execute({ actionDate, plants, id_user_create, obs, cropFlowerWetMass, cropFullWetMass, cropWetTrimMass,id_location }: ICropPlant) {
+  async execute({ actionDate, plants, id_user_create, obs, cropFlowerWetMass, cropFullWetMass, cropWetTrimMass,id_location, id_user_atribution, scheduled }: ICropPlant) {
 
     //VALIDA EXISTENCIA DE CAMPOS
 
@@ -95,6 +97,32 @@ export class CropPlantUseCase {
       throw new Error('Fase de Crop para log não existente: Colher');
     }
 
+    let actions = [] as ActionPlants[];
+
+      const newActionGroup = await (
+        await prisma.actionGroups.create({
+          data: {
+            id_user_create: id_user_create,
+            obs: obs,
+          },
+        })
+      ).id;
+      const selectedCropAction = await prisma.actions.create({
+        data: {
+          id_user_create: id_user_create,
+          isLote: false,
+          isPlant: false,
+          isCrop: false,
+          name: "Colheita",
+          id_actionType: ACTION_TYPE.COLHEITA,
+          created_at: new Date(),   
+          id_user_completion: id_user_create,
+          isCompleted: true,
+          completionDate: actionDate,
+          qtd: plantsToUpdate.length,
+        },
+      });
+    if (!scheduled) {
     const cropId = await prisma.crops.count({
       where: {
         id_genetic: id_genetic
@@ -119,7 +147,26 @@ export class CropPlantUseCase {
         }
       }
     )
+    const newActionCrop = {
+      id_crop: newCrop.id,
+        id_user_create: id_user_create,
+        obs: obs,
+        id_actionGroup: newActionGroup,
 
+        status: scheduled ? "Agendada" : "Completed",
+        isCompleted: scheduled ? false : true,
+        completionDate: scheduled ? undefined : actionDate,    
+        id_user_completion: scheduled ? undefined: id_user_create,
+      
+        id_user_atribution: id_user_atribution ? id_user_atribution : id_user_create,
+        id_action: selectedCropAction.id,
+
+        id_location: newCrop.id_location,
+
+    }
+    const createActionCrop = await prisma.actionCrops.create({
+      data: newActionCrop,
+    });
     
 
       const updatePlantsParams = {
@@ -141,51 +188,13 @@ export class CropPlantUseCase {
         }
       }
       const updatedPlants = await prisma.plantas.updateMany(updatePlantsParams)
+    }
 
+      
+  
+    
 
-      let actions = [] as ActionPlants[];
-
-      const newActionGroup = await (
-        await prisma.actionGroups.create({
-          data: {
-            id_user_create: id_user_create,
-            obs: obs,
-          },
-        })
-      ).id;
-  
-      const selectedCropAction = await prisma.actions.create({
-        data: {
-          id_user_create: id_user_create,
-          isLote: false,
-          isPlant: false,
-          isCrop: false,
-          name: "Colheita",
-          id_actionType: ACTION_TYPE.COLHEITA,
-          created_at: new Date(),
-          qtd: plantsToUpdate.length,
-        },
-      });
-
-      const newActionCrop = {
-        id_crop: newCrop.id,
-          id_user_create: id_user_create,
-          obs: obs,
-          id_actionGroup: newActionGroup,
-  
-          status: "Completed",
-          isCompleted: true,
-          completionDate: actionDate,
-  
-          id_user_atribution: id_user_create,
-          id_action: selectedCropAction.id,
-  
-          id_location: newCrop.id_location,
-  
-      }
-      const createActionCrop = await prisma.actionCrops.create({
-        data: newActionCrop,
-      });
+     
 
       plantsToUpdate.forEach((plant) => {
         const newActionParams = {
@@ -194,11 +203,12 @@ export class CropPlantUseCase {
           obs: obs,
           id_actionGroup: newActionGroup,
   
-          status: "Completed",
-          isCompleted: true,
-          completionDate: actionDate,
-  
-          id_user_atribution: id_user_create,
+          status: scheduled ? "Agendada" : "Completed",
+          isCompleted: scheduled ? false : true,
+          completionDate: scheduled ? undefined : actionDate,    
+          id_user_completion: scheduled ? undefined: id_user_create,
+        
+          id_user_atribution: id_user_atribution ? id_user_atribution : id_user_create,
           id_action: selectedCropAction.id,
   
           id_faseCultivo: selectedFaseCultivo.id,

@@ -10,6 +10,8 @@ export class TransplantPlantsController {
       id_location,
       id_faseCultivo,
       obs,
+      id_user_atribution,
+      scheduled
     } = request.body;
     const id_user_create = request.id_user;
 
@@ -22,6 +24,8 @@ export class TransplantPlantsController {
         id_location,
         id_faseCultivo,
         id_user_create,
+        id_user_atribution,
+        scheduled,
         obs,
       });
 

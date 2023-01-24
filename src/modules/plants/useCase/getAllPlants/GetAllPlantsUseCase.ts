@@ -138,7 +138,8 @@ export class GetAllPlantsUseCase {
           location: id ? true: false,
           locationOld: id ? true: false,
           recipiente: id ? true: false,
-          recipienteOld: id ? true: false
+          recipienteOld: id ? true: false,
+          completion: id ? true : false
         }
         
       }

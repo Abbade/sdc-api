@@ -87,6 +87,7 @@ export class TransformPlantsIntoMotherUseCase {
         id_actionType: ACTION_TYPE.MATRIZ,
         created_at: new Date(),   
         id_user_completion: id_user_create,
+        id_user_atribution: id_user_create,
         isCompleted: true,
         completionDate: actionDate,
         qtd: plantsToUpdate.length

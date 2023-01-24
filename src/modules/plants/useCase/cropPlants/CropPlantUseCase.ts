@@ -120,6 +120,8 @@ export class CropPlantUseCase {
           isCompleted: true,
           completionDate: actionDate,
           qtd: plantsToUpdate.length,
+        scheduledDate: scheduled ? actionDate : undefined,
+
         },
       });
     if (!scheduled) {
@@ -156,7 +158,8 @@ export class CropPlantUseCase {
         status: scheduled ? "Agendada" : "Completed",
         isCompleted: scheduled ? false : true,
         completionDate: scheduled ? undefined : actionDate,    
-        id_user_completion: scheduled ? undefined: id_user_create,
+       id_user_completion: scheduled ? undefined: id_user_atribution,
+       scheduledDate: scheduled ? actionDate : undefined,
       
         id_user_atribution: id_user_atribution ? id_user_atribution : id_user_create,
         id_action: selectedCropAction.id,
@@ -206,7 +209,7 @@ export class CropPlantUseCase {
           status: scheduled ? "Agendada" : "Completed",
           isCompleted: scheduled ? false : true,
           completionDate: scheduled ? undefined : actionDate,    
-          id_user_completion: scheduled ? undefined: id_user_create,
+         id_user_completion: scheduled ? undefined: id_user_atribution,
         
           id_user_atribution: id_user_atribution ? id_user_atribution : id_user_create,
           id_action: selectedCropAction.id,

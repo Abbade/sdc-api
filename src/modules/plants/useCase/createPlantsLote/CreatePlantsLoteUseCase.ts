@@ -1,3 +1,4 @@
+import { ActionPlants } from "@prisma/client";
 import { ACTION_TYPE } from "../../../../constants/ACTION_TYPE";
 import { prisma } from "../../../../database/prismaClient";
 
@@ -53,6 +54,17 @@ export class CreatePlantsLoteUseCase {
     const selectedFaseCultivo = await prisma.fasesCultivo.findFirst({
       where: {
         ordem: 2,
+      },
+    });
+
+    if (!selectedFaseCultivo) {
+      throw new Error("Fase de cultivo não existente: " + 2);
+    }
+
+    //VALIDA EXISTENCIA DE CAMPOS
+    const selectedFaseCultivoProp = await prisma.fasesCultivo.findFirst({
+      where: {
+        ordem: 1,
       },
     });
 
@@ -134,12 +146,14 @@ export class CreatePlantsLoteUseCase {
         name: "Criação de Planta",
         id_actionType: ACTION_TYPE.CREATE_PLANT,
         created_at: new Date(),
-        id_user_completion: id_user_create,
+        id_user_completion: id_user_atribution,
         isCompleted: true,
         completionDate: aclimatationDate,
         qtd: qtPlant
       }
     })
+
+   
 
     if (!scheduled) {
     for (let i = selectedLote.qtPlant + 1; i < plantIndex + qtPlant; i++) {
@@ -205,7 +219,7 @@ export class CreatePlantsLoteUseCase {
          status: scheduled ? "Agendada" : "Completed",
         isCompleted: scheduled ? false : true,
         completionDate: scheduled ? undefined : aclimatationDate,    
-        id_user_completion: scheduled ? undefined: id_user_create,
+       id_user_completion: scheduled ? undefined: id_user_atribution,
       
         id_user_atribution: id_user_atribution ? id_user_atribution : id_user_create,
         id_action: newAction.id,
@@ -215,6 +229,130 @@ export class CreatePlantsLoteUseCase {
       actions.push(newActionParams);
 
     });
+   
+
+    const selectedFaseCultivoChangeAction = await prisma.actions.create({
+      data: {
+        id_user_create: id_user_create,
+        isLote: false,
+        isPlant: false,
+        isCrop: false,
+        name: "Alteração de fase",
+        id_actionType: ACTION_TYPE.ALTERA_FASE_CULTIVO,
+        created_at: new Date(),
+
+        isCompleted: scheduled ? false : true,
+        completionDate: scheduled ? undefined : aclimatationDate,    
+       id_user_completion: scheduled ? undefined: id_user_atribution,
+      
+        id_user_atribution: id_user_atribution ? id_user_atribution : id_user_create,
+        qtd: qtPlant,
+      },
+    });
+    createdPlants.forEach((plant) => {
+      const newActionParams = {
+        id_planta: plant.id,
+        id_user_create: id_user_create,
+        obs: obs,
+        id_actionGroup: newActionGroup,
+        id_action: selectedFaseCultivoChangeAction.id,
+        status: scheduled ? "Agendada" : "Completed",
+        isCompleted: scheduled ? false : true,
+        completionDate: scheduled ? undefined : aclimatationDate,    
+       id_user_completion: scheduled ? undefined: id_user_atribution,
+      
+        id_user_atribution: id_user_atribution ? id_user_atribution : id_user_create,
+
+        id_faseCultivo: selectedFaseCultivo.id,
+
+        id_faseCultivo_old: selectedFaseCultivoChangeAction,
+      };
+      actions.push(newActionParams);
+    });
+
+    const selectedLocationChangeAction = await prisma.actions.create({
+      data: {
+        id_user_create: id_user_create,
+        isLote: false,
+        isPlant: false,
+        isCrop: false,
+        name: "Mover plantas",
+        id_actionType: ACTION_TYPE.ALTERA_LOCAL,
+        created_at: new Date(),
+
+        isCompleted: scheduled ? false : true,
+        completionDate: scheduled ? undefined : aclimatationDate,    
+       id_user_completion: scheduled ? undefined: id_user_atribution,
+      
+        id_user_atribution: id_user_atribution ? id_user_atribution : id_user_create,
+        qtd: qtPlant,
+      },
+    });
+    createdPlants.forEach((plant) => {
+    const newActionLocationParams = {
+      id_planta: plant.id,
+      id_user_create: id_user_create,
+      obs: obs,
+      id_actionGroup: newActionGroup,
+
+      status: scheduled ? "Agendada" : "Completed",
+      isCompleted: scheduled ? false : true,
+      completionDate: scheduled ? undefined : aclimatationDate,    
+     id_user_completion: scheduled ? undefined: id_user_atribution,
+    
+      id_user_atribution: id_user_atribution ? id_user_atribution : id_user_create,
+      id_action: selectedLocationChangeAction?.id,
+
+      id_location: id_location,
+
+      id_location_old: selectedLote.id_location_init,
+    } as ActionPlants
+    actions.push(newActionLocationParams);
+  
+  })
+
+    
+    const selectedRecipientChangeAction = await prisma.actions.create({
+      data: {
+        id_user_create: id_user_create,
+        isLote: false,
+        isPlant: false,
+        isCrop: false,
+        name: "Alteração de recipiente",
+        id_actionType: ACTION_TYPE.TRANSPLANTE,
+        created_at: new Date(),
+
+          isCompleted: scheduled ? false : true,
+          completionDate: scheduled ? undefined : aclimatationDate,    
+         id_user_completion: scheduled ? undefined: id_user_atribution,
+        
+          id_user_atribution: id_user_atribution ? id_user_atribution : id_user_create,
+        qtd: qtPlant,
+      },
+    });
+    createdPlants.forEach((plant) => {
+      const newActionParams = {
+        id_planta: plant.id,
+        id_user_create: id_user_create,
+        obs: obs,
+        id_actionGroup: newActionGroup,
+
+        status: scheduled ? "Agendada" : "Completed",
+          isCompleted: scheduled ? false : true,
+          completionDate: scheduled ? undefined : aclimatationDate,    
+         id_user_completion: scheduled ? undefined: id_user_atribution,
+        
+          id_user_atribution: id_user_atribution ? id_user_atribution : id_user_create,
+        id_action: selectedRecipientChangeAction.id,
+
+        id_recipiente: id_recipiente,
+
+        // id_recipiente_old: id_recipiente ? plant.id_recipiente : undefined,
+      } as ActionPlants;
+      actions.push(newActionParams);
+
+    })
+
     const createActionPlants = await prisma.actionPlants.createMany({
       data: actions,
     });
@@ -231,7 +369,8 @@ export class CreatePlantsLoteUseCase {
         status: scheduled ? "Agendada" : "Completed",
         isCompleted: scheduled ? false : true,
         completionDate: scheduled ? undefined : aclimatationDate,    
-        id_user_completion: scheduled ? undefined: id_user_create,
+        scheduledDate: scheduled ? aclimatationDate : undefined,
+       id_user_completion: scheduled ? undefined: id_user_atribution,
       
         id_user_atribution: scheduled ? id_user_atribution : id_user_create,
         id_action: newAction.id,
@@ -240,6 +379,8 @@ export class CreatePlantsLoteUseCase {
         qt: qtPlant
       }
     })
+
+
 
 
     return 200;

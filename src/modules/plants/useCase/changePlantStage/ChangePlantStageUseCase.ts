@@ -124,6 +124,8 @@ export class ChangePlantStageUseCase {
         id_actionType: ACTION_TYPE.ALTERA_FASE_CULTIVO,
         created_at: new Date(),
         id_user_completion: id_user_create,
+        scheduledDate: scheduled ? actionDate : undefined,
+
         isCompleted: true,
         completionDate: actionDate,
         qtd: plantsToUpdate.length,
@@ -140,7 +142,8 @@ export class ChangePlantStageUseCase {
         status: scheduled ? "Agendada" : "Completed",
         isCompleted: scheduled ? false : true,
         completionDate: scheduled ? undefined : actionDate,    
-        id_user_completion: scheduled ? undefined: id_user_create,
+       id_user_completion: scheduled ? undefined: id_user_atribution,
+       scheduledDate: scheduled ? actionDate : undefined,
       
         id_user_atribution: id_user_atribution ? id_user_atribution : id_user_create,
 

@@ -126,10 +126,11 @@ export class TransplantPlantsUseCase {
         name: "Alteração de recipiente",
         id_actionType: ACTION_TYPE.TRANSPLANTE,
         created_at: new Date(),
+        scheduledDate: scheduled ? transplantDate : undefined,
 
           isCompleted: scheduled ? false : true,
           completionDate: scheduled ? undefined : transplantDate,    
-          id_user_completion: scheduled ? undefined: id_user_create,
+         id_user_completion: scheduled ? undefined: id_user_atribution,
         
           id_user_atribution: id_user_atribution ? id_user_atribution : id_user_create,
         qtd: plantsToUpdate.length,
@@ -148,10 +149,11 @@ export class TransplantPlantsUseCase {
           name: "Mover plantas",
           id_actionType: ACTION_TYPE.ALTERA_LOCAL,
           created_at: new Date(),
+          scheduledDate: scheduled ? transplantDate : undefined,
 
           isCompleted: scheduled ? false : true,
           completionDate: scheduled ? undefined : transplantDate,    
-          id_user_completion: scheduled ? undefined: id_user_create,
+         id_user_completion: scheduled ? undefined: id_user_atribution,
         
           id_user_atribution: id_user_atribution ? id_user_atribution : id_user_create,
           qtd: plantsToUpdate.length,
@@ -179,10 +181,11 @@ export class TransplantPlantsUseCase {
           name: "Alteração de fase",
           id_actionType: ACTION_TYPE.ALTERA_FASE_CULTIVO,
           created_at: new Date(),
+          scheduledDate: scheduled ? transplantDate : undefined,
 
           isCompleted: scheduled ? false : true,
           completionDate: scheduled ? undefined : transplantDate,    
-          id_user_completion: scheduled ? undefined: id_user_create,
+         id_user_completion: scheduled ? undefined: id_user_atribution,
         
           id_user_atribution: id_user_atribution ? id_user_atribution : id_user_create,
           qtd: plantsToUpdate.length,
@@ -203,10 +206,11 @@ export class TransplantPlantsUseCase {
         status: scheduled ? "Agendada" : "Completed",
           isCompleted: scheduled ? false : true,
           completionDate: scheduled ? undefined : transplantDate,    
-          id_user_completion: scheduled ? undefined: id_user_create,
+         id_user_completion: scheduled ? undefined: id_user_atribution,
         
           id_user_atribution: id_user_atribution ? id_user_atribution : id_user_create,
         id_action: selectedRecipientChangeAction.id,
+        scheduledDate: scheduled ? transplantDate : undefined,
 
         id_recipiente: id_recipiente,
 
@@ -224,7 +228,8 @@ export class TransplantPlantsUseCase {
           status: scheduled ? "Agendada" : "Completed",
           isCompleted: scheduled ? false : true,
           completionDate: scheduled ? undefined : transplantDate,    
-          id_user_completion: scheduled ? undefined: id_user_create,
+         id_user_completion: scheduled ? undefined: id_user_atribution,
+         scheduledDate: scheduled ? transplantDate : undefined,
         
           id_user_atribution: id_user_atribution ? id_user_atribution : id_user_create,
           id_action: selectedLocationChangeAction?.id,
@@ -246,10 +251,11 @@ export class TransplantPlantsUseCase {
           status: scheduled ? "Agendada" : "Completed",
           isCompleted: scheduled ? false : true,
           completionDate: scheduled ? undefined : transplantDate,    
-          id_user_completion: scheduled ? undefined: id_user_create,
+         id_user_completion: scheduled ? undefined: id_user_atribution,
         
           id_user_atribution: id_user_atribution ? id_user_atribution : id_user_create,
           id_action: selectedFaseCultivoChangeAction?.id,
+          scheduledDate: scheduled ? transplantDate : undefined,
 
           id_faseCultivo: id_faseCultivo,
 

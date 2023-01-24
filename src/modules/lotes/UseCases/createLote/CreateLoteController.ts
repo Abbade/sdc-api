@@ -3,7 +3,7 @@ import { CreateLoteUseCase } from './CreateLoteUseCase';
 
 export class CreateLoteController {
   async handle(request: Request, response: Response) {
-    const { propDate, id_propagationType, id_genetic, id_location_init, id_mother,qtTotal, obs } = request.body;
+    const { propDate, id_propagationType, id_genetic, id_location_init, id_mother,qtTotal, obs, scheduled, id_user_atribution } = request.body;
     const id_user_create = request.id_user
     const createLoteUseCase = new CreateLoteUseCase();
     const result = await createLoteUseCase.execute({
@@ -14,7 +14,9 @@ export class CreateLoteController {
       id_mother,
       qtTotal,
       obs,
-      id_user_create
+      id_user_create,
+      scheduled,
+      id_user_atribution
 
     });
 

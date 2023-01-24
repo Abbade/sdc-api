@@ -11,12 +11,14 @@ interface ICreateLote {
   id_mother?: number;
   obs: string;
   id_user_create: number;
+  id_user_atribution: number;
+  scheduled: boolean
 }
 
 export class CreateLoteUseCase {
   
   
-  async execute({ propDate, id_propagationType, id_genetic, id_location_init, qtTotal,id_mother,obs, id_user_create }: ICreateLote) {
+  async execute({ propDate, id_propagationType, id_genetic, id_location_init, qtTotal,id_mother,obs, id_user_create, id_user_atribution, scheduled }: ICreateLote) {
 
     //VALIDA CAMPOS
 
@@ -141,7 +143,10 @@ export class CreateLoteUseCase {
         name: "Criação de muda",
         id_actionType: ACTION_TYPE.CREATE_MUDA,
         created_at: new Date(),
-        id_user_completion: id_user_create,
+        id_user_completion: id_user_atribution,
+        id_user_atribution: id_user_atribution,
+        scheduledDate: scheduled ? propDate : undefined,
+
         isCompleted: true,
         completionDate: propDate,
         qtd: qtTotal
@@ -157,10 +162,11 @@ export class CreateLoteUseCase {
 
         status: "Completed",
         isCompleted: true,
+        scheduledDate: scheduled ? propDate : undefined,
 
-        id_user_atribution: id_user_create,
+        id_user_atribution: id_user_atribution,
 
-        id_user_completion: id_user_create,
+        id_user_completion: id_user_atribution,
  
         completionDate: propDate,
         id_action: newAction.id,

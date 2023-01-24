@@ -109,7 +109,7 @@ export class MovePlantsUseCase {
           //status: scheduled ? "Agendada" : "Completed",
           isCompleted: scheduled ? false : true,
           completionDate: scheduled ? undefined : moveDate,    
-          id_user_completion: scheduled ? undefined: id_user_create,
+         id_user_completion: scheduled ? undefined: id_user_atribution,
         
           id_user_atribution: id_user_atribution ? id_user_atribution : id_user_create,
           id_actionType: ACTION_TYPE.ALTERA_LOCAL,
@@ -136,7 +136,8 @@ export class MovePlantsUseCase {
             status: scheduled ? "Agendada" : "Completed",
             isCompleted: scheduled ? false : true,
             completionDate: scheduled ? undefined : moveDate,    
-            id_user_completion: scheduled ? undefined: id_user_create,
+            id_user_completion: scheduled ? undefined: id_user_atribution,
+        scheduledDate: scheduled ? moveDate : undefined,
           
             id_user_atribution: id_user_atribution ? id_user_atribution : id_user_create,
   

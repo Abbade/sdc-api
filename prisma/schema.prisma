@@ -170,6 +170,7 @@ model Recipientes {
   description String
 
   plantas         Plantas[]
+  lotes Lotes[]
   actionPlants    ActionPlants[]
   actionPlantsOld ActionPlants[] @relation("recipienteOld")
 
@@ -302,6 +303,9 @@ model Lotes {
 
   id_location_init Int
   location         Locations @relation(fields: [id_location_init], references: [id])
+
+  id_recipiente Int
+  recipiente         Recipientes @relation(fields: [id_recipiente], references: [id])
 
   id_mother     Int?
   motherPlant   Plantas? @relation("MotherPlantLote", fields: [id_mother], references: [id])

@@ -7,6 +7,7 @@ interface ICreateLote {
   id_propagationType: number;
   id_genetic: number;
   id_location_init: number;
+  id_recipiente: number;
   qtTotal: number;
   id_mother?: number;
   obs: string;
@@ -18,7 +19,7 @@ interface ICreateLote {
 export class CreateLoteUseCase {
   
   
-  async execute({ propDate, id_propagationType, id_genetic, id_location_init, qtTotal,id_mother,obs, id_user_create, id_user_atribution, scheduled }: ICreateLote) {
+  async execute({ propDate, id_propagationType, id_genetic, id_location_init, id_recipiente, qtTotal,id_mother,obs, id_user_create, id_user_atribution, scheduled }: ICreateLote) {
 
     //VALIDA CAMPOS
 
@@ -34,6 +35,16 @@ export class CreateLoteUseCase {
 
     if (!selectedGenetic) {
       throw new Error('Genética não existente: ' + id_genetic);
+    }
+
+    const setlectedRecipiente = await prisma.recipientes.findFirst({
+      where: {
+        id: id_recipiente
+      }
+    })
+
+    if (!setlectedRecipiente) {
+      throw new Error('Recipiente não existente: ' + id_genetic);
     }
 
     if(id_mother) {

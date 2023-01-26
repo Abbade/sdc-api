@@ -73,6 +73,7 @@ import { QtdPerTrashReasonController } from './modules/charts/UseCases/QtdPerTra
 import { CropPlantController } from './modules/plants/useCase/cropPlants/CropPlantController';
 import { GetAllCropsController } from './modules/crops/useCase/getAllCrops/GetAllCropsController';
 import { FinishCropController } from './modules/crops/useCase/finishCrop/FinishCropController';
+import { GetAllActionsController } from './modules/task/UseCases/getAllActions/getAllActionsController';
 
 const routes = Router();
 
@@ -150,6 +151,7 @@ const getAllCropsController = new GetAllCropsController()
 const finishCropController = new FinishCropController()
 
 const getAllActionPlantsController = new GetAllActionPlantsController();
+const getAllActionsController = new GetAllActionsController();
 const getAllActionLotesController = new GetAllActionLotesController();
 
 const getAllTrashedLotesController = new GetAllTrashedLotesController();
@@ -257,7 +259,8 @@ routes.put('/trash-lote', ensureAuthenticate, trashLoteController.handle);
 // lote - create plants
 routes.post('/plant', ensureAuthenticate, createPlantsLoteController.handle);
 routes.get('/plant', ensureAuthenticate, getAllPlantsController.handle);
-routes.get('/action-plants', ensureAuthenticate, getAllPlantsController.handle);
+routes.get('/action-plants', ensureAuthenticate, getAllActionPlantsController.handle);
+routes.get('/actions', ensureAuthenticate, getAllActionsController.handle);
 
 //plant - transplant
 routes.post('/transplant-plant', ensureAuthenticate, transplantPlantsController.handle);

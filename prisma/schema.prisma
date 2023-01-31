@@ -304,8 +304,8 @@ model Lotes {
   id_location_init Int
   location         Locations @relation(fields: [id_location_init], references: [id])
 
-  id_recipiente Int
-  recipiente         Recipientes @relation(fields: [id_recipiente], references: [id])
+  id_recipiente Int?
+  recipiente         Recipientes? @relation(fields: [id_recipiente], references: [id])
 
   id_mother     Int?
   motherPlant   Plantas? @relation("MotherPlantLote", fields: [id_mother], references: [id])
@@ -536,9 +536,11 @@ model Actions {
   id_user_completion Int?
   completion Users? @relation("userCompletionAction", fields: [id_user_completion], references: [id])
 
+  id_actionGroup Int?
+  actionGroup ActionGroups? @relation("actionGroup", fields: [id_actionGroup],references: [id])
+
   scheduledDate DateTime?
 
-  
   isCanceled      Boolean?
   cancelationDate DateTime?
 
@@ -567,6 +569,7 @@ model ActionGroups {
 
   obs String?
 
+  actions Actions[] @relation("actionGroup")
   actionPlants ActionPlants[]
   actionLotes  ActionLotes[]
   actionCrops  ActionCrops[]

@@ -36,10 +36,10 @@ export class CreateLoteUseCase {
     if (!selectedGenetic) {
       throw new Error('Genética não existente: ' + id_genetic);
     }
-
+    console.log(id_recipiente)
     const setlectedRecipiente = await prisma.recipientes.findFirst({
       where: {
-        id: id_recipiente
+        id: Number.parseInt(id_recipiente.toString())
       }
     })
 
@@ -157,7 +157,7 @@ export class CreateLoteUseCase {
         id_user_completion: id_user_atribution,
         id_user_atribution: id_user_atribution,
         scheduledDate: scheduled ? propDate : undefined,
-
+        id_actionGroup: newActionGroup,
         isCompleted: true,
         completionDate: propDate,
         qtd: qtTotal

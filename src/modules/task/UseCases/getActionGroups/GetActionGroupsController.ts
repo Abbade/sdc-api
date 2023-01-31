@@ -11,9 +11,9 @@ export type FilterProp = {
   idLocation?: number;
 }
 
-export class GetAllActionPlantsController {
+export class GetActionGroupsController {
   async handle(request: Request, response: Response) {
-    const { id, name, page, limit, isTrashed, isMother, filter } = request.query as any
+    const { id, name, page, limit, isTrashed, isMother, filter, filterType } = request.query as any
 
     let filterValue = filter as FilterProp;
     console.log(filterValue);
@@ -25,6 +25,7 @@ export class GetAllActionPlantsController {
       limit,
       isTrashed,
       isMother,
+      filterType,
       filter : filterValue
     });
     return response.json(result);

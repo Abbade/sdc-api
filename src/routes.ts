@@ -74,6 +74,7 @@ import { CropPlantController } from './modules/plants/useCase/cropPlants/CropPla
 import { GetAllCropsController } from './modules/crops/useCase/getAllCrops/GetAllCropsController';
 import { FinishCropController } from './modules/crops/useCase/finishCrop/FinishCropController';
 import { GetAllActionsController } from './modules/task/UseCases/getAllActions/getAllActionsController';
+import { GetActionGroupsController } from './modules/task/UseCases/getActionGroups/GetActionGroupsController';
 
 const routes = Router();
 
@@ -153,7 +154,7 @@ const finishCropController = new FinishCropController()
 const getAllActionPlantsController = new GetAllActionPlantsController();
 const getAllActionsController = new GetAllActionsController();
 const getAllActionLotesController = new GetAllActionLotesController();
-
+const getActionGroupsController = new GetActionGroupsController();
 const getAllTrashedLotesController = new GetAllTrashedLotesController();
 
 const trashLoteController = new TrashLoteController();
@@ -261,6 +262,8 @@ routes.post('/plant', ensureAuthenticate, createPlantsLoteController.handle);
 routes.get('/plant', ensureAuthenticate, getAllPlantsController.handle);
 routes.get('/action-plants', ensureAuthenticate, getAllActionPlantsController.handle);
 routes.get('/actions', ensureAuthenticate, getAllActionsController.handle);
+routes.get('/tasks', ensureAuthenticate, getActionGroupsController.handle);
+
 
 //plant - transplant
 routes.post('/transplant-plant', ensureAuthenticate, transplantPlantsController.handle);

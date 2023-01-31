@@ -150,7 +150,8 @@ export class CreatePlantsLoteUseCase {
         id_user_atribution: id_user_atribution,
         isCompleted: true,
         completionDate: aclimatationDate,
-        qtd: qtPlant
+        qtd: qtPlant,
+        id_actionGroup: newActionGroup
       }
     })
 

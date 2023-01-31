@@ -1,6 +1,7 @@
 import { hash } from 'bcrypt';
 import { prisma } from '../../../../database/prismaClient';
 import { FilterProp } from './GetActionGroupsController';
+import { getFilterTypeTotal } from '../../../../constants/getFilterTypeTotal';
 
 interface ILoteFilter {
   name?: string;
@@ -18,76 +19,55 @@ interface ILoteFilter {
   id_recipiente?: number;
   id_faseCultivo?: number;
   filter?: FilterProp;
+  filterType: string;
 }
 
 export class GetActionGroupsUseCase {
 
-  async execute({ name, description, page, limit, id, isMother, isTrashed, filter }: ILoteFilter) {
+  async execute({ name, description, page, limit, id, isMother, isTrashed, filter, filterType }: ILoteFilter) {
 
-    id = id ? Number.parseInt(id) : undefined
+    id = id ? Number.parseInt(id) : undefined;
+
+    const { initial, final} = getFilterTypeTotal(filterType);
+
+    console.log(initial);
+    console.log(final);
 
     const total = await prisma.actionGroups.count({
-    
       where: {
-        id: {
-          equals: id != undefined ?  Number.parseInt(id) : id
-
-        },
-        // id_lote: {
-        //   equals: filter?.idLote != undefined ?  Number.parseInt(filter?.idLote.toString()) : filter?.idLote
-
-        // }
-        // ,
-        // id_location: {
-        //   equals: filter?.idLocation != undefined ?  Number.parseInt(filter?.idLocation.toString()) : filter?.idLocation
-        // },
-        // id_genetic: {
-        //   equals: filter?.idGenetic != undefined ?  Number.parseInt(filter?.idGenetic.toString()) : filter?.idGenetic
-        // },
-        // id_recipiente: {
-        //   equals: filter?.idRecipiente != undefined ?  Number.parseInt(filter?.idRecipiente.toString()) : filter?.idRecipiente 
-        // },
-        // id_faseCultivo: {
-        //   equals: filter?.idFaseCultivo != undefined ?  Number.parseInt(filter?.idFaseCultivo.toString()) : filter?.idFaseCultivo  
-        // },
-
-
-        // name: {
-        //   contains: name
-        // },
+        AND: [
+          {
+            created_at: {
+              gte: initial,
+              lte : final,
+              
+            }
+          }
+        ]
+      
       }
     })
     const lotes = await prisma.actionGroups.findMany({
       take: limit?.toString() ? Number.parseInt(limit?.toString()):1,
       skip: limit? ((page - 1) * limit):0, 
-      where: {
-        id: {equals: id}
-        // id_lote: {
-        //   equals: filter?.idLote != undefined ?  Number.parseInt(filter?.idLote.toString()) : filter?.idLote
-        // },
-        // id_location: {
-        //   equals: filter?.idLocation != undefined ?  Number.parseInt(filter?.idLocation.toString()) : filter?.idLocation
-        // },
-        // id_genetic: {
-        //   equals: filter?.idGenetic != undefined ?  Number.parseInt(filter?.idGenetic.toString()) : filter?.idGenetic
-        // },
-        // id_recipiente: {
-        //   equals: filter?.idRecipiente != undefined ?  Number.parseInt(filter?.idRecipiente.toString()) : filter?.idRecipiente 
-        // },
-        // id_faseCultivo: {
-        //   equals: filter?.idFaseCultivo != undefined ?  Number.parseInt(filter?.idFaseCultivo.toString()) : filter?.idFaseCultivo  
-        // },
-        // name: {
-        //   contains: name
-        // },
-       
-
+      where: {   
+        AND: [
+          {
+            created_at: {
+              gte : initial,
+              lte: final
+            }
+          }
+        ] 
       },
       include: {
-        actions: id != undefined ?  true : false,
-        actionCrops: id != undefined ?  true : false,
-        actionPlants: id != undefined ?  true : false,
-        actionLotes: id != undefined ?  true : false,
+        actions: {
+          include: {
+            actionLotes: true,
+            actionCrops: true,
+            actionPlants: true
+          }
+        }
       }
     });
 

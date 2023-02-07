@@ -3,7 +3,7 @@ import { CropPlantUseCase } from './CropPlantUseCase';
 
 export class CropPlantController {
   async handle(request: Request, response: Response) {
-    const { actionDate, plants, obs, cropFullWetMass, cropWetTrimMass, cropFlowerWetMass, id_location, scheduled, id_user_atribution} = request.body;
+    const { actionDate, plants, obs, cropFullWetMass, cropWetTrimMass, cropFlowerWetMass, id_location, scheduled, id_user_atribution, startDate, endDate} = request.body;
     const id_user_create = request.id_user
 
     const cropPlantUseCase = new CropPlantUseCase();
@@ -12,7 +12,9 @@ export class CropPlantController {
       cropWetTrimMass,
       cropFlowerWetMass,
       scheduled,
-      id_user_atribution
+      id_user_atribution,
+      startDate,
+      endDate
     });
 
     return response.json(result);

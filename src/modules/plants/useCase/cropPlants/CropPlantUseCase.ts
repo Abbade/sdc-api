@@ -25,6 +25,8 @@ interface ICropPlant {
   cropFullWetMass:  number;
   cropWetTrimMass: number;
   cropFlowerWetMass:   number;
+  startDate: Date;
+  endDate: Date;
 
   obs: string;
 
@@ -34,7 +36,7 @@ interface ICropPlant {
 export class CropPlantUseCase {
 
 
-  async execute({ actionDate, plants, id_user_create, obs, cropFlowerWetMass, cropFullWetMass, cropWetTrimMass,id_location, id_user_atribution, scheduled }: ICropPlant) {
+  async execute({ actionDate, plants, id_user_create, obs, cropFlowerWetMass, cropFullWetMass, cropWetTrimMass,id_location, id_user_atribution, scheduled, startDate, endDate }: ICropPlant) {
 
     //VALIDA EXISTENCIA DE CAMPOS
 
@@ -104,6 +106,8 @@ export class CropPlantUseCase {
           data: {
             id_user_create: id_user_create,
             obs: obs,
+            startDate: startDate,
+            endDate: endDate
           },
         })
       ).id;
@@ -114,6 +118,7 @@ export class CropPlantUseCase {
           isPlant: false,
           isCrop: false,
           name: "Colheita",
+id_actionGroup: newActionGroup,
           id_actionType: ACTION_TYPE.COLHEITA,
           created_at: new Date(),   
           id_user_completion: id_user_create,

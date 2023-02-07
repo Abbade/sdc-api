@@ -13,13 +13,15 @@ interface ICreateLote {
   obs: string;
   id_user_create: number;
   id_user_atribution: number;
-  scheduled: boolean
+  scheduled: boolean;
+  startDate: Date;
+  endDate: Date;
 }
 
 export class CreateLoteUseCase {
   
   
-  async execute({ propDate, id_propagationType, id_genetic, id_location_init, id_recipiente, qtTotal,id_mother,obs, id_user_create, id_user_atribution, scheduled }: ICreateLote) {
+  async execute({ propDate, id_propagationType, id_genetic, id_location_init, id_recipiente, qtTotal,id_mother,obs, id_user_create, id_user_atribution, scheduled , startDate, endDate}: ICreateLote) {
 
     //VALIDA CAMPOS
 
@@ -141,7 +143,9 @@ export class CreateLoteUseCase {
     const newActionGroup = await (await prisma.actionGroups.create({
       data: {
         id_user_create: id_user_create,
-        obs: obs
+        obs: obs,
+        startDate: startDate,
+        endDate: endDate
       }
     })).id
 

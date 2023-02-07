@@ -21,6 +21,8 @@ interface IChangePlantStage {
   id_faseCultivo: number;
   scheduled: boolean;
   id_user_atribution: number;
+  startDate: Date;
+  endDate: Date;
 
   obs: string;
 }
@@ -33,7 +35,9 @@ export class ChangePlantStageUseCase {
     id_user_create,
     obs,
     id_user_atribution,
-    scheduled
+    scheduled,
+    startDate,
+    endDate
   }: IChangePlantStage) {
     //VALIDA EXISTENCIA DE CAMPOS
 
@@ -110,6 +114,8 @@ export class ChangePlantStageUseCase {
         data: {
           id_user_create: id_user_create,
           obs: obs,
+          startDate: startDate,
+          endDate: endDate
         },
       })
     ).id;
@@ -120,6 +126,7 @@ export class ChangePlantStageUseCase {
         isLote: false,
         isPlant: true,
         isCrop: false,
+        id_actionGroup: newActionGroup,
         name: "Alteração fase de cultivo",
         id_actionType: ACTION_TYPE.ALTERA_FASE_CULTIVO,
         created_at: new Date(),

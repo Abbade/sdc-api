@@ -16,7 +16,9 @@ export class TransplantPlantsController {
       scheduled,
       actionPlants,
       actionCrop,
-      actionLote
+      actionLote,
+      startDate,
+      endDate
     } = request.body;
     const id_user_create = request.id_user;
 
@@ -36,6 +38,8 @@ export class TransplantPlantsController {
         id_action,
         id_action_type,
         scheduled,
+        startDate,
+        endDate,
         obs,
       });
 

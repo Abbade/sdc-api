@@ -21,7 +21,8 @@ interface ITransplantPlants {
   actionLote: number;
   actionCrop: number;
   plants: number[];
-
+startDate: Date;
+endDate: Date;
   id_recipiente: number;
   id_location: number;
   id_faseCultivo: number;
@@ -102,19 +103,10 @@ export class TransplantPlantsUseCase {
     id_action,
     id_action_type,
     actionCrop,
-    actionLote
+    actionLote,
+    startDate,
+    endDate
   }: ITransplantPlants) {
-    // (1,2,now(),'Atividades de transplante.','TRANSPLANTE'),
-    // (2,2,now(),'Alteração de fase de cultivo','ALTERA_FASE_CULTIVO'),
-    // (3,2,now(),'Descartes Planta','DESCARTE_PLANTA'),
-    //   (4,2,now(),'Descartes Muda ','DESCARTE_MUDA'),
-    // (5,2,now(),'Alteração de local','ALTERA_LOCAL'),
-    //   (6,2,now(),'Criação de Planta','CREATE_PLANTA'),
-    //   (7,2,now(),'Criação de Muda','CREATE_MUDA'),
-    //   (8,2,now(),'Matriz','MATRIZ'),
-    //   (9,2,now(),'Colheita de Plantas','COLHEITA');
-
-    //   (10,2,now(),'Finalização de Colheita','FINISH_CROP');
 
     const selectedActionLote = await prisma.actionLotes.findFirst({
       where: {
@@ -157,8 +149,7 @@ export class TransplantPlantsUseCase {
     const newFaseCultivo = selectedActionPlants[0]?.id_faseCultivo
 
 
-
-
+    // plants actions
     switch (id_action_type) {
 
       case 1:

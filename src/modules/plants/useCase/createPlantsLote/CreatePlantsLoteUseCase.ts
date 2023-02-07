@@ -11,7 +11,9 @@ interface ITrashLote {
   obs: string;
   id_user_create: number;
   id_user_atribution: number;
-  scheduled: boolean
+  scheduled: boolean;
+  startDate: Date;
+  endDate: Date;
 }
 
 interface INewPlant {
@@ -32,6 +34,7 @@ interface INewPlant {
   id_propagationType: number;
 
   id_faseCultivo: number;
+
 }
 
 export class CreatePlantsLoteUseCase {
@@ -45,6 +48,8 @@ export class CreatePlantsLoteUseCase {
     scheduled,
     obs,
     id_user_create,
+    startDate,
+    endDate
   }: ITrashLote) {
     if (qtPlant < 0) {
       throw new Error("Quantidade não deve ser negativa: " + qtPlant);
@@ -132,6 +137,8 @@ export class CreatePlantsLoteUseCase {
         data: {
           id_user_create: id_user_create,
           obs: obs,
+          startDate: startDate,
+          endDate: endDate
         },
       })
     ).id;

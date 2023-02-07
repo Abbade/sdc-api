@@ -32,6 +32,8 @@ export class GetActionGroupsUseCase {
 
     console.log(initial);
     console.log(final);
+    console.log(new Date(2000,1))
+
 
     const total = await prisma.actionGroups.count({
       where: {
@@ -48,18 +50,18 @@ export class GetActionGroupsUseCase {
       }
     })
     const lotes = await prisma.actionGroups.findMany({
-      take: limit?.toString() ? Number.parseInt(limit?.toString()):1,
-      skip: limit? ((page - 1) * limit):0, 
-      where: {   
-        AND: [
-          {
-            created_at: {
-              gte : initial,
-              lte: final
-            }
-          }
-        ] 
-      },
+      take: 200,//limit?.toString() ? Number.parseInt(limit?.toString()):1,
+      skip: 0,//limit? ((page - 1) * limit):0, 
+      // where: {   
+      //   AND: [
+      //     {
+      //       created_at: {
+      //         gte : initial,//initial,
+      //         lte: new Date(2000,1)
+      //       }
+      //     }
+      //   ] 
+      // },
       include: {
         actions: {
           include: {

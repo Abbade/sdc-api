@@ -541,6 +541,9 @@ model Actions {
 
   scheduledDate DateTime?
 
+  startDate DateTime?
+  endDate DateTime?
+
   isCanceled      Boolean?
   cancelationDate DateTime?
 
@@ -568,6 +571,10 @@ model ActionGroups {
   created_at     DateTime @default(now())
 
   obs String?
+
+  startDate DateTime @default(now())
+  endDate DateTime @default(now())
+  completionDate DateTime? @default(now())
 
   actions Actions[] @relation("actionGroup")
   actionPlants ActionPlants[]

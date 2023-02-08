@@ -570,11 +570,14 @@ model ActionGroups {
   userCreate     Users    @relation(fields: [id_user_create], references: [id])
   created_at     DateTime @default(now())
 
+  name String
   obs String?
 
-  startDate DateTime @default(now())
-  endDate DateTime @default(now())
-  completionDate DateTime? @default(now())
+  startDate DateTime
+  endDate DateTime 
+  completionDate DateTime?
+
+  location String?
 
   actions Actions[] @relation("actionGroup")
   actionPlants ActionPlants[]

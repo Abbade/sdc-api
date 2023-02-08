@@ -17,6 +17,8 @@ const postmanJson = {
 interface ITransplantPlants {
   id_user_create: number;
   transplantDate: Date;
+  startDate: Date;
+  endDate: Date;
   plants: number[];
 
   id_recipiente: number;
@@ -40,6 +42,8 @@ export class TransplantPlantsUseCase {
     id_user_create,
     obs,
     id_user_atribution,
+    startDate,
+    endDate,
     scheduled
   }: ITransplantPlants) {
     let selectedFaseCultivoChangeAction: Actions | undefined | null;
@@ -113,6 +117,8 @@ export class TransplantPlantsUseCase {
         data: {
           id_user_create: id_user_create,
           obs: obs,
+          startDate: startDate,
+          endDate: endDate
         },
       })
     ).id;
@@ -127,7 +133,7 @@ export class TransplantPlantsUseCase {
         id_actionType: ACTION_TYPE.TRANSPLANTE,
         created_at: new Date(),
         scheduledDate: scheduled ? transplantDate : undefined,
-
+        id_actionGroup: newActionGroup,
           isCompleted: scheduled ? false : true,
           completionDate: scheduled ? undefined : transplantDate,    
          id_user_completion: scheduled ? undefined: id_user_atribution,
@@ -150,7 +156,7 @@ export class TransplantPlantsUseCase {
           id_actionType: ACTION_TYPE.ALTERA_LOCAL,
           created_at: new Date(),
           scheduledDate: scheduled ? transplantDate : undefined,
-
+          id_actionGroup: newActionGroup,
           isCompleted: scheduled ? false : true,
           completionDate: scheduled ? undefined : transplantDate,    
          id_user_completion: scheduled ? undefined: id_user_atribution,
@@ -182,7 +188,7 @@ export class TransplantPlantsUseCase {
           id_actionType: ACTION_TYPE.ALTERA_FASE_CULTIVO,
           created_at: new Date(),
           scheduledDate: scheduled ? transplantDate : undefined,
-
+          id_actionGroup: newActionGroup,
           isCompleted: scheduled ? false : true,
           completionDate: scheduled ? undefined : transplantDate,    
          id_user_completion: scheduled ? undefined: id_user_atribution,

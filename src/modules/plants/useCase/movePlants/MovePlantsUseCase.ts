@@ -21,6 +21,8 @@ interface IMovePlants {
   id_location: number;
 id_user_atribution: number;
 scheduled: boolean;
+startDate: Date;
+endDate: Date;
 
   obs: string;
 
@@ -30,7 +32,7 @@ scheduled: boolean;
 export class MovePlantsUseCase {
 
 
-  async execute({ moveDate, plants, id_location, id_user_create,obs, scheduled, id_user_atribution }: IMovePlants) {
+  async execute({ moveDate, plants, id_location, id_user_create,obs, scheduled, id_user_atribution,startDate,endDate }: IMovePlants) {
 
     //VALIDA EXISTENCIA DE CAMPOS
   
@@ -93,7 +95,9 @@ export class MovePlantsUseCase {
       const newActionGroup = await (await prisma.actionGroups.create({
         data: {
           id_user_create: id_user_create,
-          obs: obs
+          obs: obs,
+          startDate: startDate,
+          endDate: endDate
         }
       })).id
   
@@ -110,7 +114,7 @@ export class MovePlantsUseCase {
           isCompleted: scheduled ? false : true,
           completionDate: scheduled ? undefined : moveDate,    
          id_user_completion: scheduled ? undefined: id_user_atribution,
-        
+        id_actionGroup: newActionGroup,
           id_user_atribution: id_user_atribution ? id_user_atribution : id_user_create,
           id_actionType: ACTION_TYPE.ALTERA_LOCAL,
           created_at: new Date(),

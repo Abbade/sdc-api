@@ -11,7 +11,9 @@ export class TransplantPlantsController {
       id_faseCultivo,
       obs,
       id_user_atribution,
-      scheduled
+      scheduled,
+      startDate,
+      endDate
     } = request.body;
     const id_user_create = request.id_user;
 
@@ -26,6 +28,8 @@ export class TransplantPlantsController {
         id_user_create,
         id_user_atribution,
         scheduled,
+        startDate,
+        endDate,
         obs,
       });
 

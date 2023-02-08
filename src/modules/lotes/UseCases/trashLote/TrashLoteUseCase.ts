@@ -8,13 +8,15 @@ interface ITrashLote {
   qtTrash: number;
   trashDate: Date;
   obs: string;
+  startDate: Date;
+  endDate: Date;
   id_user_create: number;
 }
 
 export class TrashLoteUseCase {
 
 
-  async execute({ idLote, id_trashReason, qtTrash, trashDate, obs, id_user_create }: ITrashLote) {
+  async execute({ idLote, id_trashReason, qtTrash, trashDate, obs, id_user_create, startDate, endDate }: ITrashLote) {
 
 
     if (qtTrash < 0) {
@@ -63,7 +65,9 @@ export class TrashLoteUseCase {
     const newActionGroup = await (await prisma.actionGroups.create({
       data: {
         id_user_create: id_user_create,
-        obs: obs
+        obs: obs,
+        startDate: startDate,
+        endDate: endDate
       }
     })).id
 

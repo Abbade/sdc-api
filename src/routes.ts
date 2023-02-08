@@ -75,6 +75,7 @@ import { GetAllCropsController } from './modules/crops/useCase/getAllCrops/GetAl
 import { FinishCropController } from './modules/crops/useCase/finishCrop/FinishCropController';
 import { GetAllActionsController } from './modules/task/UseCases/getAllActions/getAllActionsController';
 import { GetActionGroupsController } from './modules/task/UseCases/getActionGroups/GetActionGroupsController';
+import { GetAllActionTypeController } from './modules/action/useCase/GetAllActionTypeController';
 
 const routes = Router();
 
@@ -156,6 +157,7 @@ const getAllActionsController = new GetAllActionsController();
 const getAllActionLotesController = new GetAllActionLotesController();
 const getActionGroupsController = new GetActionGroupsController();
 const getAllTrashedLotesController = new GetAllTrashedLotesController();
+const getAllActionTypeController = new GetAllActionTypeController();
 
 const trashLoteController = new TrashLoteController();
 
@@ -260,8 +262,11 @@ routes.put('/trash-lote', ensureAuthenticate, trashLoteController.handle);
 // lote - create plants
 routes.post('/plant', ensureAuthenticate, createPlantsLoteController.handle);
 routes.get('/plant', ensureAuthenticate, getAllPlantsController.handle);
+
+
 routes.get('/action-plants', ensureAuthenticate, getAllActionPlantsController.handle);
 routes.get('/actions', ensureAuthenticate, getAllActionsController.handle);
+routes.get('/actionstypes', ensureAuthenticate, getAllActionTypeController.handle);
 routes.get('/tasks', ensureAuthenticate, getActionGroupsController.handle);
 
 

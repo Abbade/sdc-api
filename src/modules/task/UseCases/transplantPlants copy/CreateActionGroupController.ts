@@ -13,6 +13,8 @@ export class CreateActionGroupController {
       name,
       id_user_atribution,
       scheduled,
+      completed,
+      createdActions,
       startDate,
       endDate
     } = request.body;
@@ -28,7 +30,8 @@ export class CreateActionGroupController {
         name,
         obs,
         actionDate,
-        
+        completed,
+        createdActions,
         plants,
         id_recipiente,
         id_location,

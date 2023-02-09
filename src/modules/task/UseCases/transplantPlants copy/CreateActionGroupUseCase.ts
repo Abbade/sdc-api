@@ -1,4 +1,4 @@
-import { ActionPlants, Actions, FasesCultivo, Locations, Plantas } from "@prisma/client";
+import { ActionCrops, ActionPlants, Actions, Crops, FasesCultivo, Locations, Plantas } from "@prisma/client";
 import { hash } from "bcrypt";
 import { prisma } from "../../../../database/prismaClient";
 import { TIPO_FASE_CULTIVO } from "../../../../constants/TIPO_FASE_CULTIVO";
@@ -19,7 +19,28 @@ interface ITransplantPlants {
   actionDate: Date;
   startDate: Date;
   endDate: Date;
-  plants: number[];
+  plants: number[]
+  completed: boolean;
+
+  createdActions: {
+    id_actionType: number;
+    plants?: number[];
+    lotes?: number[];
+    crops?: number[];
+    completed: boolean;
+    startDate: Date;
+    endDate: Date;
+    obs: string;
+    id_user_atribution: number;
+
+    //params
+    id_genetic: number
+    id_recipiente: number
+    id_faseCultivo: number
+    id_location: number
+    id_trashReason: number
+
+  }[]
 
   id_recipiente: number;
   id_location: number;
@@ -33,89 +54,90 @@ interface ITransplantPlants {
 
 interface ITransplantUpdate { }
 
-export async function changeRecipientePlantas(id_recipiente: number, plantsId: number[], commonActionData: any, commonActionPlantsData: any) {
+export async function changeRecipientePlantas(id_recipiente: number, plantsId: number[], commonActionData: any) {
   await validateRecipiente(id_recipiente)
   const plantsToUpdate = await getPlantsById(plantsId)
   const selectedRecipienteChangeAction = await createRecipientChangeAction(commonActionData);
-  const newActionPlants = createActionPlantsData(selectedRecipienteChangeAction, plantsToUpdate, commonActionPlantsData, id_recipiente);
+  const newActionPlants = createActionPlantsData(selectedRecipienteChangeAction, plantsToUpdate, commonActionData, id_recipiente);
   await createActionPlants(newActionPlants);
   await updatePlantsRecipient(plantsId, id_recipiente);
 }
 
-async function changeLocationPlantas(id_location: number, plantsId: number[], commonActionData: any, commonActionPlantsData: any) {
+async function changeLocationPlantas(id_location: number, plantsId: number[], commonActionData: any) {
   await validateLocation(id_location)
   const plantsToUpdate = await getPlantsById(plantsId)
   const selectedLocationChangeAction = await createLocationChangeAction(commonActionData);
-  const newActionPlants = createActionPlantsData(selectedLocationChangeAction, plantsToUpdate, commonActionPlantsData, id_location);
+  const newActionPlants = createActionPlantsData(selectedLocationChangeAction, plantsToUpdate, commonActionData, id_location);
   await createActionPlants(newActionPlants);
   await updatePlantsRecipient(plantsId, id_location);
 }
 
-async function changeFaseCultivoPlantas(id_faseCultivo: number, plantsId: number[], commonActionData: any, commonActionPlantsData: any) {
+async function changeFaseCultivoPlantas(id_faseCultivo: number, plantsId: number[], commonActionData: any) {
   await validateFaseCultivo(id_faseCultivo)
   const plantsToUpdate = await getPlantsById(plantsId)
   const selectedFaseCultivoChangeAction = await createFaseCultivoChangeAction(commonActionData);
-  const newActionPlants = createActionPlantsData(selectedFaseCultivoChangeAction, plantsToUpdate, commonActionPlantsData, id_faseCultivo);
+  const newActionPlants = createActionPlantsData(selectedFaseCultivoChangeAction, plantsToUpdate, commonActionData, id_faseCultivo);
   await createActionPlants(newActionPlants);
   await updatePlantsRecipient(plantsId, id_faseCultivo);
 }
 
-async function trashPlantas(id_trashReason: number, plantsId: number[], commonActionData: any, commonActionPlantsData: any) {
+async function trashPlantas(id_trashReason: number, plantsId: number[], commonActionData: any) {
   await validateTrashReason(id_trashReason)
   const plantsToUpdate = await getPlantsById(plantsId)
   const selectedTrashPlantaAction = await createTrashPlantAction(commonActionData);
-  const newActionPlants = createActionPlantsData(selectedTrashPlantaAction, plantsToUpdate, commonActionPlantsData, id_trashReason);
+  const newActionPlants = createActionPlantsData(selectedTrashPlantaAction, plantsToUpdate, commonActionData, id_trashReason);
   await createActionPlants(newActionPlants);
-  await updatePlantsTrashed(plantsId, commonActionPlantsData.completionDate);
+  await updatePlantsTrashed(plantsId, commonActionData.completionDate);
 }
 
+//
 
 async function validateTrashReason(id_trashReason: number): Promise<void> {
-    const selectedTrashReason = await prisma.trashReasons.findFirst({
-      where: {
-        id: id_trashReason,
-      },
-    });
+  const selectedTrashReason = await prisma.trashReasons.findFirst({
+    where: {
+      id: id_trashReason,
+    },
+  });
 
-    if (!selectedTrashReason) {
-      throw new Error("Motivo de descarte não existente: " + id_trashReason);
-    }
+  if (!selectedTrashReason) {
+    throw new Error("Motivo de descarte não existente: " + id_trashReason);
+  }
 }
 
 async function validateRecipiente(id_recipiente: number): Promise<void> {
-    const selectedRecipiente = await prisma.recipientes.findFirst({
-      where: {
-        id: id_recipiente,
-      },
-    });
+  const selectedRecipiente = await prisma.recipientes.findFirst({
+    where: {
+      id: id_recipiente,
+    },
+  });
 
-    if (!selectedRecipiente) {
-      throw new Error("Recipiente não existente: " + id_recipiente);
-    }
+  if (!selectedRecipiente) {
+    throw new Error("Recipiente não existente: " + id_recipiente);
+  }
 }
 
 async function validateFaseCultivo(id_faseCultivo: number): Promise<void> {
-    const selectedFaseCultivo = await prisma.fasesCultivo.findFirst({
-      where: {
-        id: id_faseCultivo,
-      },
-    });
+  const selectedFaseCultivo = await prisma.fasesCultivo.findFirst({
+    where: {
+      id: id_faseCultivo,
+    },
+  });
 
-    if (!selectedFaseCultivo) {
-      throw new Error("Fase de cultivo não existente: " + id_faseCultivo);
-    }
+  if (!selectedFaseCultivo) {
+    throw new Error("Fase de cultivo não existente: " + id_faseCultivo);
+  }
 }
 
 async function validateLocation(id_location: number): Promise<void> {
-    const selectedLocation = await prisma.locations.findFirst({
-      where: {
-        id: id_location,
-      },
-    });
+  const selectedLocation = await prisma.locations.findFirst({
+    where: {
+      id: id_location,
+    },
+  });
 
-    if (!selectedLocation) {
-      throw new Error("Localização não existente: " + id_location);
-    }
+  if (!selectedLocation) {
+    throw new Error("Localização não existente: " + id_location);
+  }
 }
 
 function validatePlants(plants: Plantas[]): void {
@@ -131,10 +153,15 @@ function validatePlants(plants: Plantas[]): void {
   }
 }
 
+//
+
 async function getPlantsById(ids: number[]): Promise<Plantas[]> {
   const plantsToUpdate = await prisma.plantas.findMany({
     where: {
       id: { in: ids },
+    },
+    include: {
+      faseCultivo: true
     }
   });
 
@@ -143,6 +170,9 @@ async function getPlantsById(ids: number[]): Promise<Plantas[]> {
   return plantsToUpdate
 
 }
+
+//
+
 
 async function createTrashPlantAction(commonActionData: any) {
   return await prisma.actions.create({
@@ -196,11 +226,46 @@ async function createFaseCultivoChangeAction(commonActionData: any) {
   });
 }
 
+async function createCropPlantsAction(commonActionData: any) {
+  return await prisma.actions.create({
+    data: {
+      ...commonActionData,
+      isLote: false,
+      isPlant: true,
+      isCrop: true,
+      name: "Colheita",
+      id_actionType: ACTION_TYPE.COLHEITA,
+    },
+  });
+}
 
-function createActionPlantsData(action: Actions, plantsToUpdate: Plantas[], commonActionPlantsData: any, changeId: number) {
+//
+
+function createActionCropsData(action: Actions, crop: Crops, commonActionData: any, changeId: number) {
+  const actionCropData: ActionCrops = {
+    ...commonActionData,
+    id_crop: crop.id,
+    id_action: action.id,
+  };
+
+  return actionCropData
+  
+  
+}
+
+async function createActionCrops(newactionCrop: ActionCrops) {
+  return await prisma.actionCrops.createMany({
+    data: newactionCrop,
+  });
+}
+
+
+//
+
+function createActionPlantsData(action: Actions, plantsToUpdate: Plantas[], commonActionData: any, changeId: number) {
   return plantsToUpdate.map(plant => {
     const plantData: ActionPlants = {
-      ...commonActionPlantsData,
+      ...commonActionData,
       id_planta: plant.id,
       id_action: action.id,
     };
@@ -220,6 +285,8 @@ function createActionPlantsData(action: Actions, plantsToUpdate: Plantas[], comm
     if (action.id_actionType === ACTION_TYPE.DESCARTE_PLANTA) {
       plantData.id_trashReason = changeId;
     }
+    if (action.id_actionType === ACTION_TYPE.COLHEITA) {
+    }
 
     return plantData;
   });
@@ -230,6 +297,9 @@ async function createActionPlants(newActionPlants: ActionPlants[]) {
     data: newActionPlants,
   });
 }
+
+
+//
 
 async function updatePlantsRecipient(plantsId: number[], id_recipiente: number) {
   const updatePlantsParams = {
@@ -280,12 +350,90 @@ async function updatePlantsTrashed(plantsId: number[], actionDate: Date) {
 }
 
 
+//
+
+async function updatePlantsCropped(plantsId: number[], actionDate: Date, commonActionData: any) {
+  
+  const selectedFaseCultivo = await prisma.fasesCultivo.findFirst({
+    where: {
+      ordem: 5
+    }
+  })
+
+  if (!selectedFaseCultivo) {
+    throw new Error('Fase de Cultivo para log não existente: Colher');
+  }
+ 
+  
+  const updatePlantsParams = {
+    where: {
+      id: { in: plantsId },
+    },
+    data: {
+      cropDate: actionDate,
+      id_faseCultivo: selectedFaseCultivo.id
+    },
+  } as any;
+  return await prisma.plantas.updateMany(updatePlantsParams);
+}
+
+async function createNewCrop(id_genetic: number, id_location: number, actionDate: Date, commonActionData: any) {
+
+  const selectedFaseCrop = await prisma.fasesCrop.findFirst({
+    where: {
+      ordem: 3
+    }
+  })
+
+  if (!selectedFaseCrop) {
+    throw new Error('Fase de Crop para log não existente: Colher');
+  }
+
+  const selectedGenetic = await prisma.genetics.findFirst({
+    where: {
+      id: id_genetic
+    }
+  })
+
+  if (!selectedGenetic) {
+    throw new Error('Genética para log não existente');
+  }
+
+  const cropId = await prisma.crops.count({
+    where: {
+      id_genetic: id_genetic
+    }
+  })+1 
+
+  const newCrop = await prisma.crops.create(
+    {
+      data: {
+        name: selectedGenetic?.nick + "#" + cropId,
+        cropDate: commonActionData.actionDate,
+        id_genetic: id_genetic,
+        id_fasesCrop: selectedFaseCrop.id,
+        id_user_create: commonActionData.id_user_create,
+        id_location: id_location,
+        obs: commonActionData.obs,
+        qtPlants: commonActionData.plants.length,
+        dryingStartDate: commonActionData.actionDate,
+        // cropFullWetMass: cropFullWetMass,
+        // cropFlowerWetMass: cropFlowerWetMass,
+        // cropWetTrimMass: cropWetTrimMass,
+      }
+    }
+  )
+}
+
+
 
 
 export class CreateActionGroupUseCase {
   async execute({
     actionDate,
     plants,
+    createdActions,
+    completed,
     id_recipiente,
     id_location,
     id_faseCultivo,
@@ -313,37 +461,50 @@ export class CreateActionGroupUseCase {
       })
     ).id;
 
-    const commonActionData = {
-      id_user_create,
-      id_actionGroup: newActionGroup,
-      obs,
-      created_at: new Date(),
-      qtd: plants.length,
-      scheduledDate: scheduled ? actionDate : undefined,
-      startDate: startDate,
-      endDate: endDate,
-      isCompleted: scheduled ? false : true,
-      completionDate: scheduled ? undefined : actionDate,
-      id_user_completion: scheduled ? undefined : id_user_atribution,
-      id_user_atribution: id_user_atribution || id_user_create,
-    };
 
-    const commonActionPlantsData = {
-      id_user_create: commonActionData.id_user_create,
-      obs: commonActionData.obs,
-      id_actionGroup: commonActionData.id_actionGroup,
+    createdActions.forEach(action => {
+
+      const commonActionData = {
+        id_user_create,
+        id_actionGroup: newActionGroup,
+        obs,
+        created_at: new Date(),
+        qtd: plants.length,
+        // scheduledDate: scheduled ? actionDate : undefined,
+        startDate: action.startDate,
+        endDate: action.endDate,
+        isCompleted: action.completed ? true : false,
+        completionDate: action.completed ? undefined : action.endDate,
+        id_user_completion: action.completed ? undefined : id_user_atribution,
+        id_user_atribution: action.id_user_atribution,
+        id_actionType: action.id_actionType
+      };
+      //PLANTS
+      //STATE UPDATE ACTIONS 
+      if (action?.plants?.length) {
+        if (action.id_actionType == ACTION_TYPE.ALTERA_LOCAL) {
+          changeLocationPlantas(action.id_location, action.plants, commonActionData)
+        }
+        if (action.id_actionType == ACTION_TYPE.ALTERA_FASE_CULTIVO) {
+          changeFaseCultivoPlantas(action.id_faseCultivo, action.plants, commonActionData)
+        }
+        if (action.id_actionType == ACTION_TYPE.TRANSPLANTE) {
+          changeRecipientePlantas(action.id_recipiente, action.plants, commonActionData)
+        }
+        if (action.id_actionType == ACTION_TYPE.DESCARTE_PLANTA) {
+          trashPlantas(action.id_trashReason, action.plants, commonActionData)
+        }
+      }
+
+      //OBJECTS CREATION ACTIONS 
 
 
-      isCompleted: commonActionData.isCompleted,
-      completionDate: commonActionData.completionDate,
-      id_user_completion: commonActionData.id_user_completion,
-      id_user_atribution: commonActionData.id_user_atribution,
-      scheduledDate: commonActionData.scheduledDate,
-    };
+
+    })
+
 
 
     let actionPlants = [] as ActionPlants[];
 
-    changeRecipientePlantas(id_recipiente, plants, commonActionData, commonActionPlantsData)
   }
 }

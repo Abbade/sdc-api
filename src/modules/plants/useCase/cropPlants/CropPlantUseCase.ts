@@ -105,6 +105,7 @@ export class CropPlantUseCase {
         await prisma.actionGroups.create({
           data: {
             id_user_create: id_user_create,
+            name: "",
             obs: obs,
             startDate: startDate,
             endDate: endDate

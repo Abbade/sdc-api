@@ -76,6 +76,7 @@ import { FinishCropController } from './modules/crops/useCase/finishCrop/FinishC
 import { GetAllActionsController } from './modules/task/UseCases/getAllActions/getAllActionsController';
 import { GetActionGroupsController } from './modules/task/UseCases/getActionGroups/GetActionGroupsController';
 import { GetAllActionTypeController } from './modules/action/useCase/GetAllActionTypeController';
+import { CreateActionGroupController } from './modules/task/UseCases/createActionGroup/CreateActionGroupController';
 
 const routes = Router();
 
@@ -158,6 +159,8 @@ const getAllActionLotesController = new GetAllActionLotesController();
 const getActionGroupsController = new GetActionGroupsController();
 const getAllTrashedLotesController = new GetAllTrashedLotesController();
 const getAllActionTypeController = new GetAllActionTypeController();
+const createActionGroupController = new CreateActionGroupController()
+
 
 const trashLoteController = new TrashLoteController();
 
@@ -268,6 +271,7 @@ routes.get('/action-plants', ensureAuthenticate, getAllActionPlantsController.ha
 routes.get('/actions', ensureAuthenticate, getAllActionsController.handle);
 routes.get('/actionstypes', ensureAuthenticate, getAllActionTypeController.handle);
 routes.get('/tasks', ensureAuthenticate, getActionGroupsController.handle);
+routes.post('/action-group', ensureAuthenticate, createActionGroupController.handle);
 
 
 //plant - transplant

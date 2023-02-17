@@ -43,3 +43,7 @@ INSERT INTO public.users
 (id, "name", email, "password", created_at, id_role)
 VALUES(2, 'admin', 'gabrielbroitmanpinheiro@gmail.com', '$2b$10$qfU1RGFXQ9FZOAL.s/rGF.jR3jcL8hYpXPslrRPFMo46KXMjBxKv2', CURRENT_TIMESTAMP, 1);
 
+
+INSERT INTO public.users
+(id, "name", email, "password", created_at, id_role)
+VALUES(1, 'admin', 'gabbade@gmail.com', '$2b$10$Lf5D8S6WHQ94YIp9M4WMDeXV9eV3qIH1XSxzcWAE7aHZofbqh2a4S', CURRENT_TIMESTAMP, 1);

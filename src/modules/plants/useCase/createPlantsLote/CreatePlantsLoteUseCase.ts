@@ -135,10 +135,15 @@ export class CreatePlantsLoteUseCase {
     const newActionGroup = await (
       await prisma.actionGroups.create({
         data: {
-          id_user_create: id_user_create,
+          userCreate: {
+            connect: {
+              id: id_user_create
+            }
+          },
           obs: obs,
-          startDate: startDate,
-          endDate: endDate
+          startDate: new Date(),
+          endDate: new Date(),
+          name: 'a'
         },
       })
     ).id;

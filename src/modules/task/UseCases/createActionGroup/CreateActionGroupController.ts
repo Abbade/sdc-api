@@ -6,40 +6,38 @@ export class CreateActionGroupController {
     const {
       actionDate,
       plants,
-      id_recipiente,
+      recipientId,
       id_location,
-      id_faseCultivo,
+      stageId,
       obs,
-      name,
+      title,
       id_user_atribution,
       scheduled,
       completed,
-      createdActions,
-      startDate,
-      endDate
+      actions,
+      start,
+      end,
     } = request.body;
     const id_user_create = request.id_user;
 
     const transplantPlantsUseCase = new CreateActionGroupUseCase();
-      const result = await transplantPlantsUseCase.execute({
-        id_user_create,
-        id_user_atribution,
-        scheduled,
-        startDate,
-        endDate,
-        name,
-        obs,
-        actionDate,
-        completed,
-        createdActions,
-        plants,
-        id_recipiente,
-        id_location,
-        id_faseCultivo,
-        
-      });
+    const result = await transplantPlantsUseCase.execute({
+      id_user_create,
+      id_user_atribution,
+      scheduled,
+      startDate: start,
+      endDate: end,
+      name: title,
+      obs,
+      actionDate,
+      completed,
+      actions,
+      plants,
+      recipientId,
+      id_location,
+      stageId,
+    });
 
-      return response.json(result);
-    
+    return response.json(result);
   }
 }

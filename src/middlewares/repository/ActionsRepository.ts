@@ -1,6 +1,6 @@
 import { Actions, Crops, ActionCrops, Plantas, ActionPlants, ActionGroups } from "@prisma/client";
-import { ACTION_TYPE } from "../constants/ACTION_TYPE";
-import { prisma } from "../database/prismaClient";
+import { ACTION_TYPE } from "../../constants/ACTION_TYPE";
+import { prisma } from "../../database/prismaClient";
 
 
 export function createCommonActionData(id_user_create: Number, id_user_atribution: Number, obs: string,newActionGroup: ActionGroups, action: any) {

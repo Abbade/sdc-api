@@ -2,8 +2,8 @@ import {
   ActionPlants
 } from "@prisma/client";
 import { ACTION_TYPE } from "../../../../constants/ACTION_TYPE";
-import { createActionGroup, createCommonActionData } from "../../../../repository/ActionsRepository";
-import { changeFaseCultivoPlantas, changeLocationPlantas, changeRecipientePlantas, trashPlantas } from "../../../../services/PlantasService";
+import { createActionGroup, createCommonActionData } from "../../../../middlewares/repository/ActionsRepository";
+import { changeFaseCultivoPlantas, changeLocationPlantas, changeRecipientePlantas, trashPlantas } from "../../../../middlewares/services/PlantasService";
 
 
 

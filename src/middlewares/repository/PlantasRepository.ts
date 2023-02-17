@@ -1,5 +1,5 @@
 import { Plantas } from "@prisma/client";
-import { prisma } from "../database/prismaClient";
+import { prisma } from "../../database/prismaClient";
 
 export async function getPlantsById(ids: number[]): Promise<Plantas[]> {
     const plantsToUpdate = await prisma.plantas.findMany({

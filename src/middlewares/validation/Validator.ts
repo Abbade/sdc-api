@@ -1,5 +1,5 @@
 import { Plantas } from "@prisma/client";
-import { prisma } from "../database/prismaClient";
+import { prisma } from "../../database/prismaClient";
 
 export async function validateTrashReason(trashReasonId: number): Promise<void> {
     const selectedTrashReason = await prisma.trashReasons.findFirst({

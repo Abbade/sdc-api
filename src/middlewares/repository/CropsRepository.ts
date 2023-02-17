@@ -1,4 +1,4 @@
-import { prisma } from "../database/prismaClient";
+import { prisma } from "../../database/prismaClient";
 
 export async function createNewCrop(
     id_genetic: number,

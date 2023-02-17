@@ -1,4 +1,4 @@
-import { prisma } from "../database/prismaClient";
+import { prisma } from "../../database/prismaClient";
 
 export async function findGeneticById(id_genetic: number) {
     const selectedGenetic = await prisma.genetics.findFirst({

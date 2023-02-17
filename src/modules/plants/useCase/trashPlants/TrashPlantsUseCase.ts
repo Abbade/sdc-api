@@ -22,7 +22,8 @@ interface ITrashPlants {
   id_location: number;
   id_user_atribution: number;
   scheduled: boolean;
-
+  startDate: Date;
+  endDate: Date;
 
   obs: string;
 
@@ -32,7 +33,7 @@ interface ITrashPlants {
 export class TrashPlantsUseCase {
 
 
-  async execute({ trashDate, plants, id_location, id_trashReason, id_user_create,obs, id_user_atribution, scheduled }: ITrashPlants) {
+  async execute({ trashDate, plants, id_location, id_trashReason, id_user_create,obs, id_user_atribution, scheduled, startDate, endDate }: ITrashPlants) {
 
     //VALIDA EXISTENCIA DE CAMPOS
   
@@ -114,6 +115,7 @@ export class TrashPlantsUseCase {
           isLote: false,
           isPlant: true,
           isCrop: false,
+          id_actionGroup: newActionGroup,
           name: "Descarte de Planta",
           id_actionType: ACTION_TYPE.DESCARTE_PLANTA,
           created_at: new Date(),   

@@ -1,6 +1,5 @@
-
-import { Request, Response } from 'express';
-import { GetActionGroupsUseCase } from './GetActionGroupsUseCase';
+import { Request, Response } from "express";
+import { GetActionGroupsUseCase } from "./GetActionGroupsUseCase";
 
 export type FilterProp = {
   totalFilter: number;
@@ -9,11 +8,12 @@ export type FilterProp = {
   idRecipiente?: number;
   idFaseCultivo?: number;
   idLocation?: number;
-}
+};
 
 export class GetActionGroupsController {
   async handle(request: Request, response: Response) {
-    const { id, name, page, limit, isTrashed, isMother, filter, filterType } = request.query as any
+    const { id, name, page, limit, isTrashed, isMother, filter, filterType } =
+      request.query as any;
 
     let filterValue = filter as FilterProp;
     console.log(filterValue);
@@ -26,7 +26,7 @@ export class GetActionGroupsController {
       isTrashed,
       isMother,
       filterType,
-      filter : filterValue
+      filter: filterValue,
     });
     return response.json(result);
   }

@@ -10,8 +10,8 @@ import { changeFaseCultivoPlantas, changeLocationPlantas, changeRecipientePlanta
 interface ITransplantPlants {
   id_user_create: number;
   actionDate: Date;
-  startDate: Date;
-  endDate: Date;
+  start: Date;
+  end: Date;
   plants: number[];
   completed: boolean;
 
@@ -51,11 +51,11 @@ export class CreateActionGroupUseCase {
     obs,
     name,
     id_user_atribution,
-    startDate,
-    endDate,
+    start,
+    end,
   }: ITransplantPlants) {
 
-    const newActionGroup = await createActionGroup(id_user_create,obs,startDate,endDate,name)
+    const newActionGroup = await createActionGroup(id_user_create,obs,start,end,name)
 
     actions.forEach((action) => {
       const commonActionData = createCommonActionData(id_user_create,id_user_atribution,obs,newActionGroup,action)

@@ -654,6 +654,9 @@ model ActionPlants {
     id_user_completion Int?
   completion Users? @relation("userCompletionActionPlant", fields: [id_user_completion], references: [id])
 
+  qtd Int?
+
+  id_actionType Int?
 
   scheduledDate DateTime?
 

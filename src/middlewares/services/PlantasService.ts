@@ -1,5 +1,5 @@
 import { createRecipientChangeAction, createActionPlantsData, createActionPlants, createLocationChangeAction, createFaseCultivoChangeAction, createTrashPlantAction } from "../repository/ActionsRepository";
-import { getPlantsById, updatePlantsRecipient, updatePlantsTrashed } from "../repository/PlantasRepository";
+import { getPlantsById, updatePlantsFaseCultivo, updatePlantsRecipient, updatePlantsTrashed } from "../repository/PlantasRepository";
 import { validateRecipiente, validateLocation, validateFaseCultivo, validateTrashReason } from "../validation/Validator";
 
 export async function changeRecipientePlantas(
@@ -59,7 +59,7 @@ export async function changeRecipientePlantas(
       stageId
     );
     await createActionPlants(newActionPlants);
-    await updatePlantsRecipient(plantsId, stageId);
+    await updatePlantsFaseCultivo(plantsId, stageId);
   }
   
   export async function trashPlantas(

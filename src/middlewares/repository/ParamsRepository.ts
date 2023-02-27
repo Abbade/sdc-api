@@ -55,3 +55,17 @@ export async function findGeneticById(id_genetic: number) {
   
     return selectedLocation;
   }
+
+  export async function findPropagationTypeById(id_propagationType: number) {
+    const selectedPropagationType = await prisma.propagationType.findFirst({
+      where: {
+        id: id_propagationType
+      }
+    })
+
+    if (!selectedPropagationType) {
+      throw new Error('Modo de propagação não existente: ' + id_propagationType);
+    }
+
+    return selectedPropagationType;
+  }

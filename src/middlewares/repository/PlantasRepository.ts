@@ -20,7 +20,7 @@ export async function updatePlantsRecipient(plantsId: number[], recipientId: num
         id: { in: plantsId },
       },
       data: {
-        recipientId: recipientId,
+        id_recipiente: recipientId,
       },
     } as any;
     return await prisma.plantas.updateMany(updatePlantsParams);
@@ -44,7 +44,7 @@ export async function updatePlantsRecipient(plantsId: number[], recipientId: num
         id: { in: plantsId },
       },
       data: {
-        stageId: stageId,
+        id_faseCultivo: stageId,
       },
     } as any;
     return await prisma.plantas.updateMany(updatePlantsParams);
@@ -85,7 +85,7 @@ export async function updatePlantsRecipient(plantsId: number[], recipientId: num
       },
       data: {
         cropDate: actionDate,
-        stageId: selectedFaseCultivo.id,
+        id_faseCultivo: selectedFaseCultivo.id,
       },
     } as any;
     return await prisma.plantas.updateMany(updatePlantsParams);

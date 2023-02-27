@@ -6,19 +6,21 @@ import { prisma } from "../../database/prismaClient";
 export function createCommonActionData(id_user_create: Number, id_user_atribution: Number, obs: string,newActionGroup: ActionGroups, action: any) {
     const commonActionData = {
         id_user_create,
-        id_actionGroup: newActionGroup,
+        id_actionGroup: newActionGroup.id,
         obs,
         created_at: new Date(),
         qtd: action.plants?.length,
-        // scheduledDate: scheduled ? actionDate : undefined,
+        scheduledDate: action.endDate,
         startDate: action.startDate,
         endDate: action.endDate,
         isCompleted: action.completed ? true : false,
         completionDate: action.completed ? undefined : action.endDate,
         id_user_completion: action.completed ? undefined : id_user_atribution,
         id_user_atribution: action.id_user_atribution,
-        actionTypeId: action.actionTypeId,
+        id_actionType: Number.parseInt(action.actionTypeId.toString()),
       }
+
+      return commonActionData;
 }
 
 export async function createActionGroup(id_user_create: number, obs: string, startDate: Date, endDate: Date, name: string) {
@@ -42,7 +44,7 @@ export async function createTrashPlantAction(commonActionData: any) {
         isPlant: true,
         isCrop: false,
         name: "Descarte de Planta",
-        actionTypeId: ACTION_TYPE.DESCARTE_PLANTA,
+        id_actionType: ACTION_TYPE.DESCARTE_PLANTA,
       },
     });
   }
@@ -55,7 +57,7 @@ export async function createTrashPlantAction(commonActionData: any) {
         isPlant: true,
         isCrop: false,
         name: "Alteração de recipiente",
-        actionTypeId: ACTION_TYPE.TRANSPLANTE,
+        id_actionType: ACTION_TYPE.TRANSPLANTE,
       },
     });
   }
@@ -68,7 +70,7 @@ export async function createTrashPlantAction(commonActionData: any) {
         isPlant: true,
         isCrop: false,
         name: "Alteração de local",
-        actionTypeId: ACTION_TYPE.ALTERA_LOCAL,
+        id_actionType: ACTION_TYPE.ALTERA_LOCAL,
       },
     });
   }
@@ -81,7 +83,7 @@ export async function createTrashPlantAction(commonActionData: any) {
         isPlant: true,
         isCrop: false,
         name: "Alteração de fase de cultivo",
-        actionTypeId: ACTION_TYPE.ALTERA_FASE_CULTIVO,
+        id_actionType: ACTION_TYPE.ALTERA_FASE_CULTIVO,
       },
     });
   }
@@ -94,7 +96,7 @@ export async function createTrashPlantAction(commonActionData: any) {
         isPlant: true,
         isCrop: true,
         name: "Colheita",
-        actionTypeId: ACTION_TYPE.COLHEITA,
+        id_actionType: ACTION_TYPE.COLHEITA,
       },
     });
   }
@@ -131,6 +133,7 @@ export async function createTrashPlantAction(commonActionData: any) {
     return plantsToUpdate.map((plant) => {
       const plantData: ActionPlants = {
         ...commonActionData,
+        status: action.isCompleted ? "Completa" : "Pendente",
         id_planta: plant.id,
         id_action: action.id,
       };

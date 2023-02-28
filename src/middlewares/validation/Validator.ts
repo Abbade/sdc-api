@@ -1,4 +1,4 @@
-import { Plantas } from "@prisma/client";
+import { Lotes, Plantas } from "@prisma/client";
 import { prisma } from "../../database/prismaClient";
 
 export async function validateTrashReason(trashReasonId: number): Promise<void> {
@@ -59,4 +59,13 @@ export async function validateTrashReason(trashReasonId: number): Promise<void> 
         throw new Error("Não é possivel transplantar plantas colhidas.");
       }
     }
+  }
+
+  export function validateNewPlantasLote(lote: Lotes, qtd: number) {
+    if (lote.qtProp >= qtd) {
+      throw new Error("Quantidade de estacas insuficiente.");
+      
+    }
+
+
   }

@@ -1,7 +1,9 @@
 import { ACTION_TYPE } from "../../constants/ACTION_TYPE";
 import { prisma } from "../../database/prismaClient";
+import { getLoteById } from "../repository/LotesRepository";
 import { findGeneticById, findRecipienteById, findLocationById, findPropagationTypeById } from "../repository/ParamsRepository";
 import { getPlantsById } from "../repository/PlantasRepository";
+import { validateNewPlantasLote } from "../validation/Validator";
 
 interface ICreateLote {
     propDate: Date
@@ -17,6 +19,16 @@ interface ICreateLote {
     scheduled: boolean;
     startDate: Date;
     endDate: Date;
+}
+
+export async function newPlantasLoteService(action: any, lote: any) {
+    
+
+    
+    const selectedLote = await getLoteById(lote)
+    await validateNewPlantasLote(selectedLote, action.qtd)
+
+
 }
 
 export async function createLoteService({propDate, id_propagationType, id_genetic, id_location_init, id_recipiente, qtTotal, id_mother, obs, id_user_create, id_user_atribution, scheduled, startDate, endDate }: ICreateLote) {

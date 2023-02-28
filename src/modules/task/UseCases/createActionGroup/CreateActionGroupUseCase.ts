@@ -4,6 +4,7 @@ import {
 import { ACTION_TYPE } from "../../../../constants/ACTION_TYPE";
 import { createActionGroup, createCommonActionData } from "../../../../middlewares/repository/ActionsRepository";
 import { changeFaseCultivoPlantas, changeLocationPlantas, changeRecipientePlantas, trashPlantas } from "../../../../middlewares/services/PlantasService";
+import { newPlantasLoteService } from "../../../../middlewares/services/LotesService";
 
 
 
@@ -13,6 +14,7 @@ interface ITransplantPlants {
   start: Date;
   end: Date;
   plants: number[];
+
   completed: boolean;
 
   actions: {
@@ -61,6 +63,19 @@ export class CreateActionGroupUseCase {
 
     actions.forEach((action) => {
       const commonActionData = createCommonActionData(id_user_create,id_user_atribution,obs,newActionGroup,action)
+      
+      //LOTE
+      if (action?.actionTypeId == ACTION_TYPE.CREATE_MUDA ) {
+
+      }
+
+      if (action?.actionTypeId == ACTION_TYPE.CREATE_PLANT && action.lotes) {
+        newPlantasLoteService(
+          commonActionData,
+          action.lotes[0],
+          )
+      }
+      
       //PLANTS
       //STATE UPDATE ACTIONS
       if (action?.plants?.length) {

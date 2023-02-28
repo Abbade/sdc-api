@@ -1,5 +1,6 @@
 import { createRecipientChangeAction, createActionPlantsData, createActionPlants, createLocationChangeAction, createFaseCultivoChangeAction, createTrashPlantAction } from "../repository/ActionsRepository";
-import { getPlantsById, updatePlantsFaseCultivo, updatePlantsRecipient, updatePlantsTrashed } from "../repository/PlantasRepository";
+import { findFaseCultivoById } from "../repository/ParamsRepository";
+import { getPlantsById, updatePlantsFaseCultivo, updatePlantsLocation, updatePlantsRecipient, updatePlantsTrashed } from "../repository/PlantasRepository";
 import { validateRecipiente, validateLocation, validateFaseCultivo, validateTrashReason } from "../validation/Validator";
 
 export async function changeRecipientePlantas(
@@ -19,7 +20,7 @@ export async function changeRecipientePlantas(
       recipientId
     );
     await createActionPlants(newActionPlants);
-    await updatePlantsRecipient(plantsId, recipientId);
+    await updatePlantsRecipient(plantsId, recipientId, commonActionData.completionDate);
   }
   
   export async function changeLocationPlantas(
@@ -39,7 +40,7 @@ export async function changeRecipientePlantas(
       id_location
     );
     await createActionPlants(newActionPlants);
-    await updatePlantsRecipient(plantsId, id_location);
+    await updatePlantsLocation(plantsId, id_location);
   }
   
   export async function changeFaseCultivoPlantas(
@@ -49,6 +50,7 @@ export async function changeRecipientePlantas(
   ) {
     await validateFaseCultivo(stageId);
     const plantsToUpdate = await getPlantsById(plantsId);
+    const selectedFaseCultivo = await findFaseCultivoById(stageId);
     const selectedFaseCultivoChangeAction = await createFaseCultivoChangeAction(
       commonActionData
     );
@@ -59,7 +61,7 @@ export async function changeRecipientePlantas(
       stageId
     );
     await createActionPlants(newActionPlants);
-    await updatePlantsFaseCultivo(plantsId, stageId);
+    await updatePlantsFaseCultivo(plantsId, stageId, selectedFaseCultivo.id_tipo_fase_cultivo, commonActionData.completionDate);
   }
   
   export async function trashPlantas(

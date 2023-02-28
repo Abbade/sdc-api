@@ -14,9 +14,9 @@ export function createCommonActionData(id_user_create: Number, id_user_atributio
         startDate: action.startDate,
         endDate: action.endDate,
         isCompleted: action.completed ? true : false,
-        completionDate: action.completed ? undefined : action.endDate,
-        id_user_completion: action.completed ? undefined : id_user_atribution,
-        id_user_atribution: action.id_user_atribution,
+        completionDate: action.completed ? action.completionDate : action.endDate,
+        id_user_completion: action.completed ? Number.parseInt(action.userComplete) : id_user_atribution,
+        id_user_atribution: action.completed ? Number.parseInt(action.userComplete) : id_user_atribution,
         id_actionType: Number.parseInt(action.actionTypeId.toString()),
       }
 

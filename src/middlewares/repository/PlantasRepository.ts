@@ -1,5 +1,6 @@
 import { Plantas } from "@prisma/client";
 import { prisma } from "../../database/prismaClient";
+import { TIPO_FASE_CULTIVO } from "../../constants/TIPO_FASE_CULTIVO";
 
 export async function getPlantsById(ids: number[]): Promise<Plantas[]> {
     const plantsToUpdate = await prisma.plantas.findMany({
@@ -14,13 +15,14 @@ export async function getPlantsById(ids: number[]): Promise<Plantas[]> {
     return plantsToUpdate;
 }
 
-export async function updatePlantsRecipient(plantsId: number[], recipientId: number) {
+export async function updatePlantsRecipient(plantsId: number[], recipientId: number, actionDate: Date) {
     const updatePlantsParams = {
       where: {
         id: { in: plantsId },
       },
       data: {
         id_recipiente: recipientId,
+        lastTransplant: actionDate
       },
     } as any;
     return await prisma.plantas.updateMany(updatePlantsParams);
@@ -38,8 +40,8 @@ export async function updatePlantsRecipient(plantsId: number[], recipientId: num
     return await prisma.plantas.updateMany(updatePlantsParams);
   }
   
-  export async function updatePlantsFaseCultivo(plantsId: number[], stageId: number) {
-    const updatePlantsParams = {
+  export async function updatePlantsFaseCultivo(plantsId: number[], stageId: number, stageType: number, actionDate: Date) {
+    let updatePlantsParams = {
       where: {
         id: { in: plantsId },
       },
@@ -47,6 +49,18 @@ export async function updatePlantsRecipient(plantsId: number[], recipientId: num
         id_faseCultivo: stageId,
       },
     } as any;
+
+    if (stageType == TIPO_FASE_CULTIVO.ACLIMATACAO) {
+      updatePlantsParams.data.aclimatationDate = actionDate
+    }
+    if (stageType == TIPO_FASE_CULTIVO.VEGETACAO) {
+      updatePlantsParams.data.vegetationDate = actionDate
+    }
+    if (stageType == TIPO_FASE_CULTIVO.FLORACAO) {
+      updatePlantsParams.data.floweringDate = actionDate
+    }
+
+
     return await prisma.plantas.updateMany(updatePlantsParams);
   }
   

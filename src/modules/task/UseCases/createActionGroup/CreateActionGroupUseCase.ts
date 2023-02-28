@@ -21,6 +21,8 @@ interface ITransplantPlants {
     lotes?: number[];
     crops?: number[];
     completed: boolean;
+    completionDate: Date;
+    userComplete: number;
     startDate: Date;
     endDate: Date;
     obs: string;

@@ -20,7 +20,7 @@ export async function changeRecipientePlantas(
       recipientId
     );
     await createActionPlants(newActionPlants);
-    await updatePlantsRecipient(plantsId, recipientId, commonActionData.completionDate);
+    commonActionData.isCompleted ? await updatePlantsRecipient(plantsId, recipientId, commonActionData.completionDate) : ""
   }
   
   export async function changeLocationPlantas(
@@ -40,7 +40,7 @@ export async function changeRecipientePlantas(
       id_location
     );
     await createActionPlants(newActionPlants);
-    await updatePlantsLocation(plantsId, id_location);
+    commonActionData.isCompleted ? await updatePlantsLocation(plantsId, id_location) : ""
   }
   
   export async function changeFaseCultivoPlantas(
@@ -61,7 +61,7 @@ export async function changeRecipientePlantas(
       stageId
     );
     await createActionPlants(newActionPlants);
-    await updatePlantsFaseCultivo(plantsId, stageId, selectedFaseCultivo.id_tipo_fase_cultivo, commonActionData.completionDate);
+    commonActionData.isCompleted ? await updatePlantsFaseCultivo(plantsId, stageId, selectedFaseCultivo.id_tipo_fase_cultivo, commonActionData.completionDate) : ""
   }
   
   export async function trashPlantas(
@@ -81,6 +81,8 @@ export async function changeRecipientePlantas(
       trashReasonId
     );
     await createActionPlants(newActionPlants);
-    await updatePlantsTrashed(plantsId, commonActionData.completionDate);
+
+
+    commonActionData.isCompleted ? await updatePlantsTrashed(plantsId, commonActionData.completionDate) : "Atividade agendada com sucesso"
   }
   

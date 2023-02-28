@@ -14,5 +14,9 @@ export async function getLoteById(id: number): Promise<Lotes> {
         },
     });
 
+    if (!lotes) {
+        throw new Error("Lote não encontrado.")
+    }
+
     return lotes;
 }

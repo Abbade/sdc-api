@@ -468,17 +468,17 @@ truncate "action_types" cascade;
 
 truncate "actions" cascade;
 
-INSERT INTO action_types (id, id_user_create,created_at,"name",code) VALUES
-	 (1,2,now(),'Atividades de transplante.','TRANSPLANTE'),
-	 (2,2,now(),'Alteração de fase de cultivo','ALTERA_FASE_CULTIVO'),
-	 (3,2,now(),'Descartes Planta','DESCARTE_PLANTA'),
-     (4,2,now(),'Descartes Muda ','DESCARTE_MUDA'),
-	 (5,2,now(),'Alteração de local','ALTERA_LOCAL'),
-     (6,2,now(),'Criação de Planta','CREATE_PLANTA'),
-     (7,2,now(),'Criação de Muda','CREATE_MUDA'),
-     (8,2,now(),'Matriz','MATRIZ'),
-     (9,2,now(),'Colheita de Plantas','COLHEITA'),   
-     (10,2,now(),'Finalização de Colheita','FINISH_CROP');
+INSERT INTO action_types (id, id_user_create,created_at,"name",code, "type") VALUES
+	 (1,2,now(),'Atividades de transplante.','TRANSPLANTE', 1),
+	 (2,2,now(),'Alteração de fase de cultivo','ALTERA_FASE_CULTIVO', 1),
+	 (3,2,now(),'Descartes Planta','DESCARTE_PLANTA', 1),
+     (4,2,now(),'Descartes Muda ','DESCARTE_MUDA', 2),
+	 (5,2,now(),'Alteração de local','ALTERA_LOCAL', 1),
+     (6,2,now(),'Criação de Planta','CREATE_PLANTA', 4),
+     (7,2,now(),'Criação de Muda','CREATE_MUDA', 4),
+     (8,2,now(),'Matriz','MATRIZ', 1),
+     (9,2,now(),'Colheita de Plantas','COLHEITA',3 ),   
+     (10,2,now(),'Finalização de Colheita','FINISH_CROP', 3);
 
 
      

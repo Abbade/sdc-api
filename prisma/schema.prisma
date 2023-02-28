@@ -513,6 +513,7 @@ model ActionTypes {
   created_at     DateTime @default(now())
   name           String
   code           String   @unique
+  type           Int 
 
   actions Actions[]
 

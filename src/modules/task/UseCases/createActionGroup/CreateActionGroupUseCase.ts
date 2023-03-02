@@ -32,7 +32,8 @@ interface ITransplantPlants {
 
     //params
     id_genetic: number;
-    recipientId: number;
+  locationId: number;
+  recipientId: number;
     stageId: number;
     id_location: number;
     trashReasonId: number;
@@ -81,7 +82,7 @@ export class CreateActionGroupUseCase {
       if (action?.plants?.length) {
         if (action.actionTypeId == ACTION_TYPE.ALTERA_LOCAL) {
           changeLocationPlantas(
-            Number.parseInt(action.id_location.toString()),
+            Number.parseInt(action.locationId.toString()),
             action.plants,
             commonActionData
           );

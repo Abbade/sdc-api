@@ -34,7 +34,7 @@ export interface UnitOfMeasure {
   id: number;
   name: string;
   active: boolean;
-  products: Product[];
+  products?: Product[];
 }
 
 export interface ProductCategory {

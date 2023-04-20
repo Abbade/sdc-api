@@ -9,6 +9,7 @@ export const createUnitOfMeasure = async (req: Request, res: Response): Promise<
     const item = await UnitOfMeasureRepository.createUnitOfMeasure(data);
     res.status(201).json({ success: true, data: item });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ success: false, message: "Erro ao criar a unidade de medida", error });
   }
 };

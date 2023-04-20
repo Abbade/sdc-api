@@ -12,6 +12,8 @@ datasource db {
   //url      = "file:./dev.db"
 }
 
+
+
 model Roles {
   id     Int     @id @default(autoincrement())
   name   String
@@ -72,23 +74,23 @@ model Users {
 
   fasesCrop               FasesCrop[]
   crops                   Crops[]
-  organizations           Organizations?    @relation(name: "userCreate")
+  organizations           Organizations? @relation(name: "userCreate")
   actionTypes             ActionTypes[]
-  actionsAtribution                 Actions[] @relation(name: "userAtributionAction")
-  actions                 Actions[] 
+  actionsAtribution       Actions[]      @relation(name: "userAtributionAction")
+  actions                 Actions[]
   actionPlants            ActionPlants[]
   actionLotes             ActionLotes[]
   actionCrops             ActionCrops[]
   actionGroups            ActionGroups[]
-  actionPlantsAtributions ActionPlants[]    @relation(name: "userAtribution")
-  actionLotesAtributions  ActionLotes[]     @relation(name: "userAtributionActionLote")
-  actionCropsAtributions  ActionCrops[]     @relation(name: "userAtributionActionCrops")
-  actionCompletion Actions[]    @relation(name: "userCompletionAction")
-  actionCompletionLote ActionLotes[]    @relation(name: "userCompletionActionLote")
-  actionCompletionPlant ActionPlants[]    @relation(name: "userCompletionActionPlant")
-  actionCompletionCrop ActionCrops[]    @relation(name: "userCompletionActionCrop")
+  actionPlantsAtributions ActionPlants[] @relation(name: "userAtribution")
+  actionLotesAtributions  ActionLotes[]  @relation(name: "userAtributionActionLote")
+  actionCropsAtributions  ActionCrops[]  @relation(name: "userAtributionActionCrops")
+  actionCompletion        Actions[]      @relation(name: "userCompletionAction")
+  actionCompletionLote    ActionLotes[]  @relation(name: "userCompletionActionLote")
+  actionCompletionPlant   ActionPlants[] @relation(name: "userCompletionActionPlant")
+  actionCompletionCrop    ActionCrops[]  @relation(name: "userCompletionActionCrop")
 
-  TipoFaseCultivo         TipoFaseCultivo[]
+  TipoFaseCultivo TipoFaseCultivo[]
 
   @@map("users")
 }
@@ -135,7 +137,7 @@ model FasesCultivo {
   name        String
   description String
   ordem       Int    @unique
-  duration Int?
+  duration    Int?
 
   id_tipo_fase_cultivo Int
   TipoFaseCultivo      TipoFaseCultivo @relation(fields: [id_tipo_fase_cultivo], references: [id])
@@ -170,7 +172,7 @@ model Recipientes {
   description String
 
   plantas         Plantas[]
-  lotes Lotes[]
+  lotes           Lotes[]
   actionPlants    ActionPlants[]
   actionPlantsOld ActionPlants[] @relation("recipienteOld")
 
@@ -245,8 +247,8 @@ model Locations {
   actionPlantsOld ActionPlants[] @relation("locationOld")
   actionLotesNew  ActionLotes[]  @relation("actionLotesNewLocation")
   actionLotesOld  ActionLotes[]  @relation("actionLotesOldLocation")
-  actionCrops ActionCrops[]@relation("actionCropsNewLocation")
-  actionCropsOld ActionCrops[]  @relation("actionCropsOldLocation")
+  actionCrops     ActionCrops[]  @relation("actionCropsNewLocation")
+  actionCropsOld  ActionCrops[]  @relation("actionCropsOldLocation")
 
   @@map("location")
 }
@@ -305,7 +307,7 @@ model Lotes {
   location         Locations @relation(fields: [id_location_init], references: [id])
 
   id_recipiente Int?
-  recipiente         Recipientes? @relation(fields: [id_recipiente], references: [id])
+  recipiente    Recipientes? @relation(fields: [id_recipiente], references: [id])
 
   id_mother     Int?
   motherPlant   Plantas? @relation("MotherPlantLote", fields: [id_mother], references: [id])
@@ -397,13 +399,13 @@ model Plantas {
   id_trashReason Int?
   trashReason    TrashReasons? @relation(fields: [id_trashReason], references: [id])
 
-  fullWetMass Float?
+  fullWetMass    Float?
   flowersWetMass Float?
-  wetTrimMass Float?
+  wetTrimMass    Float?
 
-  fullDriedMass Float?
+  fullDriedMass    Float?
   flowersDriedMass Float?
-  driedTrimMass Float?
+  driedTrimMass    Float?
 
   trashedLotes TrashedLotes[]
   actionPlants ActionPlants[]
@@ -463,7 +465,7 @@ model Crops {
   cropDriedTrimMass   Float?
   cropDriedFlowerMass Float?
 
-  plantas Plantas[]
+  plantas     Plantas[]
   actionCrops ActionCrops[]
 }
 
@@ -513,7 +515,7 @@ model ActionTypes {
   created_at     DateTime @default(now())
   name           String
   code           String   @unique
-  type           Int 
+  type           Int
 
   actions Actions[]
 
@@ -535,15 +537,15 @@ model Actions {
   atribution         Users? @relation("userAtributionAction", fields: [id_user_atribution], references: [id])
 
   id_user_completion Int?
-  completion Users? @relation("userCompletionAction", fields: [id_user_completion], references: [id])
+  completion         Users? @relation("userCompletionAction", fields: [id_user_completion], references: [id])
 
   id_actionGroup Int?
-  actionGroup ActionGroups? @relation("actionGroup", fields: [id_actionGroup],references: [id])
+  actionGroup    ActionGroups? @relation("actionGroup", fields: [id_actionGroup], references: [id])
 
   scheduledDate DateTime?
 
   startDate DateTime?
-  endDate DateTime?
+  endDate   DateTime?
 
   isCanceled      Boolean?
   cancelationDate DateTime?
@@ -551,8 +553,7 @@ model Actions {
   isCompleted    Boolean?
   completionDate DateTime?
 
-
-  qtd Int
+  qtd            Int
   actionDuration Int?
 
   id_actionType Int
@@ -572,15 +573,15 @@ model ActionGroups {
   created_at     DateTime @default(now())
 
   name String
-  obs String?
+  obs  String?
 
-  startDate DateTime
-  endDate DateTime 
+  startDate      DateTime
+  endDate        DateTime
   completionDate DateTime?
 
   location String?
 
-  actions Actions[] @relation("actionGroup")
+  actions      Actions[]      @relation("actionGroup")
   actionPlants ActionPlants[]
   actionLotes  ActionLotes[]
   actionCrops  ActionCrops[]
@@ -604,9 +605,8 @@ model ActionLotes {
   id_user_atribution Int?
   atribution         Users? @relation("userAtributionActionLote", fields: [id_user_atribution], references: [id])
 
-    id_user_completion Int?
-  completion Users? @relation("userCompletionActionLote", fields: [id_user_completion], references: [id])
-
+  id_user_completion Int?
+  completion         Users? @relation("userCompletionActionLote", fields: [id_user_completion], references: [id])
 
   scheduledDate DateTime?
 
@@ -652,8 +652,8 @@ model ActionPlants {
   id_user_atribution Int?
   atribution         Users? @relation("userAtribution", fields: [id_user_atribution], references: [id])
 
-    id_user_completion Int?
-  completion Users? @relation("userCompletionActionPlant", fields: [id_user_completion], references: [id])
+  id_user_completion Int?
+  completion         Users? @relation("userCompletionActionPlant", fields: [id_user_completion], references: [id])
 
   qtd Int?
 
@@ -691,7 +691,7 @@ model ActionPlants {
   id_faseCultivo_old Int?
   faseCultivoOld     FasesCultivo? @relation("faseCultivoOld", fields: [id_faseCultivo_old], references: [id])
 
-  id_location_old Int?  
+  id_location_old Int?
   locationOld     Locations? @relation("locationOld", fields: [id_location_old], references: [id])
 
   @@map("actionPlants")
@@ -713,9 +713,8 @@ model ActionCrops {
   id_user_atribution Int?
   atribution         Users? @relation("userAtributionActionCrops", fields: [id_user_atribution], references: [id])
 
-    id_user_completion Int?
-  completion Users? @relation("userCompletionActionCrop", fields: [id_user_completion], references: [id])
-
+  id_user_completion Int?
+  completion         Users? @relation("userCompletionActionCrop", fields: [id_user_completion], references: [id])
 
   scheduledDate DateTime?
 
@@ -726,7 +725,7 @@ model ActionCrops {
   completionDate DateTime?
 
   startDate DateTime
-  endDate DateTime
+  endDate   DateTime
 
   id_action Int
   action    Actions @relation(fields: [id_action], references: [id])
@@ -734,10 +733,71 @@ model ActionCrops {
   id_crop Int
   crop    Crops @relation(fields: [id_crop], references: [id])
 
-  id_location Int? 
-  location    Locations? @relation("actionCropsNewLocation",fields: [id_location], references: [id])
+  id_location Int?
+  location    Locations? @relation("actionCropsNewLocation", fields: [id_location], references: [id])
 
-  id_location_old Int? 
+  id_location_old Int?
   locationOld     Locations? @relation("actionCropsOldLocation", fields: [id_location_old], references: [id])
+
   @@map("actionCrop")
+}
+
+
+// stock
+
+model Product {
+    id     Int     @id @default(autoincrement())
+    name   String
+    active Boolean @default(true)
+    value  Float
+
+    skuCode String  @map("sku_code")
+    barCode String  @map("bar_code")
+    amount Decimal
+    minAmount Int? @map("min_amount")
+    maxAmount Int? @map("max_amount")
+    obs     String?
+
+    isVariable    Boolean   @map("is_variable")
+    parent        Product?  @relation("ProductRelation", fields: [parentId], references: [id])
+    children      Product[] @relation("ProductRelation")
+    parentId      Int?      @map("parent_id")
+    descVariable  String?    @map("desc_variable")
+    valueVariable String?    @map("value_variable")
+
+    unitOfMeasureId Int           @map("unit_of_measure_id")
+    unitOfMeasure   UnitOfMeasure @relation("ProductUnitOfMeasure", fields: [unitOfMeasureId], references: [id])
+
+    productCategoryId Int?             @map("category_id")
+    productCategory   ProductCategory? @relation("ProductCategoryRelation", fields: [productCategoryId], references: [id])
+
+    height      Float?
+    width       Float?
+    depth       Float?
+    volumes     Float?
+    netWeight   Float? @map("net_weight")
+    grossWeight Float? @map("gross_weight")
+
+      @@map("products")
+}
+
+
+model UnitOfMeasure {
+    id     Int     @id @default(autoincrement())
+    name   String
+    active Boolean @default(true)
+
+    products Product[] @relation("ProductUnitOfMeasure")
+
+     @@map("unit_of_measures")
+}
+
+model ProductCategory {
+    id     Int     @id @default(autoincrement())
+    name   String
+    active Boolean @default(true)
+
+    products Product[] @relation("ProductCategoryRelation")
+
+     @@map("product_category")
 }

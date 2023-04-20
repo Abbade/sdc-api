@@ -2,7 +2,8 @@ import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import 'express-async-errors';
 import { routes } from './routes';
-
+import productRoutes from "./modules/product/ProductRoutes";
+import unitOfMeasuresRoutes from "./modules/unitOfMeasure/UnitOfMeasureRoutes";
 const app = express();
 
 app.use(express.json());
@@ -30,5 +31,10 @@ app.get('/', (request, response) => {
     message: 'Hello World',
   });
 });
+
+
+app.use("/products", productRoutes);
+app.use("/unitofmeasures", unitOfMeasuresRoutes);
+
 
 app.listen(process.env.PORT || 80 , () => console.log('Server is running'));

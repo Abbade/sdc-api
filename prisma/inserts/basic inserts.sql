@@ -501,3 +501,7 @@ INSERT INTO "fasesCultivo" ("name",description,ordem,created_at,id_user_create, 
 	 ('Floração','Plantas recém transplantadas ou germinadas, identificadas.',4,now(),2, 4),
 	 ('Colheita','Plantas recém transplantadas ou germinadas, identificadas.',5,now(),2, 5);
 
+truncate unit_of_measures cascade;
+
+insert into unit_of_measures (name, active) values ('Quantidade', true);
+insert into unit_of_measures (name, active) values ('Kilograma', true);

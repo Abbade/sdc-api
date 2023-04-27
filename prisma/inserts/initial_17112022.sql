@@ -15,6 +15,9 @@ insert into permissions values (11, 'crop.actions', 'Ações na Colheita');
 insert into permissions values (12, 'parameter.list', 'Listar parâmetros');
 insert into permissions values (13, 'parameter.action', 'Ações parâmetros');
 
+insert into permissions values (14, 'product.list', 'Listar Produto');
+insert into permissions values (15, 'product.create', 'Manutenção Produto');
+
 insert into roles (name, active) values ('Administrador', true);
 insert into roles (name, active) values ('Cultivador', true);
 
@@ -31,6 +34,8 @@ insert into "_PermissionsToRoles" values (10,1);
 insert into "_PermissionsToRoles" values (11,1);
 insert into "_PermissionsToRoles" values (12,1);
 insert into "_PermissionsToRoles" values (13,1);
+insert into "_PermissionsToRoles" values (14,1);
+insert into "_PermissionsToRoles" values (15,1);
 
 insert into "_PermissionsToRoles" values (5, 2);
 insert into "_PermissionsToRoles" values (6, 2);
@@ -46,4 +51,4 @@ VALUES(2, 'admin', 'gabrielbroitmanpinheiro@gmail.com', '$2b$10$qfU1RGFXQ9FZOAL.
 
 INSERT INTO public.users
 (id, "name", email, "password", created_at, id_role)
-VALUES(1, 'admin', 'gabbade@gmail.com', '$2b$10$Lf5D8S6WHQ94YIp9M4WMDeXV9eV3qIH1XSxzcWAE7aHZofbqh2a4S', CURRENT_TIMESTAMP, 1);
+VALUES(1, 'Gabriel Abbade', 'gabbade@gmail.com', '$2b$10$Lf5D8S6WHQ94YIp9M4WMDeXV9eV3qIH1XSxzcWAE7aHZofbqh2a4S', CURRENT_TIMESTAMP, 1);

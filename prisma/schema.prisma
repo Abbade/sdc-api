@@ -749,11 +749,12 @@ model Product {
     id     Int     @id @default(autoincrement())
     name   String
     active Boolean @default(true)
-    value  Float
-
     skuCode String  @map("sku_code")
-    barCode String  @map("bar_code")
-    amount Decimal
+
+    value  Float?
+    
+    barCode String?  @map("bar_code")
+    amount Decimal?
     minAmount Int? @map("min_amount")
     maxAmount Int? @map("max_amount")
     obs     String?
@@ -762,8 +763,12 @@ model Product {
     parent        Product?  @relation("ProductRelation", fields: [parentId], references: [id])
     children      Product[] @relation("ProductRelation")
     parentId      Int?      @map("parent_id")
-    descVariable  String?    @map("desc_variable")
-    valueVariable String?    @map("value_variable")
+
+    variableTypeId  Int?    @map("variable_type_id")
+    variableType   VariableType? @relation("VariableTypeRelation", fields: [variableTypeId], references: [id])
+
+    variableValueTypeId  Int?    @map("variable_type_value_id")
+    variableTypeValue   VariableTypeValue? @relation("VariableTypeValueRelation", fields: [variableValueTypeId], references: [id])
 
     unitOfMeasureId Int           @map("unit_of_measure_id")
     unitOfMeasure   UnitOfMeasure @relation("ProductUnitOfMeasure", fields: [unitOfMeasureId], references: [id])
@@ -800,4 +805,26 @@ model ProductCategory {
     products Product[] @relation("ProductCategoryRelation")
 
      @@map("product_category")
+}
+model VariableType {
+    id     Int     @id @default(autoincrement())
+    name   String
+    active Boolean @default(true)
+
+    products Product[] @relation("VariableTypeRelation")
+    variableTypeValues VariableTypeValue[] @relation("TypesValuesRelation")
+
+     @@map("variable_type")
+}
+model VariableTypeValue {
+    id     Int     @id @default(autoincrement())
+    name   String
+    active Boolean @default(true)
+
+    products Product[] @relation("VariableTypeValueRelation")
+
+    variableTypeId Int  @map("variable_type_id")
+    variableType   VariableType @relation("TypesValuesRelation", fields: [variableTypeId], references: [id])
+
+     @@map("variable_type_value")
 }

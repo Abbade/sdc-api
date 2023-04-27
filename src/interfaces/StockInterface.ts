@@ -4,16 +4,16 @@ export interface Product {
   id?: number;
   name: string;
   active: boolean;
-  value: number;
+  value: number | null;
   skuCode: string;
-  barCode: string;
+  barCode: string | null;
   obs?: string | null; // Permitir valor null
   isVariable: boolean;
   parent?: Product | null;
   children?: Product[] | undefined;
   parentId?: number | null;
-  descVariable?: string | null;
-  valueVariable?: string | null;
+  variableTypeId?: number | null;
+  variableValueTypeId?: number | null;
   unitOfMeasureId: number;
   unitOfMeasure?: UnitOfMeasure;
   productCategoryId?: number | null;
@@ -25,7 +25,7 @@ export interface Product {
   netWeight?: number | null;
   grossWeight?: number | null;
 
-  amount: Number | string | Decimal;
+  amount: Number | string | Decimal | null;
   minAmount: Number | null | string;
   maxAmount: Number | null | string;
 }
@@ -34,7 +34,7 @@ export interface UnitOfMeasure {
   id: number;
   name: string;
   active: boolean;
-  products?: Product[];
+  products: Product[];
 }
 
 export interface ProductCategory {
@@ -43,3 +43,19 @@ export interface ProductCategory {
   active: boolean;
   products: Product[];
 }
+
+export interface VariableType {
+  id?: number;
+  name: string;
+  active: boolean;
+  products?: any[];
+  variableTypeValues?: VariableTypeValue[];
+}
+
+export interface VariableTypeValue {
+  id?: number;
+  name: string;
+  active: boolean;
+  variableTypeId: number;
+}
+

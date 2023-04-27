@@ -4,6 +4,8 @@ import 'express-async-errors';
 import { routes } from './routes';
 import productRoutes from "./modules/product/ProductRoutes";
 import unitOfMeasuresRoutes from "./modules/unitOfMeasure/UnitOfMeasureRoutes";
+import VariableTypeRoutes from "./modules/variableType/VariableTypeRoutes";
+import VariableTypeValueRoutes from "./modules/variableTypeValue/VariableTypeValueRoutes";
 const app = express();
 
 app.use(express.json());
@@ -35,6 +37,8 @@ app.get('/', (request, response) => {
 
 app.use("/products", productRoutes);
 app.use("/unitofmeasures", unitOfMeasuresRoutes);
+app.use("/variableTypes", VariableTypeRoutes);
+app.use("/variableTypeValues", VariableTypeValueRoutes);
 
 
 app.listen(process.env.PORT || 80 , () => console.log('Server is running'));
